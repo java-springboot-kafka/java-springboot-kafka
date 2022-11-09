@@ -3,10 +3,10 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Java Art
-subtitle: 'online java class'
-description: 'Get smarter in Java'
-keywords: 'java'
+title: Java SpringBoot Kafka
+subtitle: 'Java SpringBoot Kafka'
+description: 'Get smarter in Java SpringBoot Kafka'
+keywords: 'java,Java,SpringBoot,Kafka'
 author: 'Mehrdad Karami'
 language: en
 timezone: 'Europe/Berlin'
