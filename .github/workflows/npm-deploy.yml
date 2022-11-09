@@ -17,8 +17,11 @@ jobs:
       - run: npm i
       - run: npm ci
       - run: npm i -g hexo
-      - run: hexo deploy      
+      - run: hexo deploy
+      - run: git config --global user.email "java-springboot-kafka@example.com"
+      - run git config --global user.name "java-springboot-kafka"
       - name: Push changes
+
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.REPO_GITHUB_TOKEN }}
