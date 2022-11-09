@@ -104,8 +104,9 @@ theme: fluid
 deploy: 
   type: git
   repo: https://github.com/java-springboot-kafka/java-springboot-kafka.github.io
-  branch: dev
-  user:
+  branch: main
+  user: java-springboot-kafka
+  token: REPO_GITHUB_TOKEN
 
 
 architecture:
