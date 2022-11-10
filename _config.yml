@@ -122,7 +122,7 @@ architecture:
     start_color: "#BBBBEE"
     end_color: "#337ab7"
 
-index:
+home:
   slogan:
     text: "Java SpringBoot Kafka KafkaStream and Microservices and Cloud Articles"
 
