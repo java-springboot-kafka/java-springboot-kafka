@@ -1,3 +1,7 @@
+---
+title: Processing continuous data streams in distributed systems without any time delay poses a number of challenges. We show you how stream processing can succeed with Kafka Streams and Spring Boot.
+---
+
 Processing continuous data streams in distributed systems without any time delay poses a number of challenges. We show you how stream processing can succeed with Kafka Streams and Spring Boot.
 
 ![](https://media.graphassets.com/S9gkDSDBR8mtW0N24a95)
@@ -6,14 +10,14 @@ Everything in flow: If you look at data as a continuous stream of information, y
 
 ## TL;DR
 
-Little time? Then here's the ultra-short summary:
+Here's the ultra-short summary:
 
 -   Stream processing is well suited to process large amounts of data asynchronously and with minimal delay.
 -   Modern streaming frameworks allow you to align your application architecture completely with event streams and turn your data management inside out. The event stream becomes the “ _source of truth_ ”.
 -   With Kafka Streams, Kafka offers an API to process streams and map complex operations to them. means[_KStreams_](https://docs.confluent.io/platform/current/streams/concepts.html#streams-concepts-kstream) and[_KTables_](https://docs.confluent.io/platform/current/streams/concepts.html#ktable) you can also map more complex use cases that have to maintain a state. This state is managed by Kafka, so you don't have to worry about data management yourself.
 -   Spring Boot offers one[Stream abstraction](https://spring.io/projects/spring-cloud-stream) that can be used to implement stream processing workloads.
 
-You can find the entire code for our sample project at[GitHub](https://github.com/codecentric/spring-kafka-streams-example).
+You can find the entire code for our sample project at[GitHub](https://github.com/metao1/spring-kafka-streams-telemetry).
 
 ## Processing large amounts of data quickly – a perennial topic
 
@@ -22,7 +26,7 @@ In our everyday project environment, we often deal with use cases in which we ha
 -   Let's imagine a classic web shop: customers order goods around the clock. The information about the incoming order is of interest for various subsystems: Among other things, the warehouse needs information about the items to be shipped, we have to write an invoice and maybe now reorder goods ourselves.
 -   Another scenario: A car manufacturer analyzes their vehicles' telemetry data to improve the durability of their vehicles. For this purpose, the components of thousands of cars send sensor data every second, which then has to be examined for anomalies.
 
-The larger the amounts of data in both examples, the more difficult it becomes for us to scale our system adequately and to process the data in the shortest possible time. This describes a general problem: the volume of data that we are confronted with in everyday life is constantly increasing, while our customers expect us to process the data and make it usable as quickly as possible.[Moderne Stream Processing Frameworks](https://blog.codecentric.de/2017/03/verteilte-stream-processing-frameworks-fuer-fast-data-big-data-ein-meer-moeglichkeiten/) should address precisely these aspects.
+The larger the amounts of data in both examples, the more difficult it becomes for us to scale our system adequately and to process the data in the shortest possible time. This describes a general problem: the volume of data that we are confronted with in everyday life is constantly increasing, while our customers expect us to process the data and make it usable as quickly as possible.[Modern Stream Processing Frameworks]() should address precisely these aspects.
 
 In this blog post, we would like to use a concrete use case to demonstrate how a stream processing architecture can be implemented with Spring Boot and Apache Kafka Streams. We want to go into the conception of the overall system as well as the everyday problems that we should take into account during implementation.
 
@@ -64,7 +68,7 @@ In our example, we are dealing with a continuous stream of readings that we cons
 
 To implement the use case, we divide the application into 3 subcomponents. A Kafka cluster forms the central hub for communication between the components:
 
-![Architectural sketch of our sample application](https://blog.codecentric.de/_next/image?url=https%3A%2F%2Fmedia.graphassets.com%2FXy3kzvYgT6GRsaxYg6va&w=2048&q=75)  
+![Architectural sketch of our sample application](data/structures/Xy3kzvYgT6GRsaxYg6va.png)  
 We will build this example architecture to illustrate our use case. We use Kafka as the central communication hub between our services.
 
 We arrange the distribution of tasks between the services as follows:
@@ -79,7 +83,7 @@ We have implemented all services with Spring Boot and Kotlin and use the for con
 
 ### Generation of the telemetry data (kafka-samples-producer)
 
-To write the (fictitious) probe measurement data, we use the Kafka Producer API, available in Spring via the[Spring Cloud Stream Binder for Kafka](https://cloud.spring.io/spring-cloud-stream-binder-kafka/spring-cloud-stream-binder-kafka.html#_apache_kafka_binder) provided. We configure the service via the ([application.yml](https://github.com/codecentric/spring-kafka-streams-example/blob/main/kafka-samples-producer/src/main/resources/application.yml)) as follows:
+To write the (fictitious) probe measurement data, we use the Kafka Producer API, available in Spring via the[Spring Cloud Stream Binder for Kafka](https://cloud.spring.io/spring-cloud-stream-binder-kafka/spring-cloud-stream-binder-kafka.html#_apache_kafka_binder) provided. We configure the service via the ([application.yml](https://github.com/metao1/spring-kafka-streams-telemetry/blob/main/kafka-samples-producer/src/main/resources/application.yml)) as follows:
 
 ```
 spring:
@@ -96,7 +100,7 @@ spring:
               configuration:
                 key.serializer: org.springframework.kafka.support.serializer.ToStringSerializer
                 value.serializer: org.springframework.kafka.support.serializer.JsonSerializer
-                # Otherwise de.codecentric.samples.kafkasamplesproducer.event.TelemetryData will be added as a header info
+                # Otherwise com.metao.samples.kafkasamplesproducer.event.TelemetryData will be added as a header info
                 # which can't be deserialized by consumers (unless they have kafka.properties.spring.json.use.type.headers: false themselves)
                 spring.json.add.type.headers: false
       bindings:
@@ -121,12 +125,12 @@ In the Kafka-specific part, we prevent Spring from adding a Type header to every
 
 The technology-agnostic part is used in this form for all Spring Cloud Streams-supported implementations like RabbitMQ, AWS SQS, etc. `destination`All you have to do here is specify the output target ( ) – in our case, this maps to the name of the Kafka topic that we want to describe.
 
-After the service is configured, we define a Spring component to write the metrics ([TelemetryDataStreamBridge.kt](https://github.com/codecentric/spring-kafka-streams-example/blob/main/kafka-samples-producer/src/main/kotlin/de/codecentric/samples/kafkasamplesproducer/TelemetryDataStreamBridge.kt)):
+After the service is configured, we define a Spring component to write the metrics ([TelemetryDataStreamBridge.kt](https://github.com/metao1/spring-kafka-streams-telemetry/blob/main/kafka-samples-producer/src/main/kotlin/com/metao1/samples/kafkasamplesproducer/TelemetryDataStreamBridge.kt)):
 
 ```
-package de.codecentric.samples.kafkasamplesproducer
+package com.metao.samples.kafkasamplesproducer
 
-import de.codecentric.samples.kafkasamplesproducer.event.TelemetryData
+import com.metao.samples.kafkasamplesproducer.event.TelemetryData
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cloud.stream.function.StreamBridge
@@ -162,7 +166,7 @@ For this use case we use the `StreamBridge`. We can have Spring inject this and 
 
 Most of the use case is processed in this part of our application. We use the Kafka Streams API to consume the generated probe data, perform the necessary calculations, and then write the aggregated measurement data to the two target topics. In Spring Boot, we can access the Streams API via the[Spring Cloud Stream Binder for Kafka Streams](https://cloud.spring.io/spring-cloud-stream-binder-kafka/spring-cloud-stream-binder-kafka.html#_kafka_streams_binder).
 
-Analogous to the Producer API, we start with creating our bindings and configure our service via the file [application.yml](https://github.com/codecentric/spring-kafka-streams-example/blob/main/kafka-samples-streams/src/main/resources/application.yml).
+Analogous to the Producer API, we start with creating our bindings and configure our service via the file [application.yml](https://github.com/metao1/spring-kafka-streams-telemetry/blob/main/kafka-samples-streams/src/main/resources/application.yml).
 
 ```
 spring:
@@ -212,7 +216,7 @@ Since we are reading from one topic and writing to two topics, we need three bin
 
 _We can view the function_ declared in the upper part of the configuration as a mapping of our `IN`bindings to our `OUT`bindings. In order for this to be associated with the bindings, we must adhere to the Spring convention described in the previous section.
 
-With the binding configuration complete, we can move on to implementing our business logic. To do this, we create a function that matches the name of the functional binding from our configuration. This function maps our Kafka Streams topology and calculation logic ([KafkaStreamsHandler.kt](https://github.com/codecentric/spring-kafka-streams-example/blob/main/kafka-samples-streams/src/main/kotlin/com/example/kafkasamplesstreams/KafkaStreamsHandler.kt)):
+With the binding configuration complete, we can move on to implementing our business logic. To do this, we create a function that matches the name of the functional binding from our configuration. This function maps our Kafka Streams topology and calculation logic ([KafkaStreamsHandler.kt](https://github.com/metao1/spring-kafka-streams-telemetry/blob/main/kafka-samples-streams/src/main/kotlin/com/example/kafkasamplesstreams/KafkaStreamsHandler.kt)):
 
 ```
 package com.example.kafkasamplesstreams
@@ -322,7 +326,7 @@ The resulting KStreams are our aggregation result and are written to the two out
 
 ### Consume the telemetry data (kafka-samples-consumer)
 
-To read the aggregated probe measurement data, we use the Kafka Consumer API, which, like the Producer, is available via the[Spring Cloud Stream Binder for Kafka](https://cloud.spring.io/spring-cloud-stream-binder-kafka/spring-cloud-stream-binder-kafka.html#_apache_kafka_binder) provided. We configure the service for this as follows ([application.yml](https://github.com/codecentric/spring-kafka-streams-example/blob/main/kafka-samples-consumer/src/main/resources/application.yml)):
+To read the aggregated probe measurement data, we use the Kafka Consumer API, which, like the Producer, is available via the[Spring Cloud Stream Binder for Kafka](https://cloud.spring.io/spring-cloud-stream-binder-kafka/spring-cloud-stream-binder-kafka.html#_apache_kafka_binder) provided. We configure the service for this as follows ([application.yml](https://github.com/metao1/spring-kafka-streams-telemetry/blob/main/kafka-samples-consumer/src/main/resources/application.yml)):
 
 ```
 spring:
@@ -341,12 +345,12 @@ spring:
             consumer:
               configuration:
                 key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
-                value.deserializer: de.codecentric.samples.kafkasamplesconsumer.serdes.TelemetryDataDeserializer
+                value.deserializer: com.metao.samples.kafkasamplesconsumer.serdes.TelemetryDataDeserializer
           processEsaTelemetryData-in-0:
             consumer:
               configuration:
                 key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
-                value.deserializer: de.codecentric.samples.kafkasamplesconsumer.serdes.TelemetryDataDeserializer
+                value.deserializer: com.metao.samples.kafkasamplesconsumer.serdes.TelemetryDataDeserializer
       bindings:
         processNasaTelemetryData-in-0:
           group: ${spring.application.name}
@@ -361,9 +365,9 @@ spring:
 
 We continue according to the familiar pattern: We implement beans that implement the binding, starting with NASA.
 
-We create a function that `Consumer`implements (see[KafkaConsumerConfiguration.kt](https://github.com/codecentric/spring-kafka-streams-example/blob/main/kafka-samples-consumer/src/main/kotlin/de/codecentric/samples/kafkasamplesconsumer/KafkaConsumerConfiguration.kt)). This means that we have an input but no output to another topic and the stream ends in this function.
+We create a function that `Consumer`implements (see[KafkaConsumerConfiguration.kt](https://github.com/metao1/spring-kafka-streams-telemetry/blob/main/kafka-samples-consumer/src/main/kotlin/com/metao/samples/kafkasamplesconsumer/KafkaConsumerConfiguration.kt)). This means that we have an input but no output to another topic and the stream ends in this function.
 
-The consumer for ESA follows the same pattern as the consumer for NASA, the only difference being that the data transmitted is converted from the imperial system to the metric system. We have this functionality in the `init`function of our class[MetricTelemetryData.kt](https://github.com/codecentric/spring-kafka-streams-example/blob/main/kafka-samples-consumer/src/main/kotlin/de/codecentric/samples/kafkasamplesconsumer/event/MetricTelemetryData.kt)  capsuled.
+The consumer for ESA follows the same pattern as the consumer for NASA, the only difference being that the data transmitted is converted from the imperial system to the metric system. We have this functionality in the `init`function of our class[MetricTelemetryData.kt](https://github.com/metao1/spring-kafka-streams-telemetry/blob/main/kafka-samples-consumer/src/main/kotlin/com/metao/samples/kafkasamplesconsumer/event/MetricTelemetryData.kt)  capsuled.
 
 With the implementation of the consumer, our stream processing pipeline is complete and all requirements have been implemented.
 
@@ -371,7 +375,7 @@ With the implementation of the consumer, our stream processing pipeline is compl
 
 If we start our services now, after a few seconds we should see the first aggregated probe data in the Consumer Service log. Additionally, we can take a look at[AKHQ](https://github.com/tchiotludo/akhq) Get an overview of the topics and messages in Kafka:
 
-![AKHQ Web UI in Kafka Topics view](https://blog.codecentric.de/_next/image?url=https%3A%2F%2Fmedia.graphassets.com%2FK3ygZt4RvWW2Evm17u2w&w=2048&q=75)  
+![AKHQ Web UI in Kafka Topics view](`data/structures/assets/K3ygZt4RvWW2Evm17u2w.png`)  
 We recognize the inbound and outbound topics accessed by our services, as well as the state stores that our aggregator service has materialized behind the scenes for us in the form of Kafka topics.
 
 ## Lessons learned
@@ -399,7 +403,7 @@ In cases where you cannot use Kafka _as a service_ , the effort involved in sett
 Clear answer: It depends. If you are already using Spring Boot across the board in your projects, the[Spring Streams abstraction](https://spring.io/projects/spring-cloud-stream) save some time when commissioning new services, since configuration and implementation always follow a very similar scheme and we can hide some of the complexity during implementation. However, the Spring path is not quite perfect. Here are the issues that caused us pain:
 
 -   **Conventions & Documentation** : The configuration with the Spring abstraction consists of a few conventions that are not always properly documented and are sometimes non-transparent, which can cost nerves and time. At the time of writing this article, parts of the Spring documentation were out of date (e.g. the functional programming paradigm we are using is not yet mentioned in the current version of the documentation)
--   **Error Handling** : When using the Stream Binder for Kafka Streams as in our class[KafkaStreamsHandler.kt](https://github.com/codecentric/spring-kafka-streams-example/blob/main/kafka-samples-streams/src/main/kotlin/com/example/kafkasamplesstreams/KafkaStreamsHandler.kt) There is currently no convenient solution for handling exceptions that occur outside of deserialization using on-board tools (we define what should happen to errors during deserialization in[application.yml](https://github.com/codecentric/spring-kafka-streams-example/blob/39e6482ecbc0ecaefa228539e3582f40425fb1aa/kafka-samples-streams/src/main/resources/application.yml#L24)). The only solution for this at the moment is[to implement error handling past the Streams API](https://cloud.spring.io/spring-cloud-stream-binder-kafka/spring-cloud-stream-binder-kafka.html#_handling_non_deserialization_exceptions) or ensure that any deserialization errors are caught. Provides an exemplary approach[TelemetryAggregationTransformer.kt](https://github.com/codecentric/spring-kafka-streams-example/blob/94c4df005e7dbe820e9d16a260962f61980639fc/kafka-samples-streams/src/main/kotlin/com/example/kafkasamplesstreams/TelemetryAggregationTransformer.kt). By bypassing the Streams API, we can handle errors at the message level, for example by `try/catch`implementing logic. Since we have descended an abstraction level in this example, we unfortunately also lose the automatic state management `KTables`\- we have to manage state stores ourselves if necessary. In this case, unfortunately, you currently have to weigh up what is more important to you.
+-   **Error Handling** : When using the Stream Binder for Kafka Streams as in our class[KafkaStreamsHandler.kt](https://github.com/metao1/spring-kafka-streams-telemetry/blob/main/kafka-samples-streams/src/main/kotlin/com/example/kafkasamplesstreams/KafkaStreamsHandler.kt) There is currently no convenient solution for handling exceptions that occur outside of deserialization using on-board tools (we define what should happen to errors during deserialization in[application.yml](https://github.com/metao1/spring-kafka-streams-telemetry/blob/main/kafka-samples-streams/src/main/resources/application.yml#L24)). The only solution for this at the moment is[to implement error handling past the Streams API](https://cloud.spring.io/spring-cloud-stream-binder-kafka/spring-cloud-stream-binder-kafka.html#_handling_non_deserialization_exceptions) or ensure that any deserialization errors are caught. Provides an exemplary approach[TelemetryAggregationTransformer.kt](https://github.com/metao1/spring-kafka-streams-telemetry/blob/main/src/main/kotlin/com/example/kafkasamplesstreams/TelemetryAggregationTransformer.kt). By bypassing the Streams API, we can handle errors at the message level, for example by `try/catch`implementing logic. Since we have descended an abstraction level in this example, we unfortunately also lose the automatic state management `KTables`\- we have to manage state stores ourselves if necessary. In this case, unfortunately, you currently have to weigh up what is more important to you.
 -   **Up-to- dateness** : The Spring Dependencies are always a few Kafka releases behind, so that not all features can always be used immediately (see previous point).
 
 As an alternative to the Spring abstraction, there are various freely usable libraries to integrate the concepts from Kafka Streams into various tech stacks. Confluent offers[well-documented step-by-step recipes](https://developer.confluent.io/kafka-languages-and-tools/) for a wide range of supported environments and programming languages to keep the barriers to entry low, regardless of your environment. In this respect, you are free to decide here. If you feel comfortable with Spring Boot: great! If not: that's ok too!
@@ -408,11 +412,11 @@ As an alternative to the Spring abstraction, there are various freely usable lib
 
 In this blog post, we have demonstrated how you can implement the concepts of stream processing using a concrete use case with Spring Boot and Kafka Streams. We hope that with Stream Processing you now have another tool in your toolbox and that you can now approach your next project with complete peace of mind.
 
-You can find the complete code for our sample project at[GitHub](https://github.com/codecentric/spring-kafka-streams-example).
+You can find the complete code for our sample project at[GitHub](https://github.com/metao1/spring-kafka-streams-telemetry).
 
 ## bonus material
 
-In order not to go beyond the scope of our blog post, we have limited ourselves to a fairly simple use case. However `KTables`, much more demanding scenarios can also be implemented with . Another slightly more complex example (how do we merge multiple incoming streams?) can be found in our GitHub repo on a[separate branch](https://github.com/codecentric/spring-kafka-streams-example/tree/feature/demonstrate-ktable-joins). We combine the incoming streams in the class[KafkaStreamsHandler.kt](https://github.com/codecentric/spring-kafka-streams-example/blob/feature/demonstrate-ktable-joins/kafka-samples-streams/src/main/kotlin/com/example/kafkasamplesstreams/KafkaStreamsHandler.kt) using the `join()`operation.
+In order not to go beyond the scope of our blog post, we have limited ourselves to a fairly simple use case. However `KTables`, much more demanding scenarios can also be implemented with . Another slightly more complex example (how do we merge multiple incoming streams?) can be found in our GitHub repo on a[separate branch](https://github.com/metao1/spring-kafka-streams-telemetry/tree/feature/demonstrate-ktable-joins). We combine the incoming streams in the class[KafkaStreamsHandler.kt](https://github.com/metao1/spring-kafka-streams-telemetry/blob/feature/demonstrate-ktable-joins/kafka-samples-streams/src/main/kotlin/com/example/kafkasamplesstreams/KafkaStreamsHandler.kt) using the `join()`operation.
 
 ## credentials
 
