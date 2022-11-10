@@ -17,7 +17,7 @@ Here's the ultra-short summary:
 -   With Kafka Streams, Kafka offers an API to process streams and map complex operations to them. means[_KStreams_](https://docs.confluent.io/platform/current/streams/concepts.html#streams-concepts-kstream) and[_KTables_](https://docs.confluent.io/platform/current/streams/concepts.html#ktable) you can also map more complex use cases that have to maintain a state. This state is managed by Kafka, so you don't have to worry about data management yourself.
 -   Spring Boot offers one[Stream abstraction](https://spring.io/projects/spring-cloud-stream) that can be used to implement stream processing workloads.
 
-You can find the entire code for our sample project at[GitHub](https://github.com/metao1/spring-kafka-streams-telemetry).
+You can find the entire project at[GitHub](https://github.com/metao1/spring-kafka-streams-telemetry).
 
 ## Processing large amounts of data quickly – a perennial topic
 

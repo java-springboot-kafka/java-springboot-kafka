@@ -122,6 +122,26 @@ architecture:
     start_color: "#BBBBEE"
     end_color: "#337ab7"
 
+index:
+  slogan:
+    text: "Java SpringBoot Kafka KafkaStream and Microservices and Cloud Articles"
+
+about:
+  enable: true
+  banner_img: /img/default.png
+  banner_img_height: 60
+  banner_mask_alpha: 0.3
+  subtitle:
+  avatar: /img/avatar.png
+  name: "Mehrdad Karami"
+  intro: "Java SpringBoot Kafka KafkaStream and Microservices in Cloud expert"
+  # 更多图标可从 https://hexo.fluid-dev.com/docs/icon/ 查找，`class` 代表图标的 css class，添加 `qrcode` 后，图标不再是链接而是悬浮二维码
+  # More icons can be found from https://hexo.fluid-dev.com/docs/en/icon/  `class` is the css class of the icon. If adding `qrcode`, The icon is no longer a link, but a hovering QR code
+  icons:
+    - { class: "iconfont icon-github-fill", link: "https://github.com", tip: "GitHub" }
+    - { class: "iconfont icon-douban-fill", link: "https://douban.com", tip: "豆瓣" }
+    - { class: "iconfont icon-wechat-fill", qrcode: "/img/favicon.png" }
+    -
 tag:
   tagcloud:
     min_font: 15
@@ -129,6 +149,91 @@ tag:
     unit: px  # font-size
     start_color: "#BBBBEE"
     end_color: "#337ab7"
+post:
+  banner_img: /img/default.png
+  banner_img_height: 70
+  banner_mask_alpha: 0.3
+
+  # 文章在首页的默认封面图，当没有指定 index_img 时会使用该图片，若两者都为空则不显示任何图片
+  # Path of the default post cover when `index_img` is not set. If both are empty, no image will be displayed
+  default_index_img:
+
+  # 文章标题下方的元信息
+  # Meta information below title
+  meta:
+    # 作者，优先根据 front-matter 里 author 字段，其次是 hexo 配置中 author 值
+    # Author, based on `author` field in front-matter, if not set, based on `author` value in hexo config
+    author:
+      enable: false
+
+    # 文章日期，优先根据 front-matter 里 date 字段，其次是 md 文件日期
+    # Post date, based on `date` field in front-matter, if not set, based on create date of .md file
+    date:
+      enable: true
+      # 格式参照 ISO-8601 日期格式化
+      # ISO-8601 date format
+      # See: http://momentjs.cn/docs/#/parsing/string-format/
+      format: "LL a"
+
+    # 字数统计
+    # Word count
+    wordcount:
+      enable: true
+      # 显示的文本，{}是数字的占位符（必须包含)，下同
+      # Displayed text, {} is a placeholder for numbers (must be included), the same below
+      format: "{} views"
+
+    # 估计阅读全文需要的时长
+    # Estimated reading time
+    min2read:
+      enable: true
+      format: "{} min"
+      # 每个字词的长度，建议：中文≈2，英文≈5，中英混合可自行调节
+      # Average word length (chars count in word), ZH ≈ 2, EN ≈ 5
+      awl: 2
+      # 每分钟阅读字数，如果大部分是技术文章可适度调低
+      # Words per minute
+      wpm: 60
+
+    # 浏览量计数
+    # Number of visits
+    views:
+      enable: false
+      # 统计数据来源
+      # Data Source
+      # Options: busuanzi | leancloud
+      source: "busuanzi"
+      format: "{} 次"
+
+  # 在文章开头显示文章更新时间，该时间默认是 md 文件更新时间，可通过 front-matter 中 `updated` 手动指定（和 date 一样格式）
+  # Update date is displayed at the beginning of the post. The default date is the update date of the md file, which can be manually specified by `updated` in front-matter (same format as date)
+  updated:
+    enable: false
+
+    # 描述文字
+    # Descriptive text before date
+    content: 本文最后更新于：
+
+    # 是否使用相对时间表示，比如："3 天前"
+    # If true, it will be a relative time, such as: "3 days ago"
+    relative: false
+
+  # 文章右侧目录
+  # Table of contents (TOC)
+  toc:
+    enable: true
+    # 目录会选择这些节点作为标题
+    # TOC will select these nodes as headings
+    headingSelector: "h1,h2,h3,h4,h5,h6"
+    # 层级的折叠深度，0 是全部折叠，大于 0 后如果存在下级标题则默认展开
+    # Collapse depth. If 0, all headings collapsed. If greater than 0, it will be expanded by default if there are sub headings
+    collapseDepth: 0
+
+  # 版权声明，会显示在每篇文章的结尾
+  # Copyright, will be displayed at the end of each post
+  copyright:
+    enable: true
+    content: 'Copyright Mehrdad Karami, 2022'
 
 page:
   banner_img: /img/default.png
