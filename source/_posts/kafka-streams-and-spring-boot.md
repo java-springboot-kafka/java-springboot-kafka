@@ -375,7 +375,7 @@ With the implementation of the consumer, our stream processing pipeline is compl
 
 If we start our services now, after a few seconds we should see the first aggregated probe data in the Consumer Service log. Additionally, we can take a look at[AKHQ](https://github.com/tchiotludo/akhq) Get an overview of the topics and messages in Kafka:
 
-![AKHQ Web UI in Kafka Topics view](`data/structures/assets/K3ygZt4RvWW2Evm17u2w.png`)  
+![AKHQ Web UI in Kafka Topics view](data/structures/assets/K3ygZt4RvWW2Evm17u2w.png)  
 We recognize the inbound and outbound topics accessed by our services, as well as the state stores that our aggregator service has materialized behind the scenes for us in the form of Kafka topics.
 
 ## Lessons learned
