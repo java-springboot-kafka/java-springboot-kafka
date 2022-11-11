@@ -382,7 +382,7 @@ paymentProcessor.process(order, card);
 
 #### Here is the final class diagram
 
-![final-class-diagram](https://raw.githubusercontent.com/java-springboot-kafka/java-springboot-kafka.github.io/master/data/solid-principle/ldp-bank-class-diagram.png)
+![final-class-diagram](/images/ldp-bank-class-diagram.png)
 
 
 #### Advantages of the New Design

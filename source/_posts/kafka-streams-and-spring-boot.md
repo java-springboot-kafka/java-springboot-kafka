@@ -68,7 +68,7 @@ In our example, we are dealing with a continuous stream of readings that we cons
 
 To implement the use case, we divide the application into 3 subcomponents. A Kafka cluster forms the central hub for communication between the components:
 
-![Architectural sketch of our sample application](data/structures/Xy3kzvYgT6GRsaxYg6va.png)  
+![Architectural sketch of our sample application](/images/Xy3kzvYgT6GRsaxYg6va.png)  
 We will build this example architecture to illustrate our use case. We use Kafka as the central communication hub between our services.
 
 We arrange the distribution of tasks between the services as follows:
@@ -375,7 +375,7 @@ With the implementation of the consumer, our stream processing pipeline is compl
 
 If we start our services now, after a few seconds we should see the first aggregated probe data in the Consumer Service log. Additionally, we can take a look at[AKHQ](https://github.com/tchiotludo/akhq) Get an overview of the topics and messages in Kafka:
 
-![AKHQ Web UI in Kafka Topics view](structures/assets/K3ygZt4RvWW2Evm17u2w.png)  
+![AKHQ Web UI in Kafka Topics view](/images/K3ygZt4RvWW2Evm17u2w.png)  
 We recognize the inbound and outbound topics accessed by our services, as well as the state stores that our aggregator service has materialized behind the scenes for us in the form of Kafka topics.
 
 ## Lessons learned
