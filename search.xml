@@ -636,10 +636,10 @@
 <p><em>The Flight Recorder events for the deserialization are not part of the above JDK Enhancement Proposal; there is also no separate JEP for them.</em></p>
 <h2 id="Enhanced-Pseudo-Random-Number-Generators"><a href="#Enhanced-Pseudo-Random-Number-Generators" class="headerlink" title="Enhanced Pseudo-Random Number Generators"></a>Enhanced Pseudo-Random Number Generators</h2><p>Until now, it has been tedious to replace the <a href="https://www.java-springboot-kafka.github.io/de/java/zufallszahl/">random number-generating</a> classes <code>Random</code>and <code>SplittableRandom</code>in an application (or even to replace them with other algorithms) even though they offer a largely identical set of methods (e.g. <code>nextInt()</code>, <code>nextDouble()</code>and stream-generating methods such as <code>ints()</code>and <code>longs()</code>).</p>
 <p>So far, the class hierarchy looked like this:</p>
-<p><img src="/hsource/images/random_number_generators_pre_java17-600x249.png" alt="Pre-Java 17 Pseudo-Random Number Generators"></p>
+<p><img src="/source/images/random_number_generators_pre_java17-600x249.png" alt="Pre-Java 17 Pseudo-Random Number Generators"></p>
 <p>Pre-Java 17 Pseudo-Random Number Generators</p>
 <p>JDK <a href="https://openjdk.org/jeps/356">Enhancement Proposal 356</a> introduced a framework of inheriting interfaces for the existing and new algorithms in Java 17, so that the concrete algorithms can easily be exchanged in the future:</p>
-<p><img src="/hsource/images/random_number_generators_java17-800x438.png" alt="Java 17 Pseudo-Random Number Generators"></p>
+<p><img src="/source/images/random_number_generators_java17-800x438.png" alt="Java 17 Pseudo-Random Number Generators"></p>
 <p>Java 17 Pseudo-Random Number Generators</p>
 <p>The methods common to all random number generators such as <code>nextInt()</code>and <code>nextDouble()</code>are <code>RandomGenerator</code>defined in . If you only need these methods, you should always use this interface in the future.</p>
 <p>The framework includes three new types of random number generators:</p>
@@ -749,13 +749,13 @@
 <h3 id="macOS-x2F-AArch64-Port"><a href="#macOS-x2F-AArch64-Port" class="headerlink" title="macOS&#x2F;AArch64 Port"></a>macOS&#x2F;AArch64 Port</h3><p>Apple has announced that it will switch Macs from x64 to AArch64 CPUs in the long term. Accordingly, a corresponding port is provided with <a href="https://openjdk.org/jeps/391">JDK Enhancement Proposal 391 .</a></p>
 <p>The code is an extension of the AArch64 ports for Linux and Windows released in Java 9 and <a href="https://www.java-springboot-kafka.github.io/de/java/java-16-features-de/#WindowsAArch64_Port">Java 16 with macOS-specific adjustments.</a></p>
 <h3 id="New-Page-for-“New-API”-and-Improved-“Deprecated”-Page"><a href="#New-Page-for-“New-API”-and-Improved-“Deprecated”-Page" class="headerlink" title="New Page for “New API” and Improved “Deprecated” Page"></a>New Page for “New API” and Improved “Deprecated” Page</h3><p>In JavaDoc generated from Java 17, there is a “NEW” page that shows all new features grouped by version. To do this, the <code>@since</code>tags of the modules, packages, classes, etc. are evaluated.</p>
-<p><img src="/hsource/images/javadoc_since_java_17-800x503.png" alt="&quot;NEW&quot; page in JavaDoc generated since Java 17"></p>
+<p><img src="/source/images/javadoc_since_java_17-800x503.png" alt="&quot;NEW&quot; page in JavaDoc generated since Java 17"></p>
 <p>“NEW” page in JavaDoc generated since Java 17</p>
 <p>In addition, the “DEPRECATED” page has been revised. Up until Java 16, here is an ungrouped list of all features marked as “deprecated”:</p>
 <p><img src="/source/images/javadoc_deprecated_java_16-800x435.png" alt="Java 16 DEPRECATED page"></p>
 <p>Java 16 DEPRECATED page</p>
 <p>Starting with Java 17, we see the features marked as “deprecated” grouped by release:</p>
-<p><img src="/hsource/images/javadoc_deprecated_java_17-800x460.png" alt="Java 17 DEPRECATED page"></p>
+<p><img src="/source/images/javadoc_deprecated_java_17-800x460.png" alt="Java 17 DEPRECATED page"></p>
 <p>Java 17 DEPRECATED page</p>
 <p><em>There is no JDK Enhancement Proposal for this extension.</em></p>
 <h3 id="Complete-list-of-all-changes-in-Java-17"><a href="#Complete-list-of-all-changes-in-Java-17" class="headerlink" title="Complete list of all changes in Java 17"></a>Complete list of all changes in Java 17</h3><p>This article has presented all changes defined in JDK Enhancement Proposals (JEPs) as well as numerous class library extensions for which no JEPs exist. For more changes, especially to the security libraries, see the <a href="https://www.oracle.com/java/technologies/javase/17-relnote-issues.html">official Java 17 release notes</a> .</p>
