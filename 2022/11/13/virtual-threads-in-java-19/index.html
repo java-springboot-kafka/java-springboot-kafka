@@ -18,17 +18,17 @@
   <meta name="author" content="Mehrdad Karami">
   <meta name="keywords" content="Java,SpringBoot, Kafka, Kafka Streams, Software Architecture, Best code practices">
   
-    <meta name="description" content="Virtual Threads in Java 19The Project Loom is an experimental version of the JDK. It extends Java with virtual threads that allow lightweight concurrency. Preview releases are already available and s">
+    <meta name="description" content="The Project Loom is an experimental version of the JDK. It extends Java with virtual threads that allow lightweight concurrency. Preview releases are already available and show what is possible. Serve">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java SpringBoot Kafka , Best code practices">
+<meta property="og:title" content="Virtual Threads in Java 19">
 <meta property="og:url" content="https://java-springboot-kafka.github.io/2022/11/13/virtual-threads-in-java-19/index.html">
 <meta property="og:site_name" content="Java SpringBoot Kafka , Best code practices">
-<meta property="og:description" content="Virtual Threads in Java 19The Project Loom is an experimental version of the JDK. It extends Java with virtual threads that allow lightweight concurrency. Preview releases are already available and s">
+<meta property="og:description" content="The Project Loom is an experimental version of the JDK. It extends Java with virtual threads that allow lightweight concurrency. Preview releases are already available and show what is possible. Serve">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://s3.eu-west-1.amazonaws.com/redsys-prod/articles/7049438b39cdcf98a347c687/images/huehnken_lutz_sw.tif_fmt1.jpg">
 <meta property="og:image" content="https://s3.eu-west-1.amazonaws.com/redsys-prod/articles/7049438b39cdcf98a347c687/images/SoMe-Twitter.png">
 <meta property="article:published_time" content="2022-11-13T19:20:48.542Z">
-<meta property="article:modified_time" content="2022-11-13T20:50:52.781Z">
+<meta property="article:modified_time" content="2022-11-13T21:34:24.176Z">
 <meta property="article:author" content="Mehrdad Karami">
 <meta property="article:tag" content="Java,SpringBoot, Kafka, Kafka Streams, Software Architecture, Best code practices">
 <meta name="twitter:card" content="summary_large_image">
@@ -38,7 +38,7 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>Java SpringBoot Kafka , Best code practices</title>
+  <title>Virtual Threads in Java 19 - Java SpringBoot Kafka , Best code practices</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -55,11 +55,11 @@
 <!-- 主题依赖的图标库，不要自行修改 -->
 <!-- Do not modify the link that theme dependent icons -->
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
 
 
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
 
 
 <link  rel="stylesheet" href="/css/main.css" />
@@ -179,7 +179,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text=""></span>
+            <span id="subtitle" data-typed-text="Virtual Threads in Java 19"></span>
           
         </div>
 
@@ -264,7 +264,7 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none"></h1>
+            <h1 style="display: none">Virtual Threads in Java 19</h1>
             
               <p class="note note-info">
                 
@@ -277,8 +277,7 @@
             
               <div class="markdown-body">
                 
-                <hr>
-<h2 id="Virtual-Threads-in-Java-19"><a href="#Virtual-Threads-in-Java-19" class="headerlink" title="Virtual Threads in Java 19"></a>Virtual Threads in Java 19</h2><p>The Project Loom is an experimental version of the JDK. It extends Java with virtual threads that allow lightweight concurrency. Preview releases are already available and show what is possible.</p>
+                <p>The Project Loom is an experimental version of the JDK. It extends Java with virtual threads that allow lightweight concurrency. Preview releases are already available and show what is possible.</p>
 <p>Server-side Java applications should be able to process many requests in parallel. The model that is most common in server-side Java programming to date is thread-per-request. A thread is assigned to an incoming request and everything that needs to be done to respond with an appropriate response is processed on this thread. However, this severely limits the maximum number of requests that can be processed concurrently. Because the Java threads, which each claim a native operating system thread, are not lightweights. On the one hand because of the memory requirements: Each individual thread takes up more than one megabyte of memory by default. On the other hand because of the costs for switching between the threads, the context switch.</p>
 <p>As a reaction to these disadvantages, many asynchronous libraries that use CompletableFutures, for example, but also entire “reactive” frameworks, such as e.g. B. RxJava [1], Reactor [2] or Akka Streams [3]. Although they all use the resources far more effectively, they require the developer to switch to a significantly different programming model. Some people moan about the cognitive ballast, as they prefer to sequentially list what the program is supposed to do instead of dealing with callbacks, observables or flows. This raises the question of whether it would not be possible to combine the advantages of both worlds: as effective as asynchronous programming and still being able to program in the usual, sequential command sequence. Oracle’s Project Loom [4] wants to explore exactly this option with a modified JDK. On the one hand, it brings with it a new, lightweight construct for concurrency, namely the virtual threads, and on the other hand a customized standard library that is based on this.</p>
 <h2 id="Virtual-Threads"><a href="#Virtual-Threads" class="headerlink" title="Virtual Threads"></a>Virtual Threads</h2><p>YOu remember multithreading in Java 1.1? At that time, Java only knew so-called green threads. The possibility of using multiple operating system threads was not used at all. Threads were only emulated within the JVM. As of Java 1.2, a native operating system thread was actually started for each Java thread.</p>
@@ -355,7 +354,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div></div>
+      <div>Virtual Threads in Java 19</div>
       <div>https://java-springboot-kafka.github.io/2022/11/13/virtual-threads-in-java-19/</div>
     </div>
     <div class="license-meta">
@@ -400,9 +399,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/11/13/solid/" title="">
+                      <a href="/2022/11/13/solid/" title="Guide to S.O.L.I.D Principles">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile"></span>
+                        <span class="hidden-mobile">Guide to S.O.L.I.D Principles</span>
                         <span class="visible-mobile">Previous</span>
                       </a>
                     
@@ -410,8 +409,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/11/13/What_is_new_in_java_19/" title="">
-                        <span class="hidden-mobile"></span>
+                      <a href="/2022/11/13/What_is_new_in_java_19/" title="What&#39;s new in Java 19">
+                        <span class="hidden-mobile">What&#39;s new in Java 19</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
