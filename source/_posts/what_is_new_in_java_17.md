@@ -353,13 +353,13 @@ Until now, it has been tedious to replace the [random number-generating](https:/
 
 So far, the class hierarchy looked like this:
 
-![Pre-Java 17 Pseudo-Random Number Generators](https://www.java-springboot-kafka.github.io/wp-content/uploads/2021/12/random_number_generators_pre_java17-600x249.png)
+![Pre-Java 17 Pseudo-Random Number Generators](hsource/images/random_number_generators_pre_java17-600x249.png)
 
 Pre-Java 17 Pseudo-Random Number Generators
 
 JDK [Enhancement Proposal 356](https://openjdk.org/jeps/356) introduced a framework of inheriting interfaces for the existing and new algorithms in Java 17, so that the concrete algorithms can easily be exchanged in the future:
 
-![Java 17 Pseudo-Random Number Generators](https://www.java-springboot-kafka.github.io/wp-content/uploads/2021/12/random_number_generators_java17-800x438.png)
+![Java 17 Pseudo-Random Number Generators](hsource/images/random_number_generators_java17-800x438.png)
 
 Java 17 Pseudo-Random Number Generators
 
@@ -683,19 +683,19 @@ The code is an extension of the AArch64 ports for Linux and Windows released in 
 
 In JavaDoc generated from Java 17, there is a "NEW" page that shows all new features grouped by version. To do this, the `@since`tags of the modules, packages, classes, etc. are evaluated.
 
-!["NEW" page in JavaDoc generated since Java 17](https://www.java-springboot-kafka.github.io/wp-content/uploads/2021/12/javadoc_since_java_17-800x503.png)
+!["NEW" page in JavaDoc generated since Java 17](hsource/images/javadoc_since_java_17-800x503.png)
 
 "NEW" page in JavaDoc generated since Java 17
 
 In addition, the "DEPRECATED" page has been revised. Up until Java 16, here is an ungrouped list of all features marked as "deprecated":
 
-![Java 16 DEPRECATED page](https://www.java-springboot-kafka.github.io/wp-content/uploads/2021/12/javadoc_deprecated_java_16-800x435.png)
+![Java 16 DEPRECATED page](source/images/javadoc_deprecated_java_16-800x435.png)
 
 Java 16 DEPRECATED page
 
 Starting with Java 17, we see the features marked as "deprecated" grouped by release:
 
-![Java 17 DEPRECATED page](https://www.java-springboot-kafka.github.io/wp-content/uploads/2021/12/javadoc_deprecated_java_17-800x460.png)
+![Java 17 DEPRECATED page](hsource/images/javadoc_deprecated_java_17-800x460.png)
 
 Java 17 DEPRECATED page
 
