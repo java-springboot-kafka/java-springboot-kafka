@@ -10,7 +10,7 @@ As a reaction to these disadvantages, many asynchronous libraries that use Compl
 
 ## Virtual Threads
 
-YOu remember multithreading in Java 1.1? At that time, Java only knew so-called green threads. The possibility of using multiple operating system threads was not used at all. Threads were only emulated within the JVM. As of Java 1.2, a native operating system thread was actually started for each Java thread.
+You remember multithreading in Java 1.1? At that time, Java only knew so-called green threads. The possibility of using multiple operating system threads was not used at all. Threads were only emulated within the JVM. As of Java 1.2, a native operating system thread was actually started for each Java thread.
 
 Now the Green Threads are celebrating a revival. Although in a significantly changed, modernized form, virtual threads are basically nothing else: they are threads that are managed within the JVM. However, they are no longer a replacement for the native threads, but a supplement. A relatively small number of native threads is used as a carrier to process an almost arbitrarily large number of virtual threads. The overhead of the virtual threads is so low that the programmer doesn't have to worry about how many of them he starts.
 
@@ -19,7 +19,6 @@ In a 64-bit JVM with default settings, a native thread already reserves one mega
 Listing 1
 
 ```
-// Achtung, kann Rechner einfrieren...
 void excessiveThreads(){
   ThreadFactory factory = Thread.builder().factory();
   ExecutorService executor = Executors.newFixedThreadPool(10000, factory);
@@ -27,7 +26,6 @@ void excessiveThreads(){
     executor.submit(() -> {
       try {
           out.println(num);
-          // Wir warten ein bisschen, damit die Threads wirklich alle gleichzeitig laufen
           Thread.sleep(10000);
         } catch (InterruptedException e) {
           e.printStackTrace();
@@ -47,7 +45,7 @@ Listing 2
 
 ```
 void virtualThreads(){
-  // Factory für virtuelle Threads
+  // Factory for virtual Threads
   ThreadFactory factory = Thread.builder().virtual().factory();
   ExecutorService executor = Executors.newFixedThreadPool(1000000, factory);
   IntStream.range(0, 1000000).forEach((num) -> {
@@ -111,17 +109,16 @@ Listing 3
 
 ```
 void continuationDemo() {
-  // Der scope ist ein Hilfsmittel, um geschachtelte Continuations zu   // ermöglichen.
   ContinuationScope scope = new ContinuationScope("demo");
   Continuation a = new Continuation(scope, () -> {
     out.print("To be");
-    // hier wird die Funktion eingefroren und gibt die Kontrolle an den     // Aufrufer.
+    // This is where the function freezes and gives control to the // caller.
     Continuation.yield(scope);
     out.println("continued!");
   });
   a.run();
   out.print(" ... ");
-  // die Continuation kann von dort, wo sie angehalten wurde, fortgesetzt   // werden.
+  // the continuation can be resumed from where // it stopped.
   a.run();
   // ...
   }
@@ -158,4 +155,186 @@ Anyone who has heard of Project Loom before knows the term fibers. Together with
 Basically, there is already an established solution for the problem that Project Loom solves: Asynchronous I/O, either through callbacks or through "reactive" frameworks. However, using these means adopting a different programming model. Not all developers find it easy to switch to an asynchronous mindset. There is also a partial lack of support in common libraries - everything that stores data in ThreadLocal is suddenly unusable. And in tooling: Debugging asynchronous code often results in several aha moments. Also in the sense that the code to be examined is not executed on the thread that you are currently single-stepping through with the debugger.
 
 The special appeal of Project Loom is that it makes the changes at the JDK level, so the program code can remain unchanged. A currently inefficient program that consumes a native thread for each HTTP connection could run unchanged on the Project Loom JDK and would suddenly be efficient and scalable (Box: "When will virtual threads be available for everyone?"). Thanks to the modified java.net library, now based on virtual threads.
+
+## Virtual threads released in Java 19
+
+Recently, JDK 19 was released and introduced several new features, one of which is worth paying attention to is the addition of virtual threads.
+
+Many people may be confused, what is a virtual thread, and what is the difference between it and the platform thread we are using now?
+
+To clarify the virtual threads in JDK 19, we must first understand how threads are implemented.
+
+## How the thread is implemented
+
+We all know that in the operating system, a thread is a lighter-weight scheduling execution unit than a process. The introduction of a thread can separate the resource allocation and execution scheduling of a process. Each thread can share process resources and schedule independently.
+
+In fact, **there are three main ways to implement threads: using kernel threads, using user threads, and using user threads and lightweight processes.**
+
+### Implemented using kernel threads
+
+**A kernel thread (Kernel-Level Thread, KLT) is a thread directly supported by the operating system kernel (Kernel, hereinafter referred to as the kernel). It is responsible for mapping the tasks of the thread to each processor, and provides an API interface to the application to manage the thread.**
+
+Applications generally do not use kernel threads directly, but use a high-level interface of kernel threads—Light Weight Process (LWP). A lightweight process is a thread in the usual sense. Since each lightweight process is backed by a kernel thread, there can only be a lightweight process if kernel threads are supported first.
+
+With the support of kernel threads, each lightweight process becomes an independent scheduling unit. Even if a lightweight process is blocked in a system call, it will not affect the entire process to continue working.
+
+But lightweight processes have their limitations: First, because they are implemented based on kernel threads, various thread operations, such as creation, destruction, and synchronization, require system calls. The cost of system calls is relatively high, and it needs to switch back and forth between User Mode and Kernel Mode. Secondly, each lightweight process needs to have the support of a kernel thread, so the lightweight process consumes a certain amount of kernel resources (such as the stack space of the kernel thread), so the number of lightweight processes supported by a system is limited .
+
+### Implemented using user threads
+
+Establish a thread library in user space, and complete thread management through the Run-time System. Because the implementation of this thread is in user space, the kernel of the operating system does not know the existence of threads, so the kernel manages It is still a process, so this thread switching does not require kernel operation.
+
+In this implementation, the relationship between a process and a thread is one-to-many.
+
+The advantage of this thread implementation is that the thread switching is fast, and it can run on any operating system, just need to implement the thread library. **However, the disadvantage is also obvious, that is, the operation of all threads needs to be handled by the user program itself, and because most system calls are blocked, once a process is blocked, all threads in the process will also be blocked. There is also a big problem in how to map threads to other processors in a multiprocessor system.**
+
+### Mixed implementation using user threads and lightweight processes
+
+There is also a mixed implementation method, that is, the creation of threads is done in user space and performed through the thread library, but the scheduling of threads is done by the kernel. Multiple user threads multiplex multiple kernel threads through multiplexing. This will not be discussed further.
+
+## Java thread implementation
+
+The above are three ways to implement threads in operating systems. Different operating systems use different mechanisms when implementing threads. For example, Windows uses kernel threads to implement them, while Solaris implements them through mixed modes.
+
+As a cross-platform programming language, Java actually depends on the specific operating system for its thread implementation. The more commonly used windows and linux are implemented in the way of kernel threads.
+
+That is to say, when we create a Tread in JAVA code, it actually needs to be mapped to the specific implementation of the thread of the operating system, because the common method implemented by kernel threads requires the kernel to participate in the creation and scheduling. Therefore, the cost is relatively high. Although JAVA provides a thread pool method to avoid repeated creation of threads, there is still a lot of room for optimization. **Moreover, this implementation means that the number of platform threads is limited due to the impact of machine resources.**
+
+## virtual thread
+
+The virtual thread introduced by JDK 19 is a lightweight thread implemented by JDK, which can avoid the extra cost caused by context switching. \*\*His implementation principle is actually that JDK is no longer a thread that corresponds to an operating system one-to-one for each thread, but maps multiple virtual threads to a small number of operating system threads, which can be avoided through effective scheduling. Those context switches.
+
+![virtual-threads](source/images/virtual-threads.png)
+
+Also, we can create a very large number of virtual threads in the application, independent of the number of platform threads. These virtual threads are managed by the JVM, so they don't add extra context switching overhead since they are stored in RAM as normal Java objects.
+
+## The difference between virtual threads and platform threads
+
+First, virtual threads are always daemon threads. The setDaemon(false) method cannot change a virtual thread to a non-daemon thread. **So, it is important to note that the JVM will terminate when all started non-daemon threads are terminated. This means that the JVM will not wait for the virtual thread to finish before exiting.**
+
+Second, even with the setPriority() method, **virtual threads always have normal priority** and cannot be changed. Calling this method on a virtual thread has no effect.
+
+Also, **virtual threads do not support methods such as stop(), suspend() or resume()** . These methods throw UnsupportedOperationException when called on a virtual thread.
+
+## how to use
+
+Next, let's introduce how to use virtual threads in JDK 19.
+
+First, a virtual thread can be run via Thread.startVirtualThread():
+
+```
+Thread.startVirtualThread(() -> {
+    System.out.println("Hello...");
+});
+```
+
+Secondly, virtual threads can also be created through Thread.Builder. The Thread class provides ofPlatform() to create a platform thread and ofVirtual() to create a virtual scene.
+
+```
+Thread.Builder platformBuilder = Thread.ofPlatform().name("platform thread");
+Thread.Builder virtualBuilder = Thread.ofVirtual().name("virtual thread");
+
+Thread t1 = platformBuilder .start(() -> {...}); 
+Thread t2 = virtualBuilder.start(() -> {...}); 
+
+```
+
+In addition, the thread pool also supports virtual threads. You can create virtual threads through Executors.newVirtualThreadPerTaskExecutor():
+
+```
+try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+    IntStream.range(0, 10000).forEach(i -> {
+        executor.submit(() -> {
+            Thread.sleep(Duration.ofSeconds(1));
+            return i;
+        });
+    });
+}
+
+```
+
+However, **in fact, it is not recommended to use virtual threads and thread pools together** , because the Java thread pool is designed to avoid the overhead of creating new operating system threads, but the overhead of creating virtual threads is not large, so there is no need to put them in the thread pool. middle.
+
+## performance difference
+
+After talking for a long time, can virtual threads improve performance and how much? Let's do a test.
+
+Let's write a simple task that waits 1 second before printing a message in the console:
+
+```
+final AtomicInteger atomicInteger = new AtomicInteger();
+
+Runnable runnable = () -> {
+  try {
+    Thread.sleep(Duration.ofSeconds(1));
+  } catch(Exception e) {
+      System.out.println(e);
+  }
+  System.out.println("Work Done - " + atomicInteger.incrementAndGet());
+};
+
+```
+
+Now, we will create 10,000 threads from this Runnable and execute them using virtual threads and platform threads to compare the performance of both.
+
+Let's start with the implementation of platform threads that we are more familiar with:
+
+```
+Instant start = Instant.now();
+
+try (var executor = Executors.newFixedThreadPool(100)) {
+  for(int i = 0; i < 10_000; i++) {
+    executor.submit(runnable);
+  }
+}
+
+Instant finish = Instant.now();
+long timeElapsed = Duration.between(start, finish).toMillis();  
+System.out.println("总耗时 : " + timeElapsed); 
+
+```
+
+The output is:
+
+```
+total time : 102323
+
+```
+
+The total time is about 100 seconds. Next, run it with a virtual thread and see
+
+> Because in JDK 19, virtual threads are a preview API and are disabled by default. So you need to use $ java -- source 19 -- enable-preview xx.java to run the code.
+
+```
+Instant start = Instant.now();
+
+try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+  for(int i = 0; i < 10_000; i++) {
+    executor.submit(runnable);
+  }
+}
+
+Instant finish = Instant.now();
+long timeElapsed = Duration.between(start, finish).toMillis();  
+System.out.println("total time : " + timeElapsed); 
+
+```
+
+Use Executors.newVirtualThreadPerTaskExecutor() to create virtual threads. The execution results are as follows:
+
+```
+total time : 1674
+
+```
+
+The total time is about 1.6 seconds!
+
+The difference between 100 seconds and 1.6 seconds is enough to see that the performance improvement of virtual threads is immediate.
+
+## Summarize
+
+This article introduces the new virtual thread, or coroutine, introduced in JDK 19, mainly to solve the problem that threads in the reading operating system need to rely on the implementation of kernel threads, resulting in a lot of extra overhead. By introducing virtual threads at the Java language level, scheduling management is performed through the JVM, thereby reducing the cost of context switching.
+
+At the same time, after a simple demo test, we found that the execution of virtual threads is indeed much more efficient. But you also need to pay attention when using it, the virtual thread is a daemon thread, so it may shut down the virtual machine before it finishes executing.
+
 
