@@ -410,9 +410,9 @@ This hardwiring has a few disadvantages:
 
 #### Internet-Address Resolution SPI / JEP 418 – Example
 
-The following example shows how to implement and register a simple resolver that responds to every request with the IP address 127.0.0.1. You can also find the code in this [GitHub repository](https://github.com/SvenWoltmann/internet-address-resolution-spi-jep-418-demo).
+The following example shows how to implement and register a simple resolver that responds to every request with the IP address 127.0.0.1. You can also find the code in this [GitHub repository](github.com/metao1/internet-address-resolution-spi-jep-418-demo).
 
-We first write the resolver by implementing the `java.net.spi.InetAddressResolver.InetAddressResolver` interface introduced in Java 18 (class [HappyCodersInetAddressResolver in GitHub](https://github.com/SvenWoltmann/internet-address-resolution-spi-jep-418-demo/blob/main/src/eu/happycoders/jep418/HappyCodersInetAddressResolver.java)):
+We first write the resolver by implementing the `java.net.spi.InetAddressResolver.InetAddressResolver` interface introduced in Java 18 (class [HappyCodersInetAddressResolver in GitHub](github.com/metao1/internet-address-resolution-spi-jep-418-demo/blob/main/src/eu/happycoders/jep418/HappyCodersInetAddressResolver.java)):
 
 ```
 public class HappyCodersInetAddressResolver implements InetAddressResolver {
@@ -431,7 +431,7 @@ public class HappyCodersInetAddressResolver implements InetAddressResolver {
 
 Since I only want to present the basic principle here, I kept the resolver as simple as possible, and it does not support reverse lookups.
 
-Second, we need a resolver provider (class [HappyCodersInetAddressResolverProvider in GitHub](https://github.com/SvenWoltmann/internet-address-resolution-spi-jep-418-demo/blob/main/src/eu/happycoders/jep418/HappyCodersInetAddressResolverProvider.java)):
+Second, we need a resolver provider (class [HappyCodersInetAddressResolverProvider in GitHub](github.com/metao1/internet-address-resolution-spi-jep-418-demo/blob/main/src/eu/happycoders/jep418/HappyCodersInetAddressResolverProvider.java)):
 
 ```
 public class HappyCodersInetAddressResolverProvider extends InetAddressResolverProvider {
@@ -449,13 +449,13 @@ public class HappyCodersInetAddressResolverProvider extends InetAddressResolverP
 
 The provider creates a new instance of the previously implemented resolver in the `get()` method.
 
-In the third step, we have to register the resolver. To do this, we create a file in the `META-INF/services` directory with the name `java.net.spi.InetAddressResolverProvider` and the following content ([file in GitHub](https://github.com/SvenWoltmann/internet-address-resolution-spi-jep-418-demo/blob/main/src/META-INF/services/java.net.spi.InetAddressResolverProvider)):
+In the third step, we have to register the resolver. To do this, we create a file in the `META-INF/services` directory with the name `java.net.spi.InetAddressResolverProvider` and the following content ([file in GitHub](github.com/metao1/internet-address-resolution-spi-jep-418-demo/blob/main/src/META-INF/services/java.net.spi.InetAddressResolverProvider)):
 
 ```
 eu.happycoders.jep416.HappyCodersInetAddressResolverProviderCode language: plaintext (plaintext)
 ```
 
-Now we run the code from above again (class [Jep418Demo in GitHub](https://github.com/SvenWoltmann/internet-address-resolution-spi-jep-418-demo/blob/main/src/eu/happycoders/jep418/Jep418Demo.java)):
+Now we run the code from above again (class [Jep418Demo in GitHub](github.com/metao1/internet-address-resolution-spi-jep-418-demo/blob/main/src/eu/happycoders/jep418/Jep418Demo.java)):
 
 ```
 InetAddress[] addresses = InetAddress.getAllByName("www.happycoders.eu");
