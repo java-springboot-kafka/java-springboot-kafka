@@ -1,3 +1,7 @@
+---
+title: What's new in Java 18
+---
+
 Java 18, released on March 22, 2022, is the first "interim" release after the last Long-Term-Support (LTS) release, Java 17.
 
 With nine implemented JEPs, the scope of changes in Java 18 has decreased significantly compared to the previous releases. After the LTS release of Java 17, the JDK developers should take a little breather ;-)
