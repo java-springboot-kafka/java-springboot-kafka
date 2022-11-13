@@ -1,0 +1,674 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/icon.jpeg">
+  <link rel="icon" href="/images/icon.jpeg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Mehrdad Karami">
+  <meta name="keywords" content="Java,SpringBoot, Kafka, Kafka Streams, Software Architecture, Best code practices">
+  
+    <meta name="description" content="A DFS is an algorithm to travers graph-based structures (also for trees included in graphs)in a depth order fashion.  1DFS is helpful to traverse nodes of a graph only once and you want to go deep in">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Depth First Search - DFS">
+<meta property="og:url" content="https://java-springboot-kafka.github.io/2022/11/13/dfs/index.html">
+<meta property="og:site_name" content="Java SpringBoot Kafka , Best code practices">
+<meta property="og:description" content="A DFS is an algorithm to travers graph-based structures (also for trees included in graphs)in a depth order fashion.  1DFS is helpful to traverse nodes of a graph only once and you want to go deep in">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://java-springboot-kafka.github.io/source/images/dfs.gif">
+<meta property="article:published_time" content="2022-11-13T19:20:48.537Z">
+<meta property="article:modified_time" content="2022-11-13T19:20:48.537Z">
+<meta property="article:author" content="Mehrdad Karami">
+<meta property="article:tag" content="Java,SpringBoot, Kafka, Kafka Streams, Software Architecture, Best code practices">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://java-springboot-kafka.github.io/source/images/dfs.gif">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Depth First Search - DFS - Java SpringBoot Kafka , Best code practices</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"java-springboot-kafka.github.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"Java"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/images/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Mehrdad Karami</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/images/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Depth First Search - DFS"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Mehrdad Karami
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-11-13 20:20" pubdate>
+          November 13, 2022 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.9k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          50 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> views
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Depth First Search - DFS</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>A DFS is an algorithm to travers graph-based structures (also for trees included in graphs)<br>in a depth order fashion. </p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs applescript">DFS <span class="hljs-keyword">is</span> helpful <span class="hljs-keyword">to</span> traverse nodes <span class="hljs-keyword">of</span> a graph only once <span class="hljs-keyword">and</span> you want <span class="hljs-keyword">to</span> go deep <span class="hljs-keyword">in</span> a child <span class="hljs-keyword">from</span> parent node <span class="hljs-keyword">as</span> much <span class="hljs-keyword">as</span> <span class="hljs-keyword">it</span> <span class="hljs-keyword">is</span> possible.<br></code></pre></td></tr></table></figure>
+
+<h3 id="Usecases"><a href="#Usecases" class="headerlink" title="Usecases:"></a>Usecases:</h3><p>Before jumping into discussion what DFS is, let’s understand the usecase of DFS.</p>
+<p>Imagine that you are asked to write a basic algorithm for a Chess game. The opponent which can<br>be an AI computer wants to defeat the player. It should decide all available movements for a piece.</p>
+<p>To continue, let’s imagine computer starts with a Pawn. It is obvious the first move<br>only go one or two upfront (just as the beginning of time). If you want to devise a<br>very professional algorithm that stimulate the player, it should predict the other movements after.</p>
+<p>How about the next moves? Computer can decide randomly but have a good play matters to win and challenge the game!</p>
+<p>So for this algorithm we can use start the move in the memory and then see other available movements<br>until no movement is possible and pick the one to prevent defeat fast!</p>
+<p>A pseudo code for our simple algorithm is as follows:</p>
+<p>~<br>pick a piece (pawn here)</p>
+<ol>
+<li>for any available movements in neighbor cells<br> check if movement is possible<br> insert it into a Stack if it was possible</li>
+<li>for any movement in Stack<br> peek the move<br> check if it will be defeated?<br> repeat 1.<br>~</li>
+</ol>
+<p>Now you can see our algorithm is getting toward intelligent movements and can simulate a real opponent.</p>
+<h4 id="Definition"><a href="#Definition" class="headerlink" title="Definition"></a>Definition</h4><p>Before going to implement this chess algo let’s DFS.<br>For a DFS we have a Graph (G for instance),and a starting node that we want to start traversing the graph<br>The pseudo code for DFS is like below:</p>
+<h5 id="G-Graph-v-starting-node-can-be-root-node-vertex-node-vertices-nodes"><a href="#G-Graph-v-starting-node-can-be-root-node-vertex-node-vertices-nodes" class="headerlink" title="G: Graph, v: starting node (can be root node) , vertex: node, vertices: nodes"></a>G: Graph, v: starting node (can be root node) , vertex: node, vertices: nodes</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-title function_">dfs</span>(G, v):<br>    label v <span class="hljs-keyword">as</span> discovered<br>    <span class="hljs-keyword">for</span> all vertices connected to v<br>        check vertex is not visited before?<br>            call <span class="hljs-title function_">dfs</span>(G,vertex)<br></code></pre></td></tr></table></figure>
+
+<p>Note that recursive calling acts like a Stack for us.If we want to have iterative approach we will need a stack.<br>Below is the non-recursive implementation or iterative approach for the above pseudo code.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-title function_">dfs</span>(G, v):<br>    define a stack <br>    put v into stack<br>    <span class="hljs-keyword">while</span> stack is not empty<br>        poll top vertex <span class="hljs-keyword">from</span> stack<br>        label v <span class="hljs-keyword">as</span> discovered<br>        <span class="hljs-keyword">for</span> all vertices connected to v<br>            push vertex into stack<br></code></pre></td></tr></table></figure>
+
+<p>Imagine we have tree (sort of a simple graph), then you can see the below action when you run the algo against this tree:  </p>
+<p><img src="/source/images/dfs.gif" srcset="/images/loading.gif" lazyload alt="dfs"></p>
+<h2 id="Implementation-of-Chess-algo"><a href="#Implementation-of-Chess-algo" class="headerlink" title="Implementation of Chess algo"></a>Implementation of Chess algo</h2><p>Now Let’s see how to we can implement the chess algo in Java using DFS.</p>
+<p>There are two ways to implement the DFS:</p>
+<ul>
+<li>Recursive approach</li>
+<li>Iterative approach</li>
+</ul>
+<p>I will implement the recursive approach.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><br></code></pre></td></tr></table></figure>
+
+
+<p>I will implement the iterative approach.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">import</span> java.<span class="hljs-property">util</span>.<span class="hljs-property">Stack</span>;<br><br>public <span class="hljs-keyword">class</span> <span class="hljs-title class_">DFS</span> &#123;<br><br>    <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Vertex</span> &#123;<br>        private final <span class="hljs-title class_">String</span> cell;<br><br>        <span class="hljs-title class_">Vertex</span>(<span class="hljs-title class_">String</span> cell) &#123;<br>            <span class="hljs-variable language_">this</span>.<span class="hljs-property">cell</span> = cell;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Tree</span> &#123;<br>        public final <span class="hljs-title class_">Vertex</span> vertex;<br>        public final <span class="hljs-title class_">Tree</span> left;<br>        public final <span class="hljs-title class_">Tree</span> right;<br>        public boolean visited;<br><br>        private <span class="hljs-title class_">Tree</span>(<span class="hljs-title class_">Builder</span> builder) &#123;<br>            <span class="hljs-variable language_">this</span>.<span class="hljs-property">left</span> = builder.<span class="hljs-title function_">getLeft</span>();<br>            <span class="hljs-variable language_">this</span>.<span class="hljs-property">right</span> = builder.<span class="hljs-title function_">getRight</span>();<br>            <span class="hljs-variable language_">this</span>.<span class="hljs-property">vertex</span> = builder.<span class="hljs-title function_">getValue</span>();<br>        &#125;<br><br>        public <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Builder</span> &#123;<br>            private <span class="hljs-title class_">Tree</span> left, right;<br>            private final <span class="hljs-title class_">Vertex</span> value;<br><br>            public <span class="hljs-title class_">Builder</span>(<span class="hljs-title class_">Vertex</span> vertex) &#123;<br>                value = vertex;<br>            &#125;<br><br>            public <span class="hljs-keyword">static</span> <span class="hljs-title class_">Builder</span> <span class="hljs-title function_">builder</span>(<span class="hljs-params">Vertex vertex</span>) &#123;<br>                <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Builder</span>(vertex);<br>            &#125;<br><br>            public <span class="hljs-title class_">Builder</span> <span class="hljs-title function_">setLeft</span>(<span class="hljs-params">Tree left</span>) &#123;<br>                <span class="hljs-variable language_">this</span>.<span class="hljs-property">left</span> = left;<br>                <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>;<br>            &#125;<br><br>            public <span class="hljs-title class_">Builder</span> <span class="hljs-title function_">setRight</span>(<span class="hljs-params">Tree right</span>) &#123;<br>                <span class="hljs-variable language_">this</span>.<span class="hljs-property">right</span> = right;<br>                <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>;<br>            &#125;<br><br>            public <span class="hljs-title class_">Tree</span> <span class="hljs-title function_">getLeft</span>(<span class="hljs-params"></span>) &#123;<br>                <span class="hljs-keyword">return</span> left;<br>            &#125;<br><br>            public <span class="hljs-title class_">Tree</span> <span class="hljs-title function_">getRight</span>(<span class="hljs-params"></span>) &#123;<br>                <span class="hljs-keyword">return</span> right;<br>            &#125;<br><br>            public <span class="hljs-title class_">Vertex</span> <span class="hljs-title function_">getValue</span>(<span class="hljs-params"></span>) &#123;<br>                <span class="hljs-keyword">return</span> value;<br>            &#125;<br><br>            <span class="hljs-title class_">Tree</span> <span class="hljs-title function_">build</span>(<span class="hljs-params"></span>) &#123;<br>                <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Tree</span>(<span class="hljs-variable language_">this</span>);<br>            &#125;<br>        &#125;<br><br>        public <span class="hljs-title class_">Vertex</span> <span class="hljs-title function_">getVertex</span>(<span class="hljs-params"></span>) &#123;<br>            <span class="hljs-keyword">return</span> vertex;<br>        &#125;<br><br>        public <span class="hljs-title class_">Tree</span> <span class="hljs-title function_">getRight</span>(<span class="hljs-params"></span>) &#123;<br>            <span class="hljs-keyword">return</span> right;<br>        &#125;<br><br>        public <span class="hljs-title class_">Tree</span> <span class="hljs-title function_">getLeft</span>(<span class="hljs-params"></span>) &#123;<br>            <span class="hljs-keyword">return</span> left;<br>        &#125;<br>    &#125;<br><br>    public <span class="hljs-title function_">DFS</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-title class_">Tree</span> tree = <span class="hljs-title class_">Tree</span>.<span class="hljs-property">Builder</span>.<span class="hljs-title function_">builder</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Vertex</span>(<span class="hljs-string">&quot;2&quot;</span>))<br>                .<span class="hljs-title function_">setLeft</span>(<span class="hljs-title class_">Tree</span>.<span class="hljs-property">Builder</span>.<span class="hljs-title function_">builder</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Vertex</span>(<span class="hljs-string">&quot;3&quot;</span>))<br>                        .<span class="hljs-title function_">setLeft</span>(<span class="hljs-title class_">Tree</span>.<span class="hljs-property">Builder</span>.<span class="hljs-title function_">builder</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Vertex</span>(<span class="hljs-string">&quot;4&quot;</span>)).<span class="hljs-title function_">build</span>())<br>                        .<span class="hljs-title function_">setRight</span>(<span class="hljs-title class_">Tree</span>.<span class="hljs-property">Builder</span>.<span class="hljs-title function_">builder</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Vertex</span>(<span class="hljs-string">&quot;1&quot;</span>)).<span class="hljs-title function_">build</span>())<br>                        .<span class="hljs-title function_">build</span>()<br>                )<br>                .<span class="hljs-title function_">setRight</span>(<span class="hljs-title class_">Tree</span>.<span class="hljs-property">Builder</span>.<span class="hljs-title function_">builder</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Vertex</span>(<span class="hljs-string">&quot;10&quot;</span>)).<span class="hljs-title function_">build</span>())<br>                .<span class="hljs-title function_">build</span>();<br><br>        <span class="hljs-title class_">Tree</span> tree2 = <span class="hljs-title class_">Tree</span>.<span class="hljs-property">Builder</span>.<span class="hljs-title function_">builder</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Vertex</span>(<span class="hljs-string">&quot;1&quot;</span>))<br>                .<span class="hljs-title function_">setLeft</span>(<span class="hljs-title class_">Tree</span>.<span class="hljs-property">Builder</span>.<span class="hljs-title function_">builder</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Vertex</span>(<span class="hljs-string">&quot;2&quot;</span>))<br>                        .<span class="hljs-title function_">setLeft</span>(<span class="hljs-title class_">Tree</span>.<span class="hljs-property">Builder</span>.<span class="hljs-title function_">builder</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Vertex</span>(<span class="hljs-string">&quot;3&quot;</span>))<br>                                .<span class="hljs-title function_">setLeft</span>(<span class="hljs-title class_">Tree</span>.<span class="hljs-property">Builder</span>.<span class="hljs-title function_">builder</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Vertex</span>(<span class="hljs-string">&quot;4&quot;</span>)).<span class="hljs-title function_">build</span>())<br>                                .<span class="hljs-title function_">setRight</span>(<span class="hljs-title class_">Tree</span>.<span class="hljs-property">Builder</span>.<span class="hljs-title function_">builder</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Vertex</span>(<span class="hljs-string">&quot;5&quot;</span>)).<span class="hljs-title function_">build</span>())<br>                                .<span class="hljs-title function_">build</span>())<br>                        .<span class="hljs-title function_">build</span>()).<span class="hljs-title function_">build</span>();<br> <br>        <span class="hljs-title class_">Stack</span>&lt;<span class="hljs-title class_">Tree</span>&gt; vertices = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Stack</span>&lt;&gt;();<br>        vertices.<span class="hljs-title function_">push</span>(tree);<br>        vertices.<span class="hljs-title function_">push</span>(tree2);<br>        <span class="hljs-keyword">while</span> (!vertices.<span class="hljs-title function_">isEmpty</span>()) &#123;<br>            <span class="hljs-title class_">Tree</span> topNode = vertices.<span class="hljs-title function_">pop</span>();<br>            <span class="hljs-keyword">if</span> (!topNode.<span class="hljs-property">visited</span>) &#123;<br>                <span class="hljs-title class_">System</span>.<span class="hljs-property">out</span>.<span class="hljs-title function_">println</span>(topNode.<span class="hljs-property">vertex</span>.<span class="hljs-property">cell</span>);<br>            &#125;<br>            topNode.<span class="hljs-property">visited</span> = <span class="hljs-literal">true</span>;<br>            <span class="hljs-title class_">Tree</span> leftChild = topNode.<span class="hljs-property">left</span>;<br>            <span class="hljs-title class_">Tree</span> rightChild = topNode.<span class="hljs-property">right</span>;<br>            <span class="hljs-keyword">if</span> (rightChild != <span class="hljs-literal">null</span> &amp;&amp; !rightChild.<span class="hljs-property">visited</span>) &#123;<br>                vertices.<span class="hljs-title function_">push</span>(rightChild);<br>            &#125;<br>            <span class="hljs-keyword">if</span> (leftChild != <span class="hljs-literal">null</span> &amp;&amp; !leftChild.<span class="hljs-property">visited</span>) &#123;<br>                vertices.<span class="hljs-title function_">push</span>(leftChild);<br>            &#125;<br>        &#125;<br>    &#125;<br><br>    public <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"><span class="hljs-built_in">String</span>[] args</span>) &#123;<br>        <span class="hljs-keyword">new</span> <span class="hljs-title function_">DFS</span>();<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+
+<p>Another example using Graph</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><br>public <span class="hljs-keyword">class</span> <span class="hljs-title class_">DepthFirstSearch</span> &#123;<br><br>    public <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"><span class="hljs-built_in">String</span>[] args</span>) &#123;<br>        <span class="hljs-title class_">Vertex</span> v1 = <span class="hljs-title class_">Vertex</span>.<span class="hljs-title function_">build</span>(<span class="hljs-string">&quot;1&quot;</span>);<br>        <span class="hljs-title class_">Vertex</span> v2 = <span class="hljs-title class_">Vertex</span>.<span class="hljs-title function_">build</span>(<span class="hljs-string">&quot;2&quot;</span>);<br>        <span class="hljs-title class_">Vertex</span> v3 = <span class="hljs-title class_">Vertex</span>.<span class="hljs-title function_">build</span>(<span class="hljs-string">&quot;3&quot;</span>);<br>        <span class="hljs-title class_">Vertex</span> v4 = <span class="hljs-title class_">Vertex</span>.<span class="hljs-title function_">build</span>(<span class="hljs-string">&quot;4&quot;</span>);<br>        <span class="hljs-title class_">Vertex</span> v5 = <span class="hljs-title class_">Vertex</span>.<span class="hljs-title function_">build</span>(<span class="hljs-string">&quot;5&quot;</span>);<br><br>        v1.<span class="hljs-title function_">setConnection</span>(v2.<span class="hljs-title function_">setConnection</span>(v3, v4), v5);<br>        <span class="hljs-title function_">dfs</span>(v1);<br>    &#125;<br><br>    <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">dfs</span>(<span class="hljs-params">Vertex root</span>) &#123;<br>        <span class="hljs-title class_">List</span>&lt;<span class="hljs-title class_">Vertex</span>&gt; visited = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br>        <span class="hljs-title class_">Stack</span>&lt;<span class="hljs-title class_">Vertex</span>&gt; stack = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Stack</span>&lt;&gt;();<br>        stack.<span class="hljs-title function_">push</span>(root);<br>        <span class="hljs-keyword">while</span> (!stack.<span class="hljs-title function_">empty</span>()) &#123;<br>            <span class="hljs-title class_">Vertex</span> top = stack.<span class="hljs-title function_">pop</span>();<br>            <span class="hljs-keyword">if</span> (!visited.<span class="hljs-title function_">contains</span>(top)) &#123;<br>                visited.<span class="hljs-title function_">add</span>(top);<br>            &#125;<br>            <span class="hljs-keyword">if</span> (top.<span class="hljs-property">vertices</span> != <span class="hljs-literal">null</span>) &#123;<br>                <span class="hljs-keyword">for</span> (<span class="hljs-title class_">Vertex</span> vertex : top.<span class="hljs-property">vertices</span>) &#123;<br>                    stack.<span class="hljs-title function_">push</span>(vertex);<br>                &#125;<br>            &#125;<br>        &#125;<br>        visited.<span class="hljs-title function_">forEach</span>(vertex -&gt; <span class="hljs-title class_">System</span>.<span class="hljs-property">out</span>.<span class="hljs-title function_">println</span>(vertex.<span class="hljs-property">cell</span>));<br>    &#125;<br><br>    private <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Graph</span> &#123;<br>        private final <span class="hljs-title class_">Vertex</span> root;<br><br>        <span class="hljs-title class_">Graph</span>(<span class="hljs-title class_">Vertex</span> root) &#123;<br>            <span class="hljs-variable language_">this</span>.<span class="hljs-property">root</span> = root;<br>        &#125;<br>    &#125;<br><br>    private <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Vertex</span> &#123;<br>        private final <span class="hljs-title class_">String</span> cell;<br>        private <span class="hljs-title class_">Vertex</span>[] vertices;<br><br>        private <span class="hljs-title class_">Vertex</span>(<span class="hljs-title class_">String</span> cell) &#123;<br>            <span class="hljs-variable language_">this</span>.<span class="hljs-property">cell</span> = cell;<br>        &#125;<br><br>        <span class="hljs-keyword">static</span> <span class="hljs-title class_">Vertex</span> <span class="hljs-title function_">build</span>(<span class="hljs-params"><span class="hljs-built_in">String</span> cell</span>) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Vertex</span>(cell);<br>        &#125;<br><br>        public <span class="hljs-title class_">Vertex</span> <span class="hljs-title function_">setConnection</span>(<span class="hljs-params">Vertex... vertices</span>) &#123;<br>            <span class="hljs-variable language_">this</span>.<span class="hljs-property">vertices</span> = vertices;<br>            <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Depth First Search - DFS</div>
+      <div>https://java-springboot-kafka.github.io/2022/11/13/dfs/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Mehrdad Karami</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>November 13, 2022</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/11/13/What_is_new_in_java_19/" title="What&#39;s new in Java 19">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">What&#39;s new in Java 19</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        Views: 
+        <span id="busuanzi_value_site_pv"></span>
+        
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        Visitors: 
+        <span id="busuanzi_value_site_uv"></span>
+        
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

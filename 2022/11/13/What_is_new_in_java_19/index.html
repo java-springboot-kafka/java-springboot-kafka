@@ -1,0 +1,791 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/icon.jpeg">
+  <link rel="icon" href="/images/icon.jpeg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Mehrdad Karami">
+  <meta name="keywords" content="Java,SpringBoot, Kafka, Kafka Streams, Software Architecture, Best code practices">
+  
+    <meta name="description" content="Java 19 was released on September 20, 2022. You can download it here . The most exciting innovation for me are the virtual threads , which have been developed as part of Project Loom for several yea">
+<meta property="og:type" content="article">
+<meta property="og:title" content="What&#39;s new in Java 19">
+<meta property="og:url" content="https://java-springboot-kafka.github.io/2022/11/13/What_is_new_in_java_19/index.html">
+<meta property="og:site_name" content="Java SpringBoot Kafka , Best code practices">
+<meta property="og:description" content="Java 19 was released on September 20, 2022. You can download it here . The most exciting innovation for me are the virtual threads , which have been developed as part of Project Loom for several yea">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://s3.eu-west-1.amazonaws.com/redsys-prod/issues/f7c87d3e8cece7c283301b68/images/cover_x_JM11_22_cover@2x_1663691319585.jpg">
+<meta property="article:published_time" content="2022-11-13T19:20:48.537Z">
+<meta property="article:modified_time" content="2022-11-13T19:20:48.537Z">
+<meta property="article:author" content="Mehrdad Karami">
+<meta property="article:tag" content="Java,SpringBoot, Kafka, Kafka Streams, Software Architecture, Best code practices">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://s3.eu-west-1.amazonaws.com/redsys-prod/issues/f7c87d3e8cece7c283301b68/images/cover_x_JM11_22_cover@2x_1663691319585.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>What&#39;s new in Java 19 - Java SpringBoot Kafka , Best code practices</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"java-springboot-kafka.github.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"Java"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/images/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Mehrdad Karami</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/images/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="What&#39;s new in Java 19"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Mehrdad Karami
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-11-13 20:20" pubdate>
+          November 13, 2022 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          17k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          144 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> views
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">What&#39;s new in Java 19</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><img src="https://s3.eu-west-1.amazonaws.com/redsys-prod/issues/f7c87d3e8cece7c283301b68/images/cover_x_JM11_22_cover@2x_1663691319585.jpg" srcset="/images/loading.gif" lazyload alt="java19"></p>
+<hr>
+<p>Java 19 was released on September 20, 2022. You can download it <a target="_blank" rel="noopener" href="https://jdk.java.net/19/">here .</a></p>
+<p>The most exciting innovation for me are the <a target="_blank" rel="noopener" href="https://www.happycoders.eu/de/java/java-19-features/#Virtual_Threads_Preview">virtual threads , which have been developed as part of</a> <a target="_blank" rel="noopener" href="https://openjdk.org/projects/loom/">Project Loom</a> for several years and are now finally included in the JDK as a preview.</p>
+<p>Virtual threads are a requirement for <a target="_blank" rel="noopener" href="https://www.happycoders.eu/de/java/java-19-features/#Structured_Concurrency_Incubator">Structured Concurrency</a> , another exciting new Incubator feature in Java 19.</p>
+<p>There is also good news for anyone who wants to access non-Java code (e.g. the C standard library): The <a target="_blank" rel="noopener" href="https://www.happycoders.eu/de/java/java-19-features/#Foreign_Function_Memory_API_Preview">Foreign Function &amp; Memory API</a> has now also reached the preview stage after five incubator rounds .</p>
+<p>As always, I use the English names of the JEPs.</p>
+<h2 id="New-System-Properties-for-System-out-and-System-err"><a href="#New-System-Properties-for-System-out-and-System-err" class="headerlink" title="New System Properties for System.out and System.err"></a>New System Properties for System.out and System.err</h2><p>There’s one change that every Java developer should know about that isn’t found in the <a target="_blank" rel="noopener" href="https://openjdk.org/projects/jdk/19/">Java 19 Feature Announcements</a> , but rather buried deep in the <a target="_blank" rel="noopener" href="https://jdk.java.net/19/release-notes#JDK-8283620">release notes .</a></p>
+<p>If you run an existing application with Java 19, it can happen that you only see question marks on the console instead of umlauts and other special characters.</p>
+<p>This is due to the fact that from Java 19 the standard encoding of the operating system is used for the output - under Windows <code>System.out</code>e.g. <code>System.err</code>“Cp1252”. To switch the output to UTF-8, you need to add the following VM options when calling the application:</p>
+<p><code>-Dstdout.encoding=utf8 -Dstderr.encoding=utf8</code></p>
+<p>If you don’t want to do this every time you start the program, you can also set these settings globally by defining the following environment variable (yes, it starts with an underscore):</p>
+<p><code>_JAVA_OPTIONS=&quot;-Dstdout.encoding=utf8 -Dstderr.encoding=utf8&quot;</code></p>
+<h2 id="New-Methods-to-Create-Preallocated-HashMaps"><a href="#New-Methods-to-Create-Preallocated-HashMaps" class="headerlink" title="New Methods to Create Preallocated HashMaps"></a>New Methods to Create Preallocated HashMaps</h2><p>Traditionally, if we want to create <code>ArrayList</code>a number of elements that is known in advance (e.g. 120), then we can do it like this:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">List&lt;String&gt; list = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;(<span class="hljs-number">120</span>);<br></code></pre></td></tr></table></figure>
+
+<p>As a result, the <code>ArrayList</code>underlying array is allocated directly for 120 elements and does not have to be enlarged several times (i.e. newly created and copied) in order to insert the 120 elements.</p>
+<p>Likewise, since time immemorial, we can <code>HashMap</code>generate one like this:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">Map&lt;String, Integer&gt; map = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;(<span class="hljs-number">120</span>);<br></code></pre></td></tr></table></figure>
+
+<p>Intuitively one would think that there is <code>HashMap</code>room for 120 mappings.</p>
+<p>However, this is not the case!</p>
+<p>Because <code>HashMap</code>it is initialized with a default load factor of 0.75. This means: As soon <code>HashMap</code>as it is 75% full, it will be rebuilt with twice the size (“rehashed”). This is to ensure that the elements <code>HashMap</code>are distributed as evenly as possible across the buckets and that no bucket contains more than one element.</p>
+<p>So the one initialized with a capacity of 120 <code>HashMap</code>can only hold 120 × 0.75 &#x3D; 90 mappings.</p>
+<p>Previously, to create one <code>HashMap</code>for 120 mappings, you had to calculate the capacity yourself by dividing the number of mappings by the load factor: 120 ÷ 0.75 &#x3D; 160.</p>
+<p>So one <code>HashMap</code>for 120 mappings had to be created as follows:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// for 120 mappings: 120 / 0.75 = 160</span><br>Map&lt;String, Integer&gt; map = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;(<span class="hljs-number">160</span>);<br></code></pre></td></tr></table></figure>
+
+<p>Java 19 makes this easier for us - we can now write the following instead:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">Map&lt;String, Integer&gt; map = HashMap.newHashMap(<span class="hljs-number">120</span>);<br></code></pre></td></tr></table></figure>
+
+<p>If we look at the source code of the new methods, we see that the end result is the same as what we did manually before:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;K, V&gt; HashMap&lt;K, V&gt; <span class="hljs-title function_">newHashMap</span><span class="hljs-params">(<span class="hljs-type">int</span> numMappings)</span> &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;(calculateHashMapCapacity(numMappings));<br>&#125;<br><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">float</span> <span class="hljs-variable">DEFAULT_LOAD_FACTOR</span> <span class="hljs-operator">=</span> <span class="hljs-number">0.75f</span>;<br><br><span class="hljs-keyword">static</span> <span class="hljs-type">int</span> <span class="hljs-title function_">calculateHashMapCapacity</span><span class="hljs-params">(<span class="hljs-type">int</span> numMappings)</span> &#123;<br>    <span class="hljs-keyword">return</span> (<span class="hljs-type">int</span>) Math.ceil(numMappings / (<span class="hljs-type">double</span>) DEFAULT_LOAD_FACTOR);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>The <code>newHashMap()</code>method has also been built into <code>LinkedHashMap</code>and <code>WeakHashMap</code>.</p>
+<p>There is no JDK Enhancement Proposal for this extension.</p>
+<h2 id="Preview-and-Incubator-features"><a href="#Preview-and-Incubator-features" class="headerlink" title="Preview and Incubator features"></a>Preview and Incubator features</h2><p>Java 19 gives us a total of six preview and incubator features, i.e. features that are not yet finished but can already be tested by the developer community. Community feedback is typically incorporated into the further development and completion of these features.</p>
+<h3 id="Pattern-Matching-for-switch-Third-Preview"><a href="#Pattern-Matching-for-switch-Third-Preview" class="headerlink" title="Pattern Matching for switch (Third Preview)"></a>Pattern Matching for switch (Third Preview)</h3><p>Let’s start with a feature that has already had two preview rounds. The “pattern matching for switch” first introduced in <a target="_blank" rel="noopener" href="https://www.happycoders.eu/de/java/java-17-features-de/#Pattern_Matching_for_switch_Preview">Java 17</a> allowed us to write code like the following:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">switch</span> (obj) &#123;<br>  <span class="hljs-keyword">case</span> String s &amp;&amp; s.length() &gt; <span class="hljs-number">5</span> -&gt; System.out.println(s.toUpperCase());<br>  <span class="hljs-keyword">case</span> String s                   -&gt; System.out.println(s.toLowerCase());<br><br>  <span class="hljs-keyword">case</span> Integer i                  -&gt; System.out.println(i * i);<br><br>  <span class="hljs-keyword">default</span> -&gt; &#123;&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>We can use it to <code>switch</code>check within a statement whether an object is of a certain class and whether it has other properties (as in the example: longer than 5 characters).</p>
+<p>In Java 19, the syntax of the so-called “Guarded Pattern” (in the example above “ “) was changed with <a target="_blank" rel="noopener" href="https://openjdk.org/jeps/427">JDK Enhancement Proposal 427 .</a> The new keyword must now be used <code>String s &amp;&amp; s.length() &gt; 5</code>instead .<code>&amp;&amp;``when</code></p>
+<p>The above example is notated as follows in Java 19:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">switch</span> (obj) &#123;<br>  <span class="hljs-keyword">case</span> String s when s.length() &gt; <span class="hljs-number">5</span> -&gt; System.out.println(s.toUpperCase());<br>  <span class="hljs-keyword">case</span> String s                     -&gt; System.out.println(s.toLowerCase());<br><br>  <span class="hljs-keyword">case</span> Integer i                    -&gt; System.out.println(i * i);<br><br>  <span class="hljs-keyword">default</span> -&gt; &#123;&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><code>when``case</code>is a so-called “contextual keyword” and therefore only has a meaning within a label. If you have variables or methods named “when” in your code, you don’t need to change anything.</p>
+<h3 id="Record-Patterns-Preview"><a href="#Record-Patterns-Preview" class="headerlink" title="Record Patterns (Preview)"></a>Record Patterns (Preview)</h3><p>Staying with the topic “Pattern Matching” we come to the “Record Patterns”. If you are new to Records, I recommend reading the <a target="_blank" rel="noopener" href="https://www.happycoders.eu/de/java/java-records/">Records in Java</a> article first .</p>
+<p>The best way to explain what a record pattern is is with an example. Let’s assume we have defined the following record:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">record</span> <span class="hljs-title class_">Position</span><span class="hljs-params">(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> y)</span> &#123;&#125;<br></code></pre></td></tr></table></figure>
+
+<p>We also have a <code>print()</code>method that can return any object, including positions:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">print</span><span class="hljs-params">(Object object)</span> &#123;<br>  <span class="hljs-keyword">if</span> (object <span class="hljs-keyword">instanceof</span> Position position) &#123;<br>    System.out.println(<span class="hljs-string">&quot;object is a position, x = &quot;</span> + position.x() <br>                                         + <span class="hljs-string">&quot;, y = &quot;</span> + position.y());<br>  &#125;<br>  <span class="hljs-comment">// else ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>In case you stumble over the notation used - it was introduced in <a target="_blank" rel="noopener" href="https://www.happycoders.eu/de/java/java-16-features-de/#Pattern_Matching_for_instanceof">Java 16</a> as “Pattern Matching for instanceof”.</p>
+<h4 id="Record-pattern-with-instanceof"><a href="#Record-pattern-with-instanceof" class="headerlink" title="Record pattern with instanceof"></a>Record pattern with instanceof</h4><p><a target="_blank" rel="noopener" href="https://openjdk.org/jeps/405">As of Java 19, JDK Enhancement Proposal 405</a> allows us to use a so-called “Record Pattern”. With that, we can also write the code as follows:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">print</span><span class="hljs-params">(Object object)</span> &#123;<br>  <span class="hljs-keyword">if</span> (object <span class="hljs-keyword">instanceof</span> <span class="hljs-title function_">Position</span><span class="hljs-params">(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> y)</span>) &#123;<br>    System.out.println(<span class="hljs-string">&quot;object is a position, x = &quot;</span> + x + <span class="hljs-string">&quot;, y = &quot;</span> + y);<br>  &#125; <br>  <span class="hljs-comment">// else ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>Instead <code>Position position</code>of matching “ “ and accessing in the code <code>position</code>below, we now match “ <code>Position(int x, int y)</code>“ and can access and directly in the code <code>x</code>below <code>y</code>.</p>
+<h4 id="Record-pattern-with-switch"><a href="#Record-pattern-with-switch" class="headerlink" title="Record pattern with switch"></a>Record pattern with switch</h4><p><a target="_blank" rel="noopener" href="https://www.happycoders.eu/de/java/java-17-features-de/#Pattern_Matching_for_switch_Preview">Since Java 17</a> , we can also <code>switch</code>write the original example as a statement:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">print</span><span class="hljs-params">(Object object)</span> &#123;<br>  <span class="hljs-keyword">switch</span> (object) &#123;<br>    <span class="hljs-keyword">case</span> Position position<br>        -&gt; System.out.println(<span class="hljs-string">&quot;object is a position, x = &quot;</span> + position.x() <br>                                                + <span class="hljs-string">&quot;, y = &quot;</span> + position.y());<br>    <span class="hljs-comment">// other cases ...</span><br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>Since Java 19 we can also use a record pattern in the switch statement:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">print</span><span class="hljs-params">(Object object)</span> &#123;<br>  <span class="hljs-keyword">switch</span> (object) &#123;<br>    <span class="hljs-keyword">case</span> <span class="hljs-title function_">Position</span><span class="hljs-params">(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> y)</span> <br>        -&gt; System.out.println(<span class="hljs-string">&quot;object is a position, x = &quot;</span> + x + <span class="hljs-string">&quot;, y = &quot;</span> + y);<br><br>    <span class="hljs-comment">// other cases ...</span><br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="Nested-record-patterns"><a href="#Nested-record-patterns" class="headerlink" title="Nested record patterns"></a>Nested record patterns</h4><p>It is also possible to match nested records - I would also like to demonstrate this with an example.</p>
+<p>We first define a second record, <code>Path</code>, with a start and a target position:</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-built_in">public</span> <span class="hljs-type">record</span> <span class="hljs-keyword">Path</span>(Position <span class="hljs-keyword">from</span>, Position <span class="hljs-keyword">to</span>) &#123;&#125;<br></code></pre></td></tr></table></figure>
+
+<p>Our <code>print()</code>method can now easily output all X and Y coordinates of the path using a record pattern:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">print</span><span class="hljs-params">(Object object)</span> &#123;<br>  <span class="hljs-keyword">if</span> (object <span class="hljs-keyword">instanceof</span> <span class="hljs-title function_">Path</span><span class="hljs-params">(Position(<span class="hljs-type">int</span> x1, <span class="hljs-type">int</span> y1)</span>, Position(<span class="hljs-type">int</span> x2, <span class="hljs-type">int</span> y2))) &#123;<br>    System.out.println(<span class="hljs-string">&quot;object is a path, x1 = &quot;</span> + x1 + <span class="hljs-string">&quot;, y1 = &quot;</span> + y1 <br>                                     + <span class="hljs-string">&quot;, x2 = &quot;</span> + x2 + <span class="hljs-string">&quot;, y2 = &quot;</span> + y2);<br>  &#125;<br>  <span class="hljs-comment">// else ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>Alternatively, we can also <code>switch</code>write this as a statement:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">print</span><span class="hljs-params">(Object object)</span> &#123;<br>  <span class="hljs-keyword">switch</span> (object) &#123;<br>    <span class="hljs-keyword">case</span> <span class="hljs-title function_">Path</span><span class="hljs-params">(Position(<span class="hljs-type">int</span> x1, <span class="hljs-type">int</span> y1)</span>, Position(<span class="hljs-type">int</span> x2, <span class="hljs-type">int</span> y2))<br>        -&gt; System.out.println(<span class="hljs-string">&quot;object is a path, x1 = &quot;</span> + x1 + <span class="hljs-string">&quot;, y1 = &quot;</span> + y1 <br>                                            + <span class="hljs-string">&quot;, x2 = &quot;</span> + x2 + <span class="hljs-string">&quot;, y2 = &quot;</span> + y2);<br>    <span class="hljs-comment">// other cases ...</span><br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>Record patterns offer us an elegant way of accessing the elements of a record after a type check.</p>
+<h3 id="Virtual-Threads-Preview"><a href="#Virtual-Threads-Preview" class="headerlink" title="Virtual Threads (Preview)"></a>Virtual Threads (Preview)</h3><p>For me, the most exciting innovation in Java 19 are “Virtual Threads”. These have been developed in <a target="_blank" rel="noopener" href="https://openjdk.org/projects/loom/">Project Loom</a> for several years and so far could only be tested with a self-compiled JDK.</p>
+<p>With <a target="_blank" rel="noopener" href="https://openjdk.org/jeps/425">JDK Enhancement Proposal 425</a> , virtual threads are finally making their way into the official JDK - directly in preview status, so that no major changes to the API are to be expected.</p>
+<p>Why we need virtual threads, what they are, how they work, and how to use them is a must-read in the <a target="_blank" rel="noopener" href="https://www.happycoders.eu/de/java/virtual-threads/">main article on virtual threads</a> .</p>
+<h3 id="Foreign-Function-amp-Memory-API-Preview"><a href="#Foreign-Function-amp-Memory-API-Preview" class="headerlink" title="Foreign Function &amp; Memory API (Preview)"></a>Foreign Function &amp; Memory API (Preview)</h3><p><a target="_blank" rel="noopener" href="https://openjdk.org/projects/panama/">Project Panama</a> has been working on a replacement for the cumbersome, error-prone and slow Java Native Interface (JNI) for a long time.</p>
+<p>The “Foreign Memory Access API” and the “Foreign Linker API” were already introduced in <a target="_blank" rel="noopener" href="https://www.happycoders.eu/de/java/java-14-features-de/#Foreign-Memory_Access_API_Incubator">Java 14</a> and <a target="_blank" rel="noopener" href="https://www.happycoders.eu/de/java/java-16-features-de/#Foreign_Linker_API_Incubator_Foreign-Memory_Access_API_Third_Incubator">Java 16 - both individually at the incubator stage.</a> In <a target="_blank" rel="noopener" href="https://www.happycoders.eu/de/java/java-17-features-de/#Foreign_Function_Memory_API_Incubator">Java 17</a> , these APIs were merged into the “Foreign Function &amp; Memory API” (FFM API), which remained in the incubator stage until <a target="_blank" rel="noopener" href="https://www.happycoders.eu/de/java/java-18-features-de/#Foreign_Function_Memory_API_Second_Incubator">Java 18 .</a></p>
+<p>In Java 19, the new API with <a target="_blank" rel="noopener" href="https://openjdk.org/jeps/424">JDK Enhancement Proposal 424</a> has finally reached the preview stage, which means that only small changes and bug fixes will be made. So it’s time to introduce the new API here!</p>
+<p>The Foreign Function &amp; Memory API enables access to native memory (i.e. memory outside of the Java heap) and access to native code (e.g. C libraries) directly from Java.</p>
+<p>I’ll show you how this works with an example. However, I won’t delve too deeply into the topic here, since most Java developers rarely if ever need to access native memory and code.</p>
+<p>Here’s a simple example that stores a string in off-heap memory and calls the C Standard Library’s “strlen” function on it:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">FFMTest</span> &#123;<br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Throwable &#123;<br>    <span class="hljs-comment">// 1. Get a lookup object for commonly used libraries</span><br>    <span class="hljs-type">SymbolLookup</span> <span class="hljs-variable">stdlib</span> <span class="hljs-operator">=</span> Linker.nativeLinker().defaultLookup();<br><br>    <span class="hljs-comment">// 2. Get a handle to the &quot;strlen&quot; function in the C standard library</span><br>    <span class="hljs-type">MethodHandle</span> <span class="hljs-variable">strlen</span> <span class="hljs-operator">=</span> Linker.nativeLinker().downcallHandle(<br>        stdlib.lookup(<span class="hljs-string">&quot;strlen&quot;</span>).orElseThrow(), <br>        FunctionDescriptor.of(JAVA_LONG, ADDRESS));<br><br>    <span class="hljs-comment">// 3. Convert Java String to C string and store it in off-heap memory</span><br>    <span class="hljs-type">MemorySegment</span> <span class="hljs-variable">str</span> <span class="hljs-operator">=</span> implicitAllocator().allocateUtf8String(<span class="hljs-string">&quot;Happy Coding!&quot;</span>);<br><br>    <span class="hljs-comment">// 4. Invoke the foreign function</span><br>    <span class="hljs-type">long</span> <span class="hljs-variable">len</span> <span class="hljs-operator">=</span> (<span class="hljs-type">long</span>) strlen.invoke(str);<br><br>    System.out.println(<span class="hljs-string">&quot;len = &quot;</span> + len);<br>  &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>The one in line 9 is interesting <code>FunctionDescriptor</code>: it defines the return type of the function as the first parameter and the arguments of the function as additional parameters. This <code>FunctionDescriptor</code>ensures that all Java types are properly converted to C types and vice versa.</p>
+<p>Since the FFM API is still in the preview state, a few additional parameters must be specified to compile and start it:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">$ javac --enable-preview -source <span class="hljs-number">19</span> FFMTest.java<br>$ java --enable-preview FFMTestCode language:  Plaintext  ( plaintext )<br></code></pre></td></tr></table></figure>
+
+<p>Anyone who has worked with JNI before - and remembers how much Java and C boilerplate code it took to write and keep in sync - will see that the overhead of calling the native function has been reduced by orders of magnitude.</p>
+<p>If you want to delve deeper into the subject: in the <a target="_blank" rel="noopener" href="https://openjdk.org/jeps/424">JEP</a> you will find further, more complex examples.</p>
+<h3 id="Structured-Concurrency-Incubator"><a href="#Structured-Concurrency-Incubator" class="headerlink" title="Structured Concurrency (Incubator)"></a>Structured Concurrency (Incubator)</h3><p>If a task consists of different subtasks that can be completed in parallel (e.g. accessing data from a database, calling a remote API and loading a file), we were previously able to use the Java Executur Framework for this.</p>
+<p>That could then e.g. look like this:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-type">ExecutorService</span> <span class="hljs-variable">executor</span> <span class="hljs-operator">=</span> Executors.newCachedThreadPool();<br><br><span class="hljs-keyword">public</span> Invoice <span class="hljs-title function_">createInvoice</span><span class="hljs-params">(<span class="hljs-type">int</span> orderId, <span class="hljs-type">int</span> customerId, String language)</span><br>    <span class="hljs-keyword">throws</span> ExecutionException, InterruptedException &#123;<br>  Future&lt;Order&gt; orderFuture =<br>      executor.submit(() -&gt; loadOrderFromOrderService(orderId));<br><br>  Future&lt;Customer&gt; customerFuture =<br>      executor.submit(() -&gt; loadCustomerFromDatabase(customerId));<br><br>  Future&lt;String&gt; invoiceTemplateFuture =<br>      executor.submit(() -&gt; loadInvoiceTemplateFromFile(language));<br><br>  <span class="hljs-type">Order</span> <span class="hljs-variable">order</span> <span class="hljs-operator">=</span> orderFuture.get();<br>  <span class="hljs-type">Customer</span> <span class="hljs-variable">customer</span> <span class="hljs-operator">=</span> customerFuture.get();<br>  <span class="hljs-type">String</span> <span class="hljs-variable">invoiceTemplate</span> <span class="hljs-operator">=</span> invoiceTemplateFuture.get();<br><br>  <span class="hljs-keyword">return</span> Invoice.generate(order, customer, invoiceTemplate);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>We pass the three subtasks to the executor and wait for the subresults. The Happy Path is implemented quickly. But how do we handle exceptions?</p>
+<ul>
+<li>If one subtask fails, how can we kill the others?</li>
+<li>How can we cancel the subtasks when the entire calculation is no longer needed?</li>
+</ul>
+<p>Both are possible, but require fairly complex, hard-to-maintain code.</p>
+<p>And what if we want to debug code of this kind? A thread dump e.g. B. would give us tons of threads named “pool-X-thread-Y” - but we wouldn’t know which pool thread belongs to which calling thread, since all calling threads share the executor’s thread pool.</p>
+<p><a target="_blank" rel="noopener" href="https://openjdk.org/jeps/428">JDK Enhancement Proposal 428</a> introduces an API for so-called “structured concurrency”, a concept intended to improve the implementation, readability and maintainability of code for requirements of this type.</p>
+<p>Using a <code>StructuredTaskScope</code>we can rewrite the example as of Java 19 as follows:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs java">Invoice <span class="hljs-title function_">createInvoice</span><span class="hljs-params">(<span class="hljs-type">int</span> orderId, <span class="hljs-type">int</span> customerId, String language)</span><br>    <span class="hljs-keyword">throws</span> ExecutionException, InterruptedException &#123;<br>  <span class="hljs-keyword">try</span> (<span class="hljs-type">var</span> <span class="hljs-variable">scope</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">StructuredTaskScope</span>.ShutdownOnFailure()) &#123;<br>    Future&lt;Order&gt; orderFuture =<br>        scope.fork(() -&gt; loadOrderFromOrderService(orderId));<br><br>    Future&lt;Customer&gt; customerFuture =<br>        scope.fork(() -&gt; loadCustomerFromDatabase(customerId));<br><br>    Future&lt;String&gt; invoiceTemplateFuture =<br>        scope.fork(() -&gt; loadInvoiceTemplateFromFile(language));<br><br>    scope.join();<br>    scope.throwIfFailed();<br><br>    <span class="hljs-type">Order</span> <span class="hljs-variable">order</span> <span class="hljs-operator">=</span> orderFuture.resultNow();<br>    <span class="hljs-type">Customer</span> <span class="hljs-variable">customer</span> <span class="hljs-operator">=</span> customerFuture.resultNow();<br>    <span class="hljs-type">String</span> <span class="hljs-variable">invoiceTemplate</span> <span class="hljs-operator">=</span> invoiceTemplateFuture.resultNow();<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Invoice</span>(order, customer, invoiceTemplate);<br>  &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>So we replace the one in the scope of the class <code>ExecutorService</code>with one in the scope of the method <code>StructuredTaskScope</code>– and <code>executor.submit()</code>with <code>scope.fork()</code>.</p>
+<p>With <code>scope.join()</code>we wait for all tasks to be completed - or at least one has failed or been canceled. In the latter two cases, the subsequent throws <code>throwIfFailed()</code>a <code>ExecutionException</code>or a <code>CancellationException</code>.</p>
+<p>The new approach brings the following improvements over the old one:</p>
+<ul>
+<li>Task and subtasks form a self-contained unit in the code - there is no <code>ExecutorService</code>one in a higher scope. The threads don’t come from a thread pool; instead, each subtask runs in a new <a target="_blank" rel="noopener" href="https://www.happycoders.eu/de/java/virtual-threads/">virtual thread</a> .</li>
+<li>As soon as an error occurs in one of the subtasks, all other subtasks are aborted.</li>
+<li>If the calling thread is aborted, the subtasks are also aborted.</li>
+<li>The thread dump shows the call hierarchy between the calling thread and the threads that execute the subtasks.</li>
+</ul>
+<p>If you want to try the example yourself: Preview features must be explicitly activated and Incubator modules must be explicitly added to the module path. For example, if you saved the code in a file named <code>StructuredConcurrencyTest.java</code>, you can compile and run it like this:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">$ javac --enable-preview -source <span class="hljs-number">19</span> --add-modules jdk.incubator.concurrent StructuredConcurrencyTest.java<br>$ java --enable-preview --add-modules jdk.incubator.concurrent StructuredConcurrencyTestCode language:  Plaintext  ( plaintext )<br></code></pre></td></tr></table></figure>
+
+<p>Please note that Incubator features are still subject to major changes.</p>
+<h3 id="Vector-API-Fourth-Incubator"><a href="#Vector-API-Fourth-Incubator" class="headerlink" title="Vector API (Fourth Incubator)"></a>Vector API (Fourth Incubator)</h3><p>The new Vector API has nothing <code>java.util.Vector</code>to do with the class. In fact, it’s about a new API for mathematical vector calculations and their mapping to modern SIMD (single-instruction-multiple-data) CPUs.</p>
+<p>The Vector API has been part of the JDK as an incubator since <a target="_blank" rel="noopener" href="https://www.happycoders.eu/de/java/java-16-features-de/#Vector_API_Incubator">Java 16 and was further developed in</a> <a target="_blank" rel="noopener" href="https://www.happycoders.eu/de/java/java-17-features-de/#Vector_API_Second_Incubator">Java 17</a> and <a target="_blank" rel="noopener" href="https://www.happycoders.eu/de/java/java-18-features-de/#Vector_API_Third_Incubator">Java 18</a> .</p>
+<p>With <a target="_blank" rel="noopener" href="https://openjdk.org/jeps/426">JDK Enhancement Proposal 426</a> , Java 19 delivers the fourth iteration in which the API has been extended to include new vector operations - as well as the ability to store vectors in memory segments (a feature of the <a target="_blank" rel="noopener" href="https://www.happycoders.eu/de/java/java-19-features/#Foreign_Function_Memory_API_Preview">Foreign Function &amp; Memory API</a> ) and read them from them.</p>
+<p>Incubator features are still subject to significant changes, so I won’t detail the API here. I’ll catch up on that once the Vector API has transitioned to preview status.</p>
+<h2 id="Deprecations-and-Deletion"><a href="#Deprecations-and-Deletion" class="headerlink" title="Deprecations and Deletion"></a>Deprecations and Deletion</h2><p>In Java 19, some features were marked as “deprecated” or deprecated.</p>
+<h3 id="Deprecation-of-Locale-class-constructors"><a href="#Deprecation-of-Locale-class-constructors" class="headerlink" title="Deprecation of Locale class constructors"></a>Deprecation of Locale class constructors</h3><p>In Java 19, the public constructors of the <code>Locale</code>class have been marked as “deprecated”.</p>
+<p>Instead, we should use the new static factory method <code>Locale.of()</code>. This ensures that there is <code>Locale</code>only one instance per configuration.</p>
+<p>The following example shows the usage of the factory method versus the constructor:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">Locale</span> <span class="hljs-variable">german1</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Locale</span>(<span class="hljs-string">&quot;en&quot;</span>); <span class="hljs-comment">// deprecated</span><br><span class="hljs-type">Locale</span> <span class="hljs-variable">germany1</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Locale</span>(<span class="hljs-string">&quot;en&quot;</span>, <span class="hljs-string">&quot;EN&quot;</span>); <span class="hljs-comment">// deprecated</span><br><br><span class="hljs-type">Locale</span> <span class="hljs-variable">german2</span> <span class="hljs-operator">=</span> Locale.of(<span class="hljs-string">&quot;en&quot;</span>);<br><span class="hljs-type">Locale</span> <span class="hljs-variable">germany2</span> <span class="hljs-operator">=</span> Locale.of(<span class="hljs-string">&quot;en&quot;</span>, <span class="hljs-string">&quot;EN&quot;</span>);<br><br>System.out.println(<span class="hljs-string">&quot;us1  == Locale.ENGLISH  = &quot;</span> + (us1 == Locale.ENGLISH));<br>System.out.println(<span class="hljs-string">&quot;us1 == Locale.GERMANY = &quot;</span> + (us1 == Locale.ENGLISH));<br>System.out.println(<span class="hljs-string">&quot;us2  == Locale.GERMAN  = &quot;</span> + (us2 == Locale.ENGLISH));<br>System.out.println(<span class="hljs-string">&quot;us2 == Locale.GERMANY = &quot;</span> + (us2 == Locale.ENGLISH));<br><br></code></pre></td></tr></table></figure>
+
+<p>If you start this code, you will see that the objects returned via the factory method are identical to the <code>Locale</code>constants - the ones created via the construct are obviously not.</p>
+<h3 id="java-lang-ThreadGroup-is-degraded"><a href="#java-lang-ThreadGroup-is-degraded" class="headerlink" title="java.lang.ThreadGroup is degraded"></a>java.lang.ThreadGroup is degraded</h3><p>In <a target="_blank" rel="noopener" href="https://www.happycoders.eu/de/java/java-14-features-de/#Thread_SuspendResume_Are_Deprecated_for_Removal">Java 14</a> and <a target="_blank" rel="noopener" href="https://www.happycoders.eu/de/java/java-16-features-de/#Terminally_Deprecated_ThreadGroup_stop_destroy_isDestroyed_setDaemon_and_isDaemon">Java 16</a> , several <code>Thread</code>and <code>ThreadGroup</code>methods were marked as “deprecated for removal”. You can find out why in the linked sections.</p>
+<p>The following of these methods have been deprecated in Java 19:</p>
+<ul>
+<li><code>ThreadGroup.destroy()</code>– the call to this method is ignored.</li>
+<li><code>ThreadGroup.isDestroyed()</code>– always <code>false</code>returns.</li>
+<li><code>ThreadGroup.setDaemon()</code>– sets the <code>daemon</code>flag, but this no longer has any effect.</li>
+<li><code>ThreadGroup.getDaemon()</code>- returns the value of the unused <code>daemon</code>flag.</li>
+<li><code>ThreadGroup.suspend()</code>, <code>resume()</code>and <code>stop()</code>throw a <code>UnsupportedOperationException</code>.</li>
+</ul>
+<h2 id="Other-changes-in-Java-19"><a href="#Other-changes-in-Java-19" class="headerlink" title="Other changes in Java 19"></a>Other changes in Java 19</h2><p>In this section you will find changes&#x2F;enhancements that may not be relevant to all Java developers.</p>
+<h3 id="Linux-x2F-RISC-V-Port"><a href="#Linux-x2F-RISC-V-Port" class="headerlink" title="Linux&#x2F;RISC-V Port"></a>Linux&#x2F;RISC-V Port</h3><p>Due to the increasing spread of RISC-V hardware, a port for the corresponding architecture was made available with <a target="_blank" rel="noopener" href="https://openjdk.org/jeps/422">JEP 422 .</a></p>
+<h3 id="Complete-list-of-all-changes-in-Java-19"><a href="#Complete-list-of-all-changes-in-Java-19" class="headerlink" title="Complete list of all changes in Java 19"></a>Complete list of all changes in Java 19</h3><p>In addition to the JDK Enhancement Proposals (JEPs) and class library changes presented in this article, there are numerous minor changes that are beyond the scope of this article. <a target="_blank" rel="noopener" href="https://jdk.java.net/19/release-notes">See the JDK 19 Release Notes</a> for a full list .</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p><a target="_blank" rel="noopener" href="https://www.happycoders.eu/de/java/virtual-threads/">In Java 19, the long-awaited virtual threads</a> developed in Project Loom have finally found their way into the JDK (albeit initially in preview stage). I hope you’re as excited as I am and can’t wait to start using virtual threads in your projects!</p>
+<p>Based on this, structured concurrency (still in the incubator stage) will significantly simplify the management of tasks that are divided into parallel subtasks.</p>
+<p>Record patterns have been added to the pattern matching options in <code>instanceof</code>and that have been gradually developed in the last JDK versions .<code>switch</code></p>
+<p>The preview and incubator features “Pattern Matching for switch”, “Foreign Function &amp; Memory API” and “Vector API” have been sent to the next preview or incubator round.</p>
+<p>By default, the output on the console is in the standard encoding of the operating system and may have to be changed using the VM option.</p>
+<p>HashMaps offer new factory methods to create maps with enough capacity for a given number of mappings.</p>
+<p>As always, various other changes round off the release. You can download Java 19 <a target="_blank" rel="noopener" href="https://jdk.java.net/19/">here .</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>What&#39;s new in Java 19</div>
+      <div>https://java-springboot-kafka.github.io/2022/11/13/What_is_new_in_java_19/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Mehrdad Karami</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>November 13, 2022</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/11/13/virtual-threads-in-java-19/" title="Virtual Threads in Java 19">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Virtual Threads in Java 19</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/11/13/dfs/" title="Depth First Search - DFS">
+                        <span class="hidden-mobile">Depth First Search - DFS</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        Views: 
+        <span id="busuanzi_value_site_pv"></span>
+        
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        Visitors: 
+        <span id="busuanzi_value_site_uv"></span>
+        
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

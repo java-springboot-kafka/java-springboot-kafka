@@ -1,0 +1,760 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/icon.jpeg">
+  <link rel="icon" href="/images/icon.jpeg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Mehrdad Karami">
+  <meta name="keywords" content="Java,SpringBoot, Kafka, Kafka Streams, Software Architecture, Best code practices">
+  
+    <meta name="description" content="This article gives a quick intro to the Liskov Substitution Principle (LSP), why it’s important, and how to use it to validate object-oriented designs. We’ll also see some examples and learn how to co">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Liskov Substitution Principle Explained">
+<meta property="og:url" content="https://java-springboot-kafka.github.io/2022/11/13/lsp/index.html">
+<meta property="og:site_name" content="Java SpringBoot Kafka , Best code practices">
+<meta property="og:description" content="This article gives a quick intro to the Liskov Substitution Principle (LSP), why it’s important, and how to use it to validate object-oriented designs. We’ll also see some examples and learn how to co">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://java-springboot-kafka.github.io/images/ldp-bank-class-diagram.png">
+<meta property="article:published_time" content="2022-11-13T19:20:48.542Z">
+<meta property="article:modified_time" content="2022-11-13T19:20:48.542Z">
+<meta property="article:author" content="Mehrdad Karami">
+<meta property="article:tag" content="Java,SpringBoot, Kafka, Kafka Streams, Software Architecture, Best code practices">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://java-springboot-kafka.github.io/images/ldp-bank-class-diagram.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Liskov Substitution Principle Explained - Java SpringBoot Kafka , Best code practices</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"java-springboot-kafka.github.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"Java"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/images/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Mehrdad Karami</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/images/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Liskov Substitution Principle Explained"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Mehrdad Karami
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-11-13 20:20" pubdate>
+          November 13, 2022 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          13k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          113 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> views
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Liskov Substitution Principle Explained</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>This article gives a quick intro to the Liskov Substitution Principle (LSP), why it’s important, and how to use it to validate object-oriented designs. We’ll also see some examples and learn how to correctly identify and fix violations of the LSP.</p>
+<h3 id="What-is-the-LSP"><a href="#What-is-the-LSP" class="headerlink" title="What is the LSP?"></a>What is the LSP?</h3><p>At a high level, the LSP states that in an object-oriented program, if we substitute a superclass object reference with an object of any of its subclasses, the program should not break.</p>
+<p>Say we had a method that used a superclass object reference to do something:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">SomeClass</span> &#123;<br>  <br>  <span class="hljs-keyword">void</span> <span class="hljs-title function_">aMethod</span><span class="hljs-params">(SuperClass superClassReference)</span> &#123;<br>    doSomething(superClassReference);<br>  &#125;<br>  <br>  <span class="hljs-comment">// definition of doSomething() omitted</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>This should work as expected for every possible subclass object of SuperClass that is passed to it. If substituting a superclass object with a subclass object changes the program behavior in unexpected ways, the LSP is violated.</p>
+<p>The LSP is applicable when there’s a supertype-subtype inheritance relationship by either extending a class or implementing an interface. </p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver">We can think <span class="hljs-keyword">of</span> <span class="hljs-keyword">the</span> methods defined <span class="hljs-keyword">in</span> <span class="hljs-keyword">the</span> supertype <span class="hljs-keyword">as</span> defining <span class="hljs-keyword">a</span> contract. Every subtype is expected <span class="hljs-built_in">to</span> stick <span class="hljs-built_in">to</span> this contract. If <span class="hljs-keyword">a</span> subclass does <span class="hljs-keyword">not</span> adhere <span class="hljs-built_in">to</span> <span class="hljs-keyword">the</span> superclass’s contract, <span class="hljs-keyword">it</span>’s violating <span class="hljs-keyword">the</span> LSP.<br></code></pre></td></tr></table></figure>
+
+<p>This makes sense intuitively - a class’s contract tells its clients what to expect. If a subclass extends or overrides the behavior of the superclass in unintended ways, it would break the clients.</p>
+<p>How can a method in a subclass break a superclass method’s contract? There are several possible ways:</p>
+<ol>
+<li>Returning an object that’s incompatible with the object returned by the superclass method.</li>
+<li>Throwing a new exception that’s not thrown by the superclass method.</li>
+<li>Changing the semantics or introducing side effects that are not part of the superclass’s contract.</li>
+</ol>
+<p>Java and other statically-typed languages prevent 1 (unless we use very generic classes like Object) and 2 (for checked exceptions) by flagging them at compile-time. It’s still possible to violate the LSP in these languages via the third way.</p>
+<h4 id="Why-is-the-LSP-Important"><a href="#Why-is-the-LSP-Important" class="headerlink" title="Why is the LSP Important?"></a>Why is the LSP Important?</h4><p>LSP violations are a design smell. We may have generalized a concept prematurely and created a superclass where none is needed.<br>Future requirements for the concept might not fit the class hierarchy we have created.</p>
+<p>If client code cannot substitute a superclass reference with a subclass object freely, it would be forced to do instanceof checks and specially handle some subclasses.<br>If this kind of conditional code is spread across the codebase, it will be difficult to maintain.</p>
+<p>Every time we add or modify a subclass, we would have to comb through the codebase and change multiple places. This is difficult and error-prone.</p>
+<p>It also defeats the purpose of introducing the supertype abstraction in the first place which is to make it easy to enhance the program.</p>
+<p>It may not even be possible to identify all the places and change them - we may not own or control the client code. We could be developing our functionality as a library and providing them to external users, for example.</p>
+<h4 id="Violating-the-LSP-An-Example"><a href="#Violating-the-LSP-An-Example" class="headerlink" title="Violating the LSP - An Example"></a>Violating the LSP - An Example</h4><p>Suppose we were building the payment module for our eCommerce website. Customers order products on the site and pay using payment instruments like a credit card or a debit card.</p>
+<blockquote>
+<p>When a customer provides their card details, we want to</p>
+<ul>
+<li>validate it,</li>
+<li>run it through a third-party fraud detection system,</li>
+<li>and then send the details to a payment gateway for processing.</li>
+</ul>
+</blockquote>
+<p>While some basic validations are required on all cards, there are additional validations needed on credit cards. Once the payment is done, we record it in our database. Because of various security and regulatory reasons, we don’t store the actual card details in our database, but a fingerprint identifier for it that’s returned by the payment gateway.</p>
+<p>Given these requirements, we might model our classes as below:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">PaymentInstrument</span> &#123;<br>  String name;<br>  String cardNumber;<br>  String verificationCode;<br>  Date expiryDate;<br>  String fingerprint;<br><br>  <span class="hljs-keyword">void</span> <span class="hljs-title function_">validate</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> PaymentInstrumentInvalidException &#123;<br>    <span class="hljs-comment">// basic validation on name, expiryDate etc.</span><br>    <span class="hljs-keyword">if</span> (name == <span class="hljs-literal">null</span> || name.isEmpty()) &#123;<br>      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">PaymentInstrumentInvalidException</span>(<span class="hljs-string">&quot;Name is invalid&quot;</span>);<br>    &#125;<br>    <span class="hljs-comment">// other validations</span><br>  &#125;<br><br>  <span class="hljs-keyword">void</span> <span class="hljs-title function_">runFraudChecks</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> FraudDetectedException &#123;<br>    <span class="hljs-comment">// run checks against a third-party system</span><br>  &#125;<br><br>  <span class="hljs-keyword">void</span> <span class="hljs-title function_">sendToPaymentGateway</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> PaymentFailedException &#123;<br>    <span class="hljs-comment">// send details to payment gateway (PG) and set fingerprint from </span><br>    <span class="hljs-comment">// the payment gateway response</span><br>  &#125;  <br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">CreditCard</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">PaymentInstrument</span> &#123;<br><br>  <span class="hljs-meta">@Override</span><br>  <span class="hljs-keyword">void</span> <span class="hljs-title function_">validate</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> PaymentInstrumentInvalidException &#123;<br>    <span class="hljs-built_in">super</span>.validate();<br>    <span class="hljs-comment">// additional validations for credit cards</span><br>  &#125;  <br>  <span class="hljs-comment">// other credit card-specific code</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">DebitCard</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">PaymentInstrument</span> &#123; <br>  <span class="hljs-comment">// debit card-specific code</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>A different area in our codebase where we process a payment might look something like this:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">PaymentProcessor</span> &#123;<br>  <span class="hljs-keyword">void</span> <span class="hljs-title function_">process</span><span class="hljs-params">(OrderDetails orderDetails, PaymentInstrument paymentInstrument)</span> &#123;<br>    <span class="hljs-keyword">try</span> &#123;<br>      paymentInstrument.validate();<br>      paymentInstrument.runFraudChecks();<br>      paymentInstrument.sendToPaymentGateway();<br>      saveToDatabase(orderDetails, paymentInstrument);<br>    &#125; <span class="hljs-keyword">catch</span> (...)&#123;<br>        <span class="hljs-comment">// exception handling</span><br>    &#125;<br>  &#125;<br><br>  <span class="hljs-keyword">void</span> <span class="hljs-title function_">saveToDatabase</span><span class="hljs-params">(</span><br><span class="hljs-params">      OrderDetails orderDetails, </span><br><span class="hljs-params">      PaymentInstrument paymentInstrument)</span> &#123;<br>    <span class="hljs-type">String</span> <span class="hljs-variable">fingerprint</span> <span class="hljs-operator">=</span> paymentInstrument.getFingerprint();<br>    <span class="hljs-comment">// save fingerprint and order details in DB</span><br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>Of course, in an actual production system, there would be many complex aspects to handle. The single processor class above might well be a bunch of classes in multiple packages across service and repository layers.</p>
+<p>All is well and our system is processing payments as expected. At some point, the marketing team decides to introduce reward points to increase customer loyalty. Customers get a small number of reward points for each purchase. They can use the points to buy products on the site.</p>
+<p>Ideally, we should be able to just add a <em><strong>RewardsCard</strong></em> class that extends <em><strong>PaymentInstrument</strong></em> and be done with it. But we find that adding it violates the LSP!</p>
+<p>There are no fraud checks for Rewards Cards. Details are not sent to payment gateways and there is no concept of a fingerprint identifier.<br><em><strong>PaymentProcessor</strong></em> breaks as soon as we add <em><strong>RewardsCard</strong></em>.</p>
+<p>We might try force-fitting <em><strong>RewardsCard</strong></em> into the current class hierarchy by overriding <em><strong>runFraudChecks()</strong></em> and <em><strong>sendToPaymentGateway()</strong></em> with empty, do-nothing implementations.</p>
+<p>This would still break the application - we might get a <em><strong>NullPointerException</strong></em> from the <em><strong>saveToDatabase()</strong></em> method since the fingerprint would be null. Can we handle it just this once as a special case in <em><strong>saveToDatabase()</strong></em> by doing an ***instanceofv check on the <em><strong>PaymentInstrument</strong></em> argument?</p>
+<p>But we know that if we do it once, we’ll do it again. Soon our codebase will be strewn with multiple checks and special cases to handle the problems created by the incorrect class model. We can imagine the pain this will cause each time we enhance the payment module.</p>
+<p>For example, what if the business decides to accept Bitcoins? Or marketing introduces a new payment mode like Cash on Delivery?</p>
+<h4 id="Fixing-the-Design"><a href="#Fixing-the-Design" class="headerlink" title="Fixing the Design"></a>Fixing the Design</h4><p>Let’s revisit the design and create supertype abstractions only if they are general enough to create code that is flexible to requirement changes. We will also use the following object-oriented design principles:</p>
+<blockquote>
+<ul>
+<li>Program to interface, not implementation</li>
+<li>Encapsulate what varies</li>
+<li>Prefer composition over inheritance</li>
+</ul>
+</blockquote>
+<p>To start with, what we can be sure of is that our application needs to collect payment - both at present and in the future. It’s also reasonable to think that we would want to validate whatever payment details we collect. Almost everything else could change. So let’s define the below interfaces:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">PaymentInstrument</span>&#123;<br>  <span class="hljs-keyword">void</span> <span class="hljs-title function_">validate</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> PaymentInstrumentInvalidException;<br>  PaymentResponse <span class="hljs-title function_">collectPayment</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> PaymentFailedException;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">PaymentResponse</span> &#123;<br>  String identifier;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>PaymentResponse</strong> encapsulates an <strong>identifier</strong> - this could be the fingerprint for credit and debit cards or the card number for rewards cards.<br>It could be something else for a different payment instrument in the future. The encapsulation ensures <strong>PaymentInstrument</strong> can remain unchanged if future payment instruments have more data.</p>
+<p><strong>PaymentProcessor</strong> class now looks like this:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">PaymentProcessor</span> &#123;<br>  <span class="hljs-keyword">void</span> <span class="hljs-title function_">process</span><span class="hljs-params">(</span><br><span class="hljs-params">      OrderDetails orderDetails, </span><br><span class="hljs-params">      PaymentInstrument paymentInstrument)</span> &#123;<br>    <span class="hljs-keyword">try</span> &#123;<br>      paymentInstrument.validate();<br>      <span class="hljs-type">PaymentResponse</span> <span class="hljs-variable">response</span> <span class="hljs-operator">=</span> paymentInstrument.collectPayment();<br>      saveToDatabase(orderDetails, response.getIdentifier());<br>    &#125; <span class="hljs-keyword">catch</span> (...) &#123;<br>      <span class="hljs-comment">// exception handling</span><br>    &#125;<br>  &#125;<br><br>  <span class="hljs-keyword">void</span> <span class="hljs-title function_">saveToDatabase</span><span class="hljs-params">(OrderDetails orderDetails, String identifier)</span> &#123;<br>    <span class="hljs-comment">// save the identifier and order details in DB</span><br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>There are no <strong>runFraudChecks()</strong> and <strong>sendToPaymentGateway()</strong> calls in <strong>PaymentProcessor</strong> anymore - these are not general enough to apply to all payment instruments.</p>
+<p>Let’s add a few more interfaces for other concepts which seem general enough in our problem domain:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">FraudChecker</span> &#123;<br>  <span class="hljs-keyword">void</span> <span class="hljs-title function_">runChecks</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> FraudDetectedException;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">PaymentGatewayHandler</span> &#123;<br>  PaymentGatewayResponse <span class="hljs-title function_">handlePayment</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> PaymentFailedException;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">PaymentInstrumentValidator</span> &#123;<br>  <span class="hljs-keyword">void</span> <span class="hljs-title function_">validate</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> PaymentInstrumentInvalidException;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">PaymentGatewayResponse</span> &#123;<br>  String fingerprint;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>And here are the implementations:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">ThirdPartyFraudChecker</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">FraudChecker</span> &#123;<br>  <span class="hljs-comment">// members omitted</span><br>  <br>  <span class="hljs-meta">@Override</span><br>  <span class="hljs-keyword">void</span> <span class="hljs-title function_">runChecks</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> FraudDetectedException &#123;<br>    <span class="hljs-comment">// external system call omitted</span><br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">PaymentGatewayHandler</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">PaymentGatewayHandler</span> &#123;<br>  <span class="hljs-comment">// members omitted</span><br>  <br>  <span class="hljs-meta">@Override</span><br>  PaymentGatewayResponse <span class="hljs-title function_">handlePayment</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> PaymentFailedException &#123;<br>    <span class="hljs-comment">// send details to payment gateway (PG), set the fingerprint</span><br>    <span class="hljs-comment">// received from PG on a PaymentGatewayResponse and return</span><br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">BankCardBasicValidator</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">PaymentInstrumentValidator</span> &#123;<br>  <span class="hljs-comment">// members like name, cardNumber etc. omitted</span><br><br>  <span class="hljs-meta">@Override</span><br>  <span class="hljs-keyword">void</span> <span class="hljs-title function_">validate</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> PaymentInstrumentInvalidException &#123;<br>    <span class="hljs-comment">// basic validation on name, expiryDate etc.</span><br>    <span class="hljs-keyword">if</span> (name == <span class="hljs-literal">null</span> || name.isEmpty()) &#123;<br>      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">PaymentInstrumentInvalidException</span>(<span class="hljs-string">&quot;Name is invalid&quot;</span>);<br>    &#125;<br>    <span class="hljs-comment">// other basic validations</span><br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>Let’s build <strong>CreditCard</strong> and <strong>DebitCard</strong> abstractions by composing the above building blocks in different ways.<br>We first define a class that implements <strong>PaymentInstrument</strong>:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BaseBankCard</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">PaymentInstrument</span> &#123;<br>  <span class="hljs-comment">// members like name, cardNumber etc. omitted</span><br>  <span class="hljs-comment">// below dependencies will be injected at runtime</span><br>  PaymentInstrumentValidator basicValidator;<br>  FraudChecker fraudChecker;<br>  PaymentGatewayHandler gatewayHandler;<br><br>  <span class="hljs-meta">@Override</span><br>  <span class="hljs-keyword">void</span> <span class="hljs-title function_">validate</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> PaymentInstrumentInvalidException &#123;<br>    basicValidator.validate();<br>  &#125;<br><br>  <span class="hljs-meta">@Override</span><br>  PaymentResponse <span class="hljs-title function_">collectPayment</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> PaymentFailedException &#123;<br>    <span class="hljs-type">PaymentResponse</span> <span class="hljs-variable">response</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">PaymentResponse</span>();<br>    <span class="hljs-keyword">try</span> &#123;<br>      fraudChecker.runChecks();<br>      <span class="hljs-type">PaymentGatewayResponse</span> <span class="hljs-variable">pgResponse</span> <span class="hljs-operator">=</span> gatewayHandler.handlePayment();<br>      response.setIdentifier(pgResponse.getFingerprint());<br>    &#125; <span class="hljs-keyword">catch</span> (FraudDetectedException e) &#123;<br>      <span class="hljs-comment">// exception handling</span><br>    &#125;<br>    <span class="hljs-keyword">return</span> response;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">CreditCard</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">BaseBankCard</span> &#123;<br>  <span class="hljs-comment">// constructor omitted</span><br>  <br>  <span class="hljs-meta">@Override</span><br>  <span class="hljs-keyword">void</span> <span class="hljs-title function_">validate</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> PaymentInstrumentInvalidException &#123;<br>    basicValidator.validate();<br>    <span class="hljs-comment">// additional validations for credit cards</span><br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">DebitCard</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">BaseBankCard</span> &#123;<br>  <span class="hljs-comment">// constructor omitted</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>Though <strong>CreditCard</strong> and <strong>DebitCard</strong> extend a class, it’s not the same as before.<br>Other areas of our codebase now depend only on the <strong>PaymentInstrument</strong> interface, not on <strong>BaseBankCard</strong>.<br>Below snippet shows <strong>CreditCard</strong> object creation and processing:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">PaymentGatewayHandler</span> <span class="hljs-variable">gatewayHandler</span> <span class="hljs-operator">=</span> <br>  <span class="hljs-keyword">new</span> <span class="hljs-title class_">PaymentGatewayHandler</span>(name, cardNum, code, expiryDate);<br><br><span class="hljs-type">PaymentInstrumentValidator</span> <span class="hljs-variable">validator</span> <span class="hljs-operator">=</span> <br>  <span class="hljs-keyword">new</span> <span class="hljs-title class_">BankCardBasicValidator</span>(name, cardNum, code, expiryDate);<br><br><span class="hljs-type">FraudChecker</span> <span class="hljs-variable">fraudChecker</span> <span class="hljs-operator">=</span> <br>  <span class="hljs-keyword">new</span> <span class="hljs-title class_">ThirdPartyFraudChecker</span>(name, cardNum, code, expiryDate);<br><br><span class="hljs-type">CreditCard</span> <span class="hljs-variable">card</span> <span class="hljs-operator">=</span> <br>  <span class="hljs-keyword">new</span> <span class="hljs-title class_">CreditCard</span>(<br>    name,<br>    cardNum,<br>    code,<br>    expiryDate,<br>    validator,<br>    fraudChecker,<br>    gatewayHandler);<br><br>paymentProcessor.process(order, card);<br></code></pre></td></tr></table></figure>
+
+<p>Our design is now <strong>flexible enough</strong> to let us add a <strong>RewardsCard</strong> - no force-fitting and no conditional checks.<br>We just add the new class and it works as expected.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">RewardsCard</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">PaymentInstrument</span> &#123;<br>  String name;<br>  String cardNumber;<br><br>  <span class="hljs-meta">@Override</span><br>  <span class="hljs-keyword">void</span> <span class="hljs-title function_">validate</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> PaymentInstrumentInvalidException &#123;<br>    <span class="hljs-comment">// Rewards card related validations</span><br>  &#125;<br><br>  <span class="hljs-meta">@Override</span><br>  PaymentResponse <span class="hljs-title function_">collectPayment</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> PaymentFailedException &#123;<br>    <span class="hljs-type">PaymentResponse</span> <span class="hljs-variable">response</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">PaymentResponse</span>();<br>    <span class="hljs-comment">// Steps related to rewards card payment like getting current </span><br>    <span class="hljs-comment">// rewards balance, updating balance etc.</span><br>    response.setIdentifier(cardNumber);<br>    <span class="hljs-keyword">return</span> response;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>And here’s client code using the new card:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">RewardsCard</span> <span class="hljs-variable">card</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RewardsCard</span>(name, cardNum);<br>paymentProcessor.process(order, card);<br></code></pre></td></tr></table></figure>
+
+
+<h4 id="Here-is-the-final-class-diagram"><a href="#Here-is-the-final-class-diagram" class="headerlink" title="Here is the final class diagram"></a>Here is the final class diagram</h4><p><img src="/images/ldp-bank-class-diagram.png" srcset="/images/loading.gif" lazyload alt="final-class-diagram"></p>
+<h4 id="Advantages-of-the-New-Design"><a href="#Advantages-of-the-New-Design" class="headerlink" title="Advantages of the New Design"></a>Advantages of the New Design</h4><p>The new design not only fixes the LSP violation but also gives us a loosely-coupled, flexible set of classes to handle changing requirements.<br>For example, adding new payment instruments like Bitcoin and Cash on Delivery is easy - we just add new classes that implement <strong>PaymentInstrument</strong>.</p>
+<p>Business needs debit cards to be processed by a different payment gateway? No problem - we add a new class that implements <strong>PaymentGatewayHandler</strong> and inject it into <strong>DebitCard</strong>.<br>If DebitCard’s requirements begin to diverge a lot from CreditCard’s, we can have it implement directly instead of extending <strong>BaseBankCard</strong> - <em>no other class is impacted</em>.</p>
+<p>If we need an in-house fraud check for <strong>RewardsCard</strong>, we add an <strong>InhouseFraudChecker</strong> that implements <strong>FraudChecker</strong>, inject it into <strong>RewardsCard</strong> and only change <strong>RewardsCard.collectPayment()</strong>.</p>
+<h4 id="How-to-Identify-LSP-Violations"><a href="#How-to-Identify-LSP-Violations" class="headerlink" title="How to Identify LSP Violations?"></a>How to Identify LSP Violations?</h4><p>Some good indicators to identify LSP violations are:</p>
+<p>Conditional logic (using the <strong>instanceof</strong> operator or <strong>object.getClass().getName()</strong> to identify the actual <strong>subclass</strong>)<br>in client code empty, do-nothing implementations of one or more methods in subclasses throwing an <strong>UnsupportedOperationException</strong> or some other unexpected exception from a subclass method.</p>
+<p>Consider <strong>java.util.List<E></strong> interface’s <strong>add(E e)</strong> method. Since <strong>java.util.Arrays.asList(T …)</strong> returns an unmodifiable list, client code which adds an element to a List would break if it were passed a List returned by <strong>Arrays.asList</strong>.</p>
+<p>Is this an LSP violation? No - the <strong>List.add(E e)</strong> method’s contract says implementations may throw an <strong>UnsupportedOperationException</strong>. Clients are expected to handle this when using the method.</p>
+<h4 id="Example-output"><a href="#Example-output" class="headerlink" title="Example output"></a>Example output</h4><pre><code class="hljs">Starting payment processing for customer Mehrdad with creadit card number 1234-1234-1234-1234-1234
+Running fraud checks against third-party system
+Fraud checks passed
+Sending details to payment gateway
+Credit card payment successful!
+Starting payment processing for customer Mehrdad with rewards card number 1234-1234-1234-1234-1234
+Updating rewards balance
+Rewards card payment successful!
+</code></pre>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Liskov Substitution Principle Explained</div>
+      <div>https://java-springboot-kafka.github.io/2022/11/13/lsp/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Mehrdad Karami</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>November 13, 2022</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/11/13/java8/" title="Dynamic Tests in JUnit5 | Advance Tests in JUnit 5">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Dynamic Tests in JUnit5 | Advance Tests in JUnit 5</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/11/13/solid/" title="Guide to S.O.L.I.D Principles">
+                        <span class="hidden-mobile">Guide to S.O.L.I.D Principles</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        Views: 
+        <span id="busuanzi_value_site_pv"></span>
+        
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        Visitors: 
+        <span id="busuanzi_value_site_uv"></span>
+        
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
