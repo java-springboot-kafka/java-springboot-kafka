@@ -50,7 +50,7 @@ The pseudo code for DFS is like below:
 
 ##### G: Graph, v: starting node (can be root node) , vertex: node, vertices: nodes
  
-```javascript
+```java
 dfs(G, v):
     label v as discovered
     for all vertices connected to v
@@ -62,7 +62,7 @@ Note that recursive calling acts like a Stack for us.If we want to have iterativ
 Below is the non-recursive implementation or iterative approach for the above pseudo code.
 
  
-```javascript
+```java
 dfs(G, v):
     define a stack 
     put v into stack
@@ -88,14 +88,14 @@ There are two ways to implement the DFS:
   
 I will implement the recursive approach.
 
-```javascript
+```java
 
 ```
 
 
 I will implement the iterative approach.
 
-```javascript
+```java
 import java.util.Stack;
 
 public class DFS {
@@ -220,7 +220,7 @@ public class DFS {
 
 Another example using Graph
 
-```javascript
+```java
 
 public class DepthFirstSearch {
 
