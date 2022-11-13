@@ -159,12 +159,3 @@ Basically, there is already an established solution for the problem that Project
 
 The special appeal of Project Loom is that it makes the changes at the JDK level, so the program code can remain unchanged. A currently inefficient program that consumes a native thread for each HTTP connection could run unchanged on the Project Loom JDK and would suddenly be efficient and scalable (Box: "When will virtual threads be available for everyone?"). Thanks to the modified java.net library, now based on virtual threads.
 
-## When are virtual threads coming for everyone?
-
-Project Loom keeps a low profile when it comes to the question of which Java release the features should be included in. At the moment everything is still experimental and APIs are subject to change. In JDK 15 you probably shouldn't expect that yet.
-
-If you want to try it out, you can either check out the source code from GitHub \[7\] and build the JDK yourself, or download ready-made preview releases \[8\].
-
-![huehnken_lutz_sw.tif_fmt1.jpg](https://s3.eu-west-1.amazonaws.com/redsys-prod/articles/7049438b39cdcf98a347c687/images/huehnken_lutz_sw.tif_fmt1.jpg)Lutz Hühnken is Chief Solutions Architect at the Hamburg Süd shipping company. He is currently primarily involved with events-first microservices, domain-driven design, event storming and reactive systems.
-
-[![Twitter](https://s3.eu-west-1.amazonaws.com/redsys-prod/articles/7049438b39cdcf98a347c687/images/SoMe-Twitter.png)](https://twitter.com/lutzhuehnken)
