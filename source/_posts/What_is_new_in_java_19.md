@@ -1,5 +1,5 @@
 ---
-What's new in Java 19
+title: What's new in Java 19
 ---
 
 ![java19](https://s3.eu-west-1.amazonaws.com/redsys-prod/issues/f7c87d3e8cece7c283301b68/images/cover_x_JM11_22_cover@2x_1663691319585.jpg)

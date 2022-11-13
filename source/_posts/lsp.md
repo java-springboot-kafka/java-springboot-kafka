@@ -1,5 +1,5 @@
 ---
-Liskov Substitution Principle Explained
+title: Liskov Substitution Principle Explained
 ---
 This article gives a quick intro to the Liskov Substitution Principle (LSP), why it’s important, and how to use it to validate object-oriented designs. We’ll also see some examples and learn how to correctly identify and fix violations of the LSP.
 

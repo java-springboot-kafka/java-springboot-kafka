@@ -1,5 +1,5 @@
 ---
-Spring Boot and Kafka Stream, Processing continuous data streams
+title: Spring Boot and Kafka Stream, Processing continuous data streams
 ---
 
 Processing continuous data streams in distributed systems without any time delay poses a number of challenges. We show you how stream processing can succeed with Kafka Streams and Spring Boot.

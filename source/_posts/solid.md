@@ -1,5 +1,5 @@
 ---
-Guide to S.O.L.I.D Principles 
+title: Guide to S.O.L.I.D Principles 
 ---
 #### The following 5 concepts make up our SOLID principles:
 

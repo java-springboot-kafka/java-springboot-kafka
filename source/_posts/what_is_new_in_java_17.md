@@ -1,5 +1,5 @@
 ---
-What's new in Java 17
+title: What's new in Java 17
 ---
 
 ![java17](https://res.infoq.com/articles/why-how-upgrade-java17/en/headerimage/upgrade-to-java-16-or-17-header-image-1630333858357.jpg)
