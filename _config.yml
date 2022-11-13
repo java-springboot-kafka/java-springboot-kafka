@@ -102,13 +102,18 @@ theme: fluid
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
-deploy: 
+deploy:
   type: git
   repo: https://github.com/java-springboot-kafka/java-springboot-kafka.github.io
   branch: main
   user: java-springboot-kafka
   token: REPO_GITHUB_TOKEN
 
+lazyload:
+  enable: true
+  loading_img: /img/loading.gif
+  onlypost: false
+  offset_factor: 2
 
 architecture:
   enable: true
@@ -129,7 +134,7 @@ home:
 
 about:
   enable: true
-  banner_img: /img/default.png
+  banner_img: https://static.zkqiang.cn/example.jpg
   banner_img_height: 60
   banner_mask_alpha: 0.3
   subtitle:
@@ -148,7 +153,7 @@ tag:
     start_color: "#BBBBEE"
     end_color: "#337ab7"
 post:
-  banner_img: /img/default.png
+  banner_img: https://static.zkqiang.cn/example.jpg
   banner_img_height: 70
   banner_mask_alpha: 0.3
 
