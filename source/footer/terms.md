@@ -1,5 +1,5 @@
 ---
-title: terms and conditions
+terms and conditions
 ---
 ### Terms and Conditions
 Last updated: April 17, 2019

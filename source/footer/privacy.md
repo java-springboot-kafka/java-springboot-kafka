@@ -1,5 +1,5 @@
 ---
-title: privacy policy
+privacy policy
 ---
 ### Privacy Policy
 **Mehrdad Karami** (“us”, “we”, or “our”) operates the https://java-springboot-kafka.github.io website (hereinafter referred to as the “Service”).

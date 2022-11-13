@@ -1,5 +1,5 @@
 ---
-title: Virtual Threads in Java 19
+Virtual Threads in Java 19
 ---
 
 The Project Loom is an experimental version of the JDK. It extends Java with virtual threads that allow lightweight concurrency. Preview releases are already available and show what is possible.

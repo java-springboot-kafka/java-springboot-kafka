@@ -1,5 +1,5 @@
 ---
-title: Depth First Search - DFS
+Depth First Search - DFS
 ---
 
 A DFS is an algorithm to travers graph-based structures (also for trees included in graphs)
