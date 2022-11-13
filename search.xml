@@ -773,7 +773,7 @@
 ]]></content>
   </entry>
   <entry>
-    <title></title>
+    <title>What&#39;s new in Java 18</title>
     <url>/2022/11/13/what_is_new_in_java_18/</url>
     <content><![CDATA[<p>Java 18, released on March 22, 2022, is the first “interim” release after the last Long-Term-Support (LTS) release, Java 17.</p>
 <p>With nine implemented JEPs, the scope of changes in Java 18 has decreased significantly compared to the previous releases. After the LTS release of Java 17, the JDK developers should take a little breather ;-)</p>
