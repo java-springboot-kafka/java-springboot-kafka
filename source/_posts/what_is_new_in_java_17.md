@@ -353,13 +353,13 @@ Until now, it has been tedious to replace the [random number-generating](https:/
 
 So far, the class hierarchy looked like this:
 
-![Pre-Java 17 Pseudo-Random Number Generators](hsource/images/random_number_generators_pre_java17-600x249.png)
+![Pre-Java 17 Pseudo-Random Number Generators](source/images/random_number_generators_pre_java17-600x249.png)
 
 Pre-Java 17 Pseudo-Random Number Generators
 
 JDK [Enhancement Proposal 356](https://openjdk.org/jeps/356) introduced a framework of inheriting interfaces for the existing and new algorithms in Java 17, so that the concrete algorithms can easily be exchanged in the future:
 
-![Java 17 Pseudo-Random Number Generators](hsource/images/random_number_generators_java17-800x438.png)
+![Java 17 Pseudo-Random Number Generators](source/images/random_number_generators_java17-800x438.png)
 
 Java 17 Pseudo-Random Number Generators
 
@@ -683,7 +683,7 @@ The code is an extension of the AArch64 ports for Linux and Windows released in 
 
 In JavaDoc generated from Java 17, there is a "NEW" page that shows all new features grouped by version. To do this, the `@since`tags of the modules, packages, classes, etc. are evaluated.
 
-!["NEW" page in JavaDoc generated since Java 17](hsource/images/javadoc_since_java_17-800x503.png)
+!["NEW" page in JavaDoc generated since Java 17](source/images/javadoc_since_java_17-800x503.png)
 
 "NEW" page in JavaDoc generated since Java 17
 
@@ -695,7 +695,7 @@ Java 16 DEPRECATED page
 
 Starting with Java 17, we see the features marked as "deprecated" grouped by release:
 
-![Java 17 DEPRECATED page](hsource/images/javadoc_deprecated_java_17-800x460.png)
+![Java 17 DEPRECATED page](source/images/javadoc_deprecated_java_17-800x460.png)
 
 Java 17 DEPRECATED page
 
