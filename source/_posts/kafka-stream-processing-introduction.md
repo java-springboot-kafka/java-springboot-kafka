@@ -1,0 +1,6 @@
+---
+title: Stream processing with Kafka
+---
+
+The world generates loads and loads of data today. In this vast data pool exists insights about human and system behavior. Processing such data in real-time and discovering these insights could drive business actions that improve sales, generate customer satisfaction, maintain system reliability, and prevent disasters. But to do that, we need to build large-scale real-time stream processing pipelines. Stream processing is a critical skill for a data engineer. A number of technologies can help with building such pipelines, but how do we combine these technologies to solve popular streaming use cases? What are the key patterns for such solutions? In this article, I will show you how to build stream processing use cases with popular patterns using Apache Kafka Streams and associated technologies. I will review the opportunities and challenges that stream processing presents. I will discuss four popular patterns for stream processing with example use cases. Then, I will provide a use case for you to implement using these patterns learned. We will use Apache Kafka Streams along with Apache Kafka, MariaDB, and Redis to implement the examples. Students are expected to be familiar with these technologies and also Java development. Let's now start solving stream processing problems with Kafka Streams.
+
