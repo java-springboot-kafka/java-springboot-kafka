@@ -7,11 +7,11 @@ title: What's new in Java 19
 ----------
 Java 19 was released on September 20, 2022. You can download it [here .](https://jdk.java.net/19/)
 
-The most exciting innovation for me are the [virtual threads , which have been developed as part of](https://www.java-springboot-kafka.github.io/de/java/java-19-features/#Virtual_Threads_Preview) [Project Loom](https://openjdk.org/projects/loom/) for several years and are now finally included in the JDK as a preview.
+The most exciting innovation for me are the [virtual threads , which have been developed as part of](https://java-springboot-kafka.github.io.io/de/java/java-19-features/#Virtual_Threads_Preview) [Project Loom](https://openjdk.org/projects/loom/) for several years and are now finally included in the JDK as a preview.
 
-Virtual threads are a requirement for [Structured Concurrency](https://www.java-springboot-kafka.github.io/de/java/java-19-features/#Structured_Concurrency_Incubator) , another exciting new Incubator feature in Java 19.
+Virtual threads are a requirement for [Structured Concurrency](https://java-springboot-kafka.github.io.io/de/java/java-19-features/#Structured_Concurrency_Incubator) , another exciting new Incubator feature in Java 19.
 
-There is also good news for anyone who wants to access non-Java code (e.g. the C standard library): The [Foreign Function & Memory API](https://www.java-springboot-kafka.github.io/de/java/java-19-features/#Foreign_Function_Memory_API_Preview) has now also reached the preview stage after five incubator rounds .
+There is also good news for anyone who wants to access non-Java code (e.g. the C standard library): The [Foreign Function & Memory API](https://java-springboot-kafka.github.io.io/de/java/java-19-features/#Foreign_Function_Memory_API_Preview) has now also reached the preview stage after five incubator rounds .
 
 As always, I use the English names of the JEPs.
 
@@ -92,7 +92,7 @@ Java 19 gives us a total of six preview and incubator features, i.e. features th
 
 ### Pattern Matching for switch (Third Preview)
 
-Let's start with a feature that has already had two preview rounds. The "pattern matching for switch" first introduced in [Java 17](https://www.java-springboot-kafka.github.io/de/java/java-17-features-de/#Pattern_Matching_for_switch_Preview) allowed us to write code like the following:
+Let's start with a feature that has already had two preview rounds. The "pattern matching for switch" first introduced in [Java 17](https://java-springboot-kafka.github.io.io/de/java/java-17-features-de/#Pattern_Matching_for_switch_Preview) allowed us to write code like the following:
 
 ```java
 switch (obj) {
@@ -126,7 +126,7 @@ switch (obj) {
 
 ### Record Patterns (Preview)
 
-Staying with the topic "Pattern Matching" we come to the "Record Patterns". If you are new to Records, I recommend reading the [Records in Java](https://www.java-springboot-kafka.github.io/de/java/java-records/) article first .
+Staying with the topic "Pattern Matching" we come to the "Record Patterns". If you are new to Records, I recommend reading the [Records in Java](https://java-springboot-kafka.github.io.io/de/java/java-records/) article first .
 
 The best way to explain what a record pattern is is with an example. Let's assume we have defined the following record:
 
@@ -146,7 +146,7 @@ private void print(Object object) {
 }
 ```
 
-In case you stumble over the notation used - it was introduced in [Java 16](https://www.java-springboot-kafka.github.io/de/java/java-16-features-de/#Pattern_Matching_for_instanceof) as "Pattern Matching for instanceof".
+In case you stumble over the notation used - it was introduced in [Java 16](https://java-springboot-kafka.github.io.io/de/java/java-16-features-de/#Pattern_Matching_for_instanceof) as "Pattern Matching for instanceof".
 
 #### Record pattern with instanceof
 
@@ -165,7 +165,7 @@ Instead `Position position`of matching " " and accessing in the code `position`b
 
 #### Record pattern with switch
 
-[Since Java 17](https://www.java-springboot-kafka.github.io/de/java/java-17-features-de/#Pattern_Matching_for_switch_Preview) , we can also `switch`write the original example as a statement:
+[Since Java 17](https://java-springboot-kafka.github.io.io/de/java/java-17-features-de/#Pattern_Matching_for_switch_Preview) , we can also `switch`write the original example as a statement:
 
 ```java
 private void print(Object object) {
@@ -234,13 +234,13 @@ For me, the most exciting innovation in Java 19 are "Virtual Threads". These hav
 
 With [JDK Enhancement Proposal 425](https://openjdk.org/jeps/425) , virtual threads are finally making their way into the official JDK - directly in preview status, so that no major changes to the API are to be expected.
 
-Why we need virtual threads, what they are, how they work, and how to use them is a must-read in the [main article on virtual threads](https://www.java-springboot-kafka.github.io/de/java/virtual-threads/) .
+Why we need virtual threads, what they are, how they work, and how to use them is a must-read in the [main article on virtual threads](https://java-springboot-kafka.github.io.io/de/java/virtual-threads/) .
 
 ### Foreign Function & Memory API (Preview)
 
 [Project Panama](https://openjdk.org/projects/panama/) has been working on a replacement for the cumbersome, error-prone and slow Java Native Interface (JNI) for a long time.
 
-The "Foreign Memory Access API" and the "Foreign Linker API" were already introduced in [Java 14](https://www.java-springboot-kafka.github.io/de/java/java-14-features-de/#Foreign-Memory_Access_API_Incubator) and [Java 16 - both individually at the incubator stage.](https://www.java-springboot-kafka.github.io/de/java/java-16-features-de/#Foreign_Linker_API_Incubator_Foreign-Memory_Access_API_Third_Incubator) In [Java 17](https://www.java-springboot-kafka.github.io/de/java/java-17-features-de/#Foreign_Function_Memory_API_Incubator) , these APIs were merged into the "Foreign Function & Memory API" (FFM API), which remained in the incubator stage until [Java 18 .](https://www.java-springboot-kafka.github.io/de/java/java-18-features-de/#Foreign_Function_Memory_API_Second_Incubator)
+The "Foreign Memory Access API" and the "Foreign Linker API" were already introduced in [Java 14](https://java-springboot-kafka.github.io.io/de/java/java-14-features-de/#Foreign-Memory_Access_API_Incubator) and [Java 16 - both individually at the incubator stage.](https://java-springboot-kafka.github.io.io/de/java/java-16-features-de/#Foreign_Linker_API_Incubator_Foreign-Memory_Access_API_Third_Incubator) In [Java 17](https://java-springboot-kafka.github.io.io/de/java/java-17-features-de/#Foreign_Function_Memory_API_Incubator) , these APIs were merged into the "Foreign Function & Memory API" (FFM API), which remained in the incubator stage until [Java 18 .](https://java-springboot-kafka.github.io.io/de/java/java-18-features-de/#Foreign_Function_Memory_API_Second_Incubator)
 
 In Java 19, the new API with [JDK Enhancement Proposal 424](https://openjdk.org/jeps/424) has finally reached the preview stage, which means that only small changes and bug fixes will be made. So it's time to introduce the new API here!
 
@@ -359,7 +359,7 @@ With `scope.join()`we wait for all tasks to be completed - or at least one has f
 
 The new approach brings the following improvements over the old one:
 
--   Task and subtasks form a self-contained unit in the code - there is no `ExecutorService`one in a higher scope. The threads don't come from a thread pool; instead, each subtask runs in a new [virtual thread](https://www.java-springboot-kafka.github.io/de/java/virtual-threads/) .
+-   Task and subtasks form a self-contained unit in the code - there is no `ExecutorService`one in a higher scope. The threads don't come from a thread pool; instead, each subtask runs in a new [virtual thread](https://java-springboot-kafka.github.io.io/de/java/virtual-threads/) .
 -   As soon as an error occurs in one of the subtasks, all other subtasks are aborted.
 -   If the calling thread is aborted, the subtasks are also aborted.
 -   The thread dump shows the call hierarchy between the calling thread and the threads that execute the subtasks.
@@ -377,9 +377,9 @@ Please note that Incubator features are still subject to major changes.
 
 The new Vector API has nothing `java.util.Vector`to do with the class. In fact, it's about a new API for mathematical vector calculations and their mapping to modern SIMD (single-instruction-multiple-data) CPUs.
 
-The Vector API has been part of the JDK as an incubator since [Java 16 and was further developed in](https://www.java-springboot-kafka.github.io/de/java/java-16-features-de/#Vector_API_Incubator) [Java 17](https://www.java-springboot-kafka.github.io/de/java/java-17-features-de/#Vector_API_Second_Incubator) and [Java 18](https://www.java-springboot-kafka.github.io/de/java/java-18-features-de/#Vector_API_Third_Incubator) .
+The Vector API has been part of the JDK as an incubator since [Java 16 and was further developed in](https://java-springboot-kafka.github.io.io/de/java/java-16-features-de/#Vector_API_Incubator) [Java 17](https://java-springboot-kafka.github.io.io/de/java/java-17-features-de/#Vector_API_Second_Incubator) and [Java 18](https://java-springboot-kafka.github.io.io/de/java/java-18-features-de/#Vector_API_Third_Incubator) .
 
-With [JDK Enhancement Proposal 426](https://openjdk.org/jeps/426) , Java 19 delivers the fourth iteration in which the API has been extended to include new vector operations - as well as the ability to store vectors in memory segments (a feature of the [Foreign Function & Memory API](https://www.java-springboot-kafka.github.io/de/java/java-19-features/#Foreign_Function_Memory_API_Preview) ) and read them from them.
+With [JDK Enhancement Proposal 426](https://openjdk.org/jeps/426) , Java 19 delivers the fourth iteration in which the API has been extended to include new vector operations - as well as the ability to store vectors in memory segments (a feature of the [Foreign Function & Memory API](https://java-springboot-kafka.github.io.io/de/java/java-19-features/#Foreign_Function_Memory_API_Preview) ) and read them from them.
 
 Incubator features are still subject to significant changes, so I won't detail the API here. I'll catch up on that once the Vector API has transitioned to preview status.
 
@@ -413,7 +413,7 @@ If you start this code, you will see that the objects returned via the factory m
 
 ### java.lang.ThreadGroup is degraded
 
-In [Java 14](https://www.java-springboot-kafka.github.io/de/java/java-14-features-de/#Thread_SuspendResume_Are_Deprecated_for_Removal) and [Java 16](https://www.java-springboot-kafka.github.io/de/java/java-16-features-de/#Terminally_Deprecated_ThreadGroup_stop_destroy_isDestroyed_setDaemon_and_isDaemon) , several `Thread`and `ThreadGroup`methods were marked as "deprecated for removal". You can find out why in the linked sections.
+In [Java 14](https://java-springboot-kafka.github.io.io/de/java/java-14-features-de/#Thread_SuspendResume_Are_Deprecated_for_Removal) and [Java 16](https://java-springboot-kafka.github.io.io/de/java/java-16-features-de/#Terminally_Deprecated_ThreadGroup_stop_destroy_isDestroyed_setDaemon_and_isDaemon) , several `Thread`and `ThreadGroup`methods were marked as "deprecated for removal". You can find out why in the linked sections.
 
 The following of these methods have been deprecated in Java 19:
 
@@ -437,7 +437,7 @@ In addition to the JDK Enhancement Proposals (JEPs) and class library changes pr
 
 ## Conclusion
 
-[In Java 19, the long-awaited virtual threads](https://www.java-springboot-kafka.github.io/de/java/virtual-threads/) developed in Project Loom have finally found their way into the JDK (albeit initially in preview stage). I hope you're as excited as I am and can't wait to start using virtual threads in your projects!
+[In Java 19, the long-awaited virtual threads](https://java-springboot-kafka.github.io.io/de/java/virtual-threads/) developed in Project Loom have finally found their way into the JDK (albeit initially in preview stage). I hope you're as excited as I am and can't wait to start using virtual threads in your projects!
 
 Based on this, structured concurrency (still in the incubator stage) will significantly simplify the management of tasks that are divided into parallel subtasks.
 

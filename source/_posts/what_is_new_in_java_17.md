@@ -16,9 +16,9 @@ As always, I have used the English names of the JEPs and other changes. A transl
 
 The big innovation in Java 17 (besides long-term support) are sealed classes and interfaces.
 
-What sealed classes are, exactly how they work and why we need them, I will explain in a separate article due to the scope of the topic: [Sealed Classes in Java](https://www.java-springboot-kafka.github.io/de/java/sealed-classes-de/)
+What sealed classes are, exactly how they work and why we need them, I will explain in a separate article due to the scope of the topic: [Sealed Classes in Java](https://java-springboot-kafka.github.io.io/de/java/sealed-classes-de/)
 
-_(Sealed classes were first introduced in [Java 15](https://www.java-springboot-kafka.github.io/de/java/java-15-features-de/#Sealed_Classes_Preview) as a preview feature. Three small changes were released in [Java 16.](https://www.java-springboot-kafka.github.io/de/java/java-16-features-de/#Sealed_Classes_Second_Preview) [JDK Enhancement Proposal 409](https://openjdk.org/jeps/409) declares sealed classes production-ready in Java 17 with no further changes.)_
+_(Sealed classes were first introduced in [Java 15](https://java-springboot-kafka.github.io.io/de/java/java-15-features-de/#Sealed_Classes_Preview) as a preview feature. Three small changes were released in [Java 16.](https://java-springboot-kafka.github.io.io/de/java/java-16-features-de/#Sealed_Classes_Second_Preview) [JDK Enhancement Proposal 409](https://openjdk.org/jeps/409) declares sealed classes production-ready in Java 17 with no further changes.)_
 
 ## Strongly Encapsulate JDK Internals
 
@@ -98,7 +98,7 @@ The code then runs error-free and without warnings.
 
 ### Since Java 16: Default Strong Encapsulation + Optional Relaxed Strong Encapsulation
 
-In [Java 16](https://www.java-springboot-kafka.github.io/de/java/java-16-features-de/#Strongly_Encapsulate_JDK_Internals_by_Default) , the default mode was changed from "Relaxed Strong Encapsulation" to "Strong Encapsulation". Since then, access to pre-Java 9 packages has also had to be explicitly allowed.
+In [Java 16](https://java-springboot-kafka.github.io.io/de/java/java-16-features-de/#Strongly_Encapsulate_JDK_Internals_by_Default) , the default mode was changed from "Relaxed Strong Encapsulation" to "Strong Encapsulation". Since then, access to pre-Java 9 packages has also had to be explicitly allowed.
 
 If we run the first example on Java 16 without explicitly allowing access, we get the following error message:
 
@@ -349,7 +349,7 @@ _The Flight Recorder events for the deserialization are not part of the above JD
 
 ## Enhanced Pseudo-Random Number Generators
 
-Until now, it has been tedious to replace the [random number-generating](https://www.java-springboot-kafka.github.io/de/java/zufallszahl/) classes `Random`and `SplittableRandom`in an application (or even to replace them with other algorithms) even though they offer a largely identical set of methods (e.g. `nextInt()`, `nextDouble()`and stream-generating methods such as `ints()`and `longs()`).
+Until now, it has been tedious to replace the [random number-generating](https://java-springboot-kafka.github.io.io/de/java/zufallszahl/) classes `Random`and `SplittableRandom`in an application (or even to replace them with other algorithms) even though they offer a largely identical set of methods (e.g. `nextInt()`, `nextDouble()`and stream-generating methods such as `ints()`and `longs()`).
 
 So far, the class hierarchy looked like this:
 
@@ -403,7 +403,7 @@ Even though Java 17 is a long-term support (LTS) release, it contains preview an
 
 ### Pattern Matching for switch (Preview)
 
-In Java 16 ["Pattern Matching for instanceof"](https://www.java-springboot-kafka.github.io/de/java/java-16-features-de/#Pattern_Matching_for_instanceof) was introduced. This made explicit casts after `instanceof`tests superfluous. This allows e.g. B. Code like the following:
+In Java 16 ["Pattern Matching for instanceof"](https://java-springboot-kafka.github.io.io/de/java/java-16-features-de/#Pattern_Matching_for_instanceof) was introduced. This made explicit casts after `instanceof`tests superfluous. This allows e.g. B. Code like the following:
 
 ```
 if (obj instanceof String s) {
@@ -477,7 +477,7 @@ The reason for this is that now every string – no matter what length – is ma
 
 #### Pattern matching for switch expressions
 
-Pattern matching can also be used for [`switch`expressions](https://www.java-springboot-kafka.github.io/de/java/switch-expressions/#switch-als-ausdruck-mit-ruckgabewert) ( i.e. `switch`with a return value):
+Pattern matching can also be used for [`switch`expressions](https://java-springboot-kafka.github.io.io/de/java/switch-expressions/#switch-als-ausdruck-mit-ruckgabewert) ( i.e. `switch`with a return value):
 
 ```
 String output = switch (obj) {
@@ -495,11 +495,11 @@ The case must `default`return a value, otherwise the return value of the `switch
 
 #### Completeness check with Sealed Classes
 
-Incidentally, when using [sealed classes](https://www.java-springboot-kafka.github.io/de/java/sealed-classes-de/) , the compiler can check whether `switch`the statement or expression is complete. If that is the case, a `default`case is not needed.
+Incidentally, when using [sealed classes](https://java-springboot-kafka.github.io.io/de/java/sealed-classes-de/) , the compiler can check whether `switch`the statement or expression is complete. If that is the case, a `default`case is not needed.
 
 This has an advantage that is not immediately apparent: if one day the sealed hierarchy is extended, the compiler will recognize the then incomplete `switch`expression and you will be forced to complete it. This saves you from making mistakes that go unnoticed.
 
-"Pattern Matching for switch" will be presented again in [Java 18](https://www.java-springboot-kafka.github.io/de/java/java-18-features-de/#Pattern_Matching_for_switch_Second_Preview) as a preview feature and will probably be ready for production in Java 19.
+"Pattern Matching for switch" will be presented again in [Java 18](https://java-springboot-kafka.github.io.io/de/java/java-18-features-de/#Pattern_Matching_for_switch_Second_Preview) as a preview feature and will probably be ready for production in Java 19.
 
 ### Foreign Function & Memory API (Incubator)
 
@@ -509,16 +509,16 @@ To create a JNI replacement, [Project Panama](https://openjdk.org/projects/panam
 
 In the last three Java versions, two new APIs have been introduced, each in the incubator stage:
 
-1.  The Foreign Memory Access API (introduced in [Java 14](https://www.java-springboot-kafka.github.io/de/java/java-14-features-de/#Foreign-Memory_Access_API_Incubator) , refined in [Java 15](https://www.java-springboot-kafka.github.io/de/java/java-15-features-de/#Foreign-Memory_Access_API_Second_Incubator) and [Java 16](https://www.java-springboot-kafka.github.io/de/java/java-16-features-de/#Foreign_Linker_API_Incubator_Foreign-Memory_Access_API_Third_Incubator) ),
-2.  The Foreign Linker API (introduced in [Java 16](https://www.java-springboot-kafka.github.io/de/java/java-16-features-de/#Foreign_Linker_API_Incubator_Foreign-Memory_Access_API_Third_Incubator) ).
+1.  The Foreign Memory Access API (introduced in [Java 14](https://java-springboot-kafka.github.io.io/de/java/java-14-features-de/#Foreign-Memory_Access_API_Incubator) , refined in [Java 15](https://java-springboot-kafka.github.io.io/de/java/java-15-features-de/#Foreign-Memory_Access_API_Second_Incubator) and [Java 16](https://java-springboot-kafka.github.io.io/de/java/java-16-features-de/#Foreign_Linker_API_Incubator_Foreign-Memory_Access_API_Third_Incubator) ),
+2.  The Foreign Linker API (introduced in [Java 16](https://java-springboot-kafka.github.io.io/de/java/java-16-features-de/#Foreign_Linker_API_Incubator_Foreign-Memory_Access_API_Third_Incubator) ).
 
 JDK [Enhancement Proposal 412](https://openjdk.org/jeps/412) combined both APIs in Java 17 into the "Foreign Function & Memory API".
 
-This is still in the incubator stage, so it may still be subject to significant changes. [I will introduce the new API in the Java 19](https://www.java-springboot-kafka.github.io/de/java/java-19-features/#Foreign_Function_Memory_API_Preview) article when it reaches the preview stage.
+This is still in the incubator stage, so it may still be subject to significant changes. [I will introduce the new API in the Java 19](https://java-springboot-kafka.github.io.io/de/java/java-19-features/#Foreign_Function_Memory_API_Preview) article when it reaches the preview stage.
 
 ### Vector API (Second Incubator)
 
-[As already described in the article about Java 16](https://www.java-springboot-kafka.github.io/de/java/java-16-features-de/#Vector_API_Incubator) , the Vector API is not about the old `java.util.Vector`class, but about mapping mathematical vector calculations to modern CPU architectures with single-instruction-multiple-data (SIMD) support.
+[As already described in the article about Java 16](https://java-springboot-kafka.github.io.io/de/java/java-16-features-de/#Vector_API_Incubator) , the Vector API is not about the old `java.util.Vector`class, but about mapping mathematical vector calculations to modern CPU architectures with single-instruction-multiple-data (SIMD) support.
 
 JDK [Enhancement Proposal 414](https://openjdk.org/jeps/414) improved performance and extended the API, e.g. B. to support `Character`(previously , `Byte`, `Short`, `Integer`, `Long`and `Float`were `Double`supported).
 
@@ -558,11 +558,11 @@ RMI Activation allows objects destroyed on the target JVM to be automatically re
 
 However, RMI activation is relatively complex and results in ongoing maintenance costs; it's also virtually unused, as analysis of open source projects and forums like StackOverflow have shown.
 
-For this reason, RMI Activation was marked as "deprecated" in [Java 15](https://www.java-springboot-kafka.github.io/de/java/java-15-features-de/#Deprecate_RMI_Activation_for_Removal) and completely removed in Java 17 by [JDK Enhancement Proposal 407 .](https://openjdk.org/jeps/407)
+For this reason, RMI Activation was marked as "deprecated" in [Java 15](https://java-springboot-kafka.github.io.io/de/java/java-15-features-de/#Deprecate_RMI_Activation_for_Removal) and completely removed in Java 17 by [JDK Enhancement Proposal 407 .](https://openjdk.org/jeps/407)
 
 ### Remove the Experimental AOT and JIT Compiler
 
-In Java 9, Graal was added to the JDK as an experimental ahead-of-time (AOT) compiler. In [Java 10](https://www.java-springboot-kafka.github.io/de/java/java-10-features-de/#Experimental_Java-Based_JIT_Compiler) , Graal was also made available as a just-in-time (JIT) compiler.
+In Java 9, Graal was added to the JDK as an experimental ahead-of-time (AOT) compiler. In [Java 10](https://java-springboot-kafka.github.io.io/de/java/java-10-features-de/#Experimental_Java-Based_JIT_Compiler) , Graal was also made available as a just-in-time (JIT) compiler.
 
 However, both features have been little used since then. Because the maintenance overhead is significant, Graal has been removed in the JDK 16 builds released by Oracle. Since nobody complained about this, both AOT and JIT compilers have been completely removed in Java 17 with [JDK Enhancement Proposal 410 .](https://openjdk.org/jeps/410)
 
@@ -677,7 +677,7 @@ In 2018, Apple marked the OpenGL library previously used by Java Swing for rende
 
 Apple has announced that it will switch Macs from x64 to AArch64 CPUs in the long term. Accordingly, a corresponding port is provided with [JDK Enhancement Proposal 391 .](https://openjdk.org/jeps/391)
 
-The code is an extension of the AArch64 ports for Linux and Windows released in Java 9 and [Java 16 with macOS-specific adjustments.](https://www.java-springboot-kafka.github.io/de/java/java-16-features-de/#WindowsAArch64_Port)
+The code is an extension of the AArch64 ports for Linux and Windows released in Java 9 and [Java 16 with macOS-specific adjustments.](https://java-springboot-kafka.github.io.io/de/java/java-16-features-de/#WindowsAArch64_Port)
 
 ### New Page for "New API" and Improved "Deprecated" Page
 
@@ -719,4 +719,4 @@ In addition, the path taken in Java 9 with Project Jigsaw has been brought to an
 
 Did you like the article? Then please leave me a comment or share the article using one of the share buttons at the end.
 
-[Java 18](https://www.java-springboot-kafka.github.io/de/java/java-18-features-de/) is just around the corner and the features it contains are certain. I will present these in the next article. Would you like to be informed when the article goes online? Then [click here](https://www.java-springboot-kafka.github.io/de/java/java-17-features-de/#) to sign up for the HappyCoders newsletter.
+[Java 18](https://java-springboot-kafka.github.io.io/de/java/java-18-features-de/) is just around the corner and the features it contains are certain. I will present these in the next article. Would you like to be informed when the article goes online? Then [click here](https://java-springboot-kafka.github.io.io/de/java/java-17-features-de/#) to sign up for the HappyCoders newsletter.

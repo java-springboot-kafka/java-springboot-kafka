@@ -153,7 +153,7 @@ The best way is always to set "-Dfile.encoding" to UTF-8 or omit it altogether.
 
 #### Reading the Encodings at Runtime
 
-The current default encoding can be read at runtime via `Charset.defaultCharset()` or the system property "file.encoding". Since [Java 17](https://www.java-springboot-kafka.github.io/java/java-17-features/#System_Property_for_Native_Character_Encoding_Name), the system property "native.encoding" can be used to read the encoding, which – before Java 18 – would be the default encoding if none is specified:
+The current default encoding can be read at runtime via `Charset.defaultCharset()` or the system property "file.encoding". Since [Java 17](https://java-springboot-kafka.github.io.io/java/java-17-features/#System_Property_for_Native_Character_Encoding_Name), the system property "native.encoding" can be used to read the encoding, which – before Java 18 – would be the default encoding if none is specified:
 
 ```java
 System.out.println("Default charset : " + Charset.defaultCharset());
@@ -395,9 +395,9 @@ System.out.println("addresses = " + Arrays.toString(addresses));
 The code gives me the following output (I added the line breaks manually for better readability):
 
 ```
-addresses = [www.java-springboot-kafka.github.io/104.26.15.71,
-             www.java-springboot-kafka.github.io/172.67.71.232, 
-             www.java-springboot-kafka.github.io/104.26.14.71]
+addresses = [java-springboot-kafka.github.io.io/104.26.15.71,
+             java-springboot-kafka.github.io.io/172.67.71.232, 
+             java-springboot-kafka.github.io.io/104.26.14.71]
 ```
 
 For reverse lookups (i.e., resolving an IP address to a hostname), the JDK provides the methods `InetAddress::getCanonicalHostName` and `InetAddress::getHostName`.
@@ -408,7 +408,7 @@ This hardwiring has a few disadvantages:
 
 -   Within tests, it is not possible to map a hostname to the URL of a mocked server.
 -   New hostname lookup protocols (such as DNS over QUIC, TLS, or HTTPS) cannot be easily implemented in Java.
--   The current implementation leads to a blocking operating system call. That alone is unattractive since this call can sometimes take long and cannot be interrupted. When using [virtual threads](https://www.java-springboot-kafka.github.io/java/virtual-threads/), this even leads to the point that the operating system thread cannot serve any other virtual threads during this time.
+-   The current implementation leads to a blocking operating system call. That alone is unattractive since this call can sometimes take long and cannot be interrupted. When using [virtual threads](https://java-springboot-kafka.github.io.io/java/virtual-threads/), this even leads to the point that the operating system thread cannot serve any other virtual threads during this time.
 
 [JDK Enhancement Proposal 418](https://openjdk.org/jeps/418) introduces a Service Provider Interface (SPI) to allow the platform's built-in default resolver to be replaced by other resolvers.
 
@@ -536,7 +536,7 @@ SwitchTest.java:9: error: this case label is dominated by a preceding case label
 
 #### Bugfix in the Completeness Analysis with Sealed Types
 
-You will learn what completeness analysis is in the [article about sealed types](https://www.java-springboot-kafka.github.io/java/sealed-classes/#Completeness_Analysis_for_Pattern_Matching_for_switch).
+You will learn what completeness analysis is in the [article about sealed types](https://java-springboot-kafka.github.io.io/java/sealed-classes/#Completeness_Analysis_for_Pattern_Matching_for_switch).
 
 I explain the change in Java 18 using the following sealed example class hierarchy from the JEP:
 
@@ -577,7 +577,7 @@ That is an obvious bug that has been fixed in Java 18.
 
 ### Vector API (Third Incubator)
 
-The Vector API was already introduced in [Java 16](https://www.java-springboot-kafka.github.io/java/java-16-features/#Vector_API_Incubator) and [Java 17](https://www.java-springboot-kafka.github.io/java/java-17-features/#Vector_API_Second_Incubator) as an Incubator feature. This API is not about the `java.util.Vector` class from Java 1.0 but about mathematical vector computation and its mapping to modern single-instruction-multiple-data (SIMD) architectures.
+The Vector API was already introduced in [Java 16](https://java-springboot-kafka.github.io.io/java/java-16-features/#Vector_API_Incubator) and [Java 17](https://java-springboot-kafka.github.io.io/java/java-17-features/#Vector_API_Second_Incubator) as an Incubator feature. This API is not about the `java.util.Vector` class from Java 1.0 but about mathematical vector computation and its mapping to modern single-instruction-multiple-data (SIMD) architectures.
 
 [JDK Enhancement Proposal 417](https://openjdk.org/jeps/417) has again improved performance and extended support to "ARM Scalable Vector Extension" – an optional extension to the ARM64 platform.
 
@@ -585,13 +585,13 @@ The incubator stage means that the feature can still go through significant chan
 
 ### Foreign Function & Memory API (Second Incubator)
 
-The Foreign Function & Memory API was created in [Java 17](https://www.java-springboot-kafka.github.io/java/java-16-features/#Foreign_Linker_API_Incubator_Foreign-Memory_Access_API_Third_Incubator) by combining the "Foreign Memory Access API" and the "Foreign Linker API", both of which previously went through several incubator phases.
+The Foreign Function & Memory API was created in [Java 17](https://java-springboot-kafka.github.io.io/java/java-16-features/#Foreign_Linker_API_Incubator_Foreign-Memory_Access_API_Third_Incubator) by combining the "Foreign Memory Access API" and the "Foreign Linker API", both of which previously went through several incubator phases.
 
 The new API is being developed within [Project Panama](https://openjdk.org/projects/panama/) and is intended to replace JNI (Java Native Interface), which has already been part of the platform since Java 1.1. JNI allows C code to be called from Java. Anyone who has worked with JNI knows: JNI is highly complicated to implement, error-prone, and slow.
 
 The goal of the new API is to reduce implementation effort by 90% and accelerate API performance by a factor of 4 to 5.
 
-[JDK Enhancement Proposal 419](https://openjdk.org/jeps/419) has made extensive changes to the API. In the next release, [Java 19](https://www.java-springboot-kafka.github.io/java/java-19-features/#Foreign_Function_Memory_API_Preview), the API will reach the preview stage.
+[JDK Enhancement Proposal 419](https://openjdk.org/jeps/419) has made extensive changes to the API. In the next release, [Java 19](https://java-springboot-kafka.github.io.io/java/java-19-features/#Foreign_Function_Memory_API_Preview), the API will reach the preview stage.
 
 ## Deprecations and Deletions
 
@@ -651,7 +651,7 @@ _(There is no JDK enhancement proposal for this change.)_
 
 ### Remove the Legacy PlainSocketImpl and PlainDatagramSocketImpl Implementation
 
-In [Java 13](https://www.java-springboot-kafka.github.io/java/java-13-features/) and [Java 15](https://www.java-springboot-kafka.github.io/java/java-15-features/), the JDK developers reimplemented the Socket API and the DatagramSocket API.
+In [Java 13](https://java-springboot-kafka.github.io.io/java/java-13-features/) and [Java 15](https://java-springboot-kafka.github.io.io/java/java-15-features/), the JDK developers reimplemented the Socket API and the DatagramSocket API.
 
 The old implementations could since be reactivated via the `jdk.net.usePlainSocketImpl` or `jdk.net.usePlainDatagramSocketImpl` system properties.
 
@@ -692,13 +692,13 @@ Maintaining all three variants means a considerable effort for the JDK developer
 
 ### ZGC / SerialGC / ParallelGC Support String Deduplication
 
-Since Java 18, the Z garbage collector, which was released as production-ready in [Java 15](https://www.java-springboot-kafka.github.io/java/java-15-features/#ZGC_A_Scalable_Low-Latency_Garbage_Collector), and the serial and parallel garbage collectors also support string deduplication.
+Since Java 18, the Z garbage collector, which was released as production-ready in [Java 15](https://java-springboot-kafka.github.io.io/java/java-15-features/#ZGC_A_Scalable_Low-Latency_Garbage_Collector), and the serial and parallel garbage collectors also support string deduplication.
 
 String deduplication means that the garbage collector detects strings whose `value` and `coder` fields contain the same bytes. The GC deletes all but one of these byte arrays and lets all string instances reference this single byte array.
 
 Remember, it is not actually the Strings that are deduplicated (as the name of the feature implies), but only their byte arrays. Nothing changes in the identities of the String objects themselves.
 
-String deduplication is disabled by default (as it is a potential attack vector via [deep reflection](https://www.java-springboot-kafka.github.io/java/deep-reflection-how-to-hack-integer-and-string/)) and must be explicitly enabled via VM option `-XX:+UseStringDeduplication`.
+String deduplication is disabled by default (as it is a potential attack vector via [deep reflection](https://java-springboot-kafka.github.io.io/java/deep-reflection-how-to-hack-integer-and-string/)) and must be explicitly enabled via VM option `-XX:+UseStringDeduplication`.
 
 _(String deduplication was first released with [JDK Enhancement Proposal 192](https://openjdk.org/jeps/192) in Java 8u20 for G1. There is no separate JEP for inclusion in the ZGC, serial GC, and parallel GC in Java 18)._
 
@@ -722,7 +722,7 @@ In addition to the JDK Enhancement Proposals and changes to the class libraries 
 
 Java 18 marks the beginning of the next cycle of non-LTS releases – until the next LTS version, Java 21, will be released in September 2023. If you have done the math, you will notice that there were five non-LTS releases and three years between Java 11 and Java 17 – but there will only be three non-LTS releases and two years between Java 17 and 21. Shortly before the release of Java 17, [Oracle announced to shorten the release cycle](https://blogs.oracle.com/javamagazine/post/java-long-term-support-lts).
 
-The releases will, therefore, not be more densely packed than before. In fact, Java 18 is quite manageable and does not contain any change to the language itself for a long time (after numerous language extensions like [records](https://www.java-springboot-kafka.github.io/java/records/) and [sealed classes](https://www.java-springboot-kafka.github.io/java/sealed-classes/)).
+The releases will, therefore, not be more densely packed than before. In fact, Java 18 is quite manageable and does not contain any change to the language itself for a long time (after numerous language extensions like [records](https://java-springboot-kafka.github.io.io/java/records/) and [sealed classes](https://java-springboot-kafka.github.io.io/java/sealed-classes/)).
 
 The main changes of Java 18 are:
 
