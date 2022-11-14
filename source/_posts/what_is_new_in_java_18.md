@@ -480,7 +480,7 @@ In the following sections, you will find preview and incubator features that we 
 
 ### Pattern Matching for switch (Second Preview)
 
-"Pattern Matching for switch" was first introduced in [Java 17](https://www.happycoders.eu/java/java-17-features/#Pattern_Matching_for_switch_Preview) and enables `switch` statements (and expressions) such as the following (for more, see the linked Java 17 article):
+"Pattern Matching for switch" was first introduced in [Java 17](https://java-springboot-kafka.github.io/2022/11/13/what_is_new_in_java_17/#Pattern-Matching-for-switch-Preview) and enables `switch` statements (and expressions) such as the following (for more, see the linked Java 17 article):
 
 ```
 switch (obj) {
