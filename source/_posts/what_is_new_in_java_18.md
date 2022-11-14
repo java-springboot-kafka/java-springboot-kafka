@@ -734,5 +734,3 @@ The main changes of Java 18 are:
 -   Finalization and `Thread.stop()` have been marked "deprecated for removal".
 
 As always, various other changes round out the release. You can download Java 18 [here](https://jdk.java.net/18/).
-
-You don't want to miss any HappyCoders.eu article? Then [click here](https://www.happycoders.eu/java/java-18-features/#) to sign up for the free HappyCoders newsletter.
