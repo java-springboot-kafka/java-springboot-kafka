@@ -58,7 +58,7 @@ WARNING: Please consider reporting this to the maintainers of EncapsulationTest
 WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
 WARNING: All illegal access operations will be denied in a future release
 [72, 97, 112, 112, 121, 32, 67, 111, 100, 105, 110, 103, 33]
-Code language:  Plaintext  ( plaintext )
+
 ```
 
 We see some warnings, but then we get the desired bytes.
@@ -84,14 +84,14 @@ Exception in thread "main" java.lang.reflect.InaccessibleObjectException: Unable
         at java.base/java.lang.reflect.Constructor.checkCanSetAccessible(Constructor.java:189)
         at java.base/java.lang.reflect.Constructor.setAccessible(Constructor.java:182)
         at ConstantDescsTest.main(ConstantDescsTest.java:7)
-Code language:  Plaintext  ( plaintext )
+
 ```
 
 In order to make the program runnable, we need to `--add-opens`open via the new package for Deep Reflection:
 
 ```
 $ java --add-opens java.base/java.lang.constant=ALL-UNNAMED ConstantDescsTest.java
-Code language:  Plaintext  ( plaintext )
+
 ```
 
 The code then runs error-free and without warnings.
@@ -111,7 +111,7 @@ Exception in thread "main" java.lang.reflect.InaccessibleObjectException: Unable
         at java.base/java.lang.reflect.Field.setAccessible(Field.java:171)
         at EncapsulationTest.getValue(EncapsulationTest.java:12)
         at EncapsulationTest.main(EncapsulationTest.java:6)
-Code language:  Plaintext  ( plaintext )
+
 ```
 
 However, Java 16 offered a workaround: You `--illegal-access=permit`could switch back to "Relaxed Strong Encapsulation" using the VM option:
@@ -125,7 +125,7 @@ WARNING: Please consider reporting this to the maintainers of EncapsulationTest
 WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
 WARNING: All illegal access operations will be denied in a future release
 [72, 97, 112, 112, 121, 32, 67, 111, 100, 105, 110, 103, 33]
-Code language:  Plaintext  ( plaintext )
+
 ```
 
 ### Since Java 17: Strong encapsulation only
@@ -142,7 +142,7 @@ Exception in thread "main" java.lang.reflect.InaccessibleObjectException: Unable
         at java.base/java.lang.reflect.Field.setAccessible(Field.java:172)
         at EncapsulationTest.getValue(EncapsulationTest.java:12)
         at EncapsulationTest.main(EncapsulationTest.java:6)
-Code language:  Plaintext  ( plaintext )
+
 ```
 
 If you want to use Deep Reflection from Java 17, you must now explicitly `--add-opens`allow it:
@@ -150,7 +150,7 @@ If you want to use Deep Reflection from Java 17, you must now explicitly `--add-
 ```
 $ java --add-opens java.base/java.lang=ALL-UNNAMED EncapsulationTest.java
 [72, 97, 112, 112, 121, 32, 67, 111, 100, 105, 110, 103, 33]
-Code language:  Plaintext  ( plaintext )
+
 ```
 
 The program is running and we no longer see any warnings - the long transition phase since Java 9 has thus been completed.
@@ -231,7 +231,7 @@ The code results in the following output:
 174876e800
 0x1.91eb86p1
 0x1.921fb54442eeap1
-3e8 - 174876e800 - 0x1.91eb86p1 - 0x1.921fb54442eeap1Code language:  Plaintext  ( plaintext )
+3e8 - 174876e800 - 0x1.91eb86p1 - 0x1.921fb54442eeap1
 ```
 
 We could parse hexadecimal numbers with the respective counterparts:
@@ -267,7 +267,7 @@ The output is:
 03e8
 000f4240
 000000174876e800
-0102033c7effCode language:  Plaintext  ( plaintext )
+0102033c7eff
 ```
 
 It is noticeable that the output always comes with leading zeros.
@@ -291,7 +291,7 @@ The output is now:
 03E8
 000F4240
 000000174876E800
-0x01 0x02 0x03 0x3C 0x7E 0xFFCode language:  Plaintext  ( plaintext )
+0x01 0x02 0x03 0x3C 0x7E 0xFF
 ```
 
 The leading zeros cannot be removed.
@@ -664,7 +664,7 @@ The `strictfp`keyword is therefore superfluous. Using it results in a compiler w
 $ javac PredictiveCalculator.java
 PredictiveCalculator.java:3: warning: [strictfp] as of release 17, 
 all floating-point expressions are evaluated strictly and 'strictfp' is not required
-Code language:  Plaintext  ( plaintext )
+
 ```
 
 ### New macOS Rendering Pipeline

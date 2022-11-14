@@ -44,7 +44,7 @@ try (FileReader fr = new FileReader("happy-coding.txt");
 Then the following is displayed:
 
 ```
-ãƒ?ãƒƒãƒ”ãƒ¼ã‚³ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°ï¼?Code language: plaintext (plaintext)
+ãƒ?ãƒƒãƒ”ãƒ¼ã‚³ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°ï¼?
 ```
 
 That is because Linux and macOS store the file in UTF-8 format, and Windows tries to read it in Windows-1252 format.
@@ -68,7 +68,7 @@ System.out.println(text);
 Linux and macOS display the correct Japanese text. On Windows, however, we see only question marks:
 
 ```
-???????????Code language: plaintext (plaintext)
+???????????
 ```
 
 That is because, on Windows, `FileWriter` writes the file using the standard Java character set Windows-1252, but `Files.readString()` reads the file back in as UTF-8 – regardless of the standard character set.
@@ -127,14 +127,14 @@ Let's run the program once with standard encoding US-ASCII:
 
 ```
 $ java -Dfile.encoding=US-ASCII Jep400Example.java
-?????????????????????????????????Code language: plaintext (plaintext)
+?????????????????????????????????
 ```
 
 The result is garbage because `FileWriter` takes the default encoding into account, but `Files.readString()` ignores it and always uses UTF-8. So this variant only works reliably if you use UTF-8 uniformly:
 
 ```
 $ java -Dfile.encoding=UTF-8 Jep400Example.java
-ハッピーコーディング！Code language: plaintext (plaintext)
+ハッピーコーディング！
 ```
 
 #### JEP 400 to the Rescue
@@ -166,7 +166,7 @@ Without specifying `-Dfile.encoding`, the program prints the following on Linux 
 ```
 Default charset : UTF-8
 file.encoding   : UTF-8
-native.encoding : UTF-8Code language: plaintext (plaintext)
+native.encoding : UTF-8
 ```
 
 On Windows and Java 17, the output is as follows:
@@ -174,7 +174,7 @@ On Windows and Java 17, the output is as follows:
 ```
 Default charset : windows-1252
 file.encoding   : Cp1252
-native.encoding : Cp1252Code language: plaintext (plaintext)
+native.encoding : Cp1252
 ```
 
 And on Windows and Java 18:
@@ -182,7 +182,7 @@ And on Windows and Java 18:
 ```
 Default charset : UTF-8
 file.encoding   : UTF-8
-native.encoding : Cp1252Code language: plaintext (plaintext)
+native.encoding : Cp1252
 ```
 
 So the native encoding on Windows remains the same, but the default encoding changes to UTF-8 according to this JEP.
@@ -194,7 +194,7 @@ If we run the little program from above on Linux or macOS and Java 17 with the `
 ```
 Default charset : US-ASCII
 file.encoding   : default
-native.encoding : UTF-8Code language: plaintext (plaintext)
+native.encoding : UTF-8
 ```
 
 This is because the name "default" was previously recognized as an alias for the encoding "US-ASCII".
@@ -204,7 +204,7 @@ In Java 18, this is changed: "default" is no longer recognized; the output looks
 ```
 Default charset : UTF-8
 file.encoding   : default
-native.encoding : UTF-8Code language: plaintext (plaintext)
+native.encoding : UTF-8
 ```
 
 The system property "file.encoding" is still "default" – but at this point, we would also see any other invalid input. The default character set for an invalid "file.encoding" input is always UTF-8 as of Java 18 or corresponds to the native encoding up to Java 17.
@@ -225,7 +225,7 @@ The easiest way to start the provided webserver is the `jwebserver` command. It 
 $ jwebserver
 Binding to loopback by default. For all interfaces use "-b 0.0.0.0" or "-b ::".
 Serving /home/sven and subdirectories on 127.0.0.1 port 8000
-URL http://127.0.0.1:8000/Code language: plaintext (plaintext)
+URL http://127.0.0.1:8000/
 ```
 
 As shown, you can use the `-b` parameter to specify the IP address on which the server should listen. With `-p`, you can change the port and with `-d` the directory the server should serve. With -o, you can configure the log output. For example:
@@ -233,7 +233,7 @@ As shown, you can use the `-b` parameter to specify the IP address on which the 
 ```
 $ jwebserver -b 127.0.0.100 -p 4444 -d /tmp -o verbose
 Serving /tmp and subdirectories on 127.0.0.100 port 4444
-URL http://127.0.0.100:4444/Code language: plaintext (plaintext)
+URL http://127.0.0.100:4444/
 ```
 
 You get a list of options with explanations with `jwebserver -h`.
@@ -397,7 +397,7 @@ The code gives me the following output (I added the line breaks manually for bet
 ```
 addresses = [www.happycoders.eu/104.26.15.71,
              www.happycoders.eu/172.67.71.232, 
-             www.happycoders.eu/104.26.14.71]Code language: plaintext (plaintext)
+             www.happycoders.eu/104.26.14.71]
 ```
 
 For reverse lookups (i.e., resolving an IP address to a hostname), the JDK provides the methods `InetAddress::getCanonicalHostName` and `InetAddress::getHostName`.
@@ -416,10 +416,10 @@ This hardwiring has a few disadvantages:
 
 The following example shows how to implement and register a simple resolver that responds to every request with the IP address 127.0.0.1. You can also find the code in this [GitHub repository](github.com/metao1/internet-address-resolution-spi-jep-418-demo).
 
-We first write the resolver by implementing the `java.net.spi.InetAddressResolver.InetAddressResolver` interface introduced in Java 18 (class [HappyCodersInetAddressResolver in GitHub](github.com/metao1/internet-address-resolution-spi-jep-418-demo/blob/main/src/eu/happycoders/jep418/HappyCodersInetAddressResolver.java)):
+We first write the resolver by implementing the `java.net.spi.InetAddressResolver.InetAddressResolver` interface introduced in Java 18:
 
 ```
-public class HappyCodersInetAddressResolver implements InetAddressResolver {
+public class CustomeInetAddressResolver implements InetAddressResolver {
   @Override
   public Stream<InetAddress> lookupByName(String host, LookupPolicy lookupPolicy)
       throws UnknownHostException {
@@ -435,10 +435,10 @@ public class HappyCodersInetAddressResolver implements InetAddressResolver {
 
 Since I only want to present the basic principle here, I kept the resolver as simple as possible, and it does not support reverse lookups.
 
-Second, we need a resolver provider (class [HappyCodersInetAddressResolverProvider in GitHub](github.com/metao1/internet-address-resolution-spi-jep-418-demo/blob/main/src/eu/happycoders/jep418/HappyCodersInetAddressResolverProvider.java)):
+Second, we need a resolver provider:
 
 ```
-public class HappyCodersInetAddressResolverProvider extends InetAddressResolverProvider {
+public class CustomeCodersInetAddressResolverProvider extends InetAddressResolverProvider {
   @Override
   public InetAddressResolver get(Configuration configuration) {
     return new HappyCodersInetAddressResolver();
@@ -453,23 +453,23 @@ public class HappyCodersInetAddressResolverProvider extends InetAddressResolverP
 
 The provider creates a new instance of the previously implemented resolver in the `get()` method.
 
-In the third step, we have to register the resolver. To do this, we create a file in the `META-INF/services` directory with the name `java.net.spi.InetAddressResolverProvider` and the following content ([file in GitHub](github.com/metao1/internet-address-resolution-spi-jep-418-demo/blob/main/src/META-INF/services/java.net.spi.InetAddressResolverProvider)):
+In the third step, we have to register the resolver. To do this, we create a file in the `META-INF/services` directory with the name `java.net.spi.InetAddressResolverProvider` and the following content:
 
 ```
-eu.happycoders.jep416.HappyCodersInetAddressResolverProviderCode language: plaintext (plaintext)
+com.package.jep416.CustomeCodersInetAddressResolverProvider language: plaintext (plaintext)
 ```
 
-Now we run the code from above again (class [Jep418Demo in GitHub](github.com/metao1/internet-address-resolution-spi-jep-418-demo/blob/main/src/eu/happycoders/jep418/Jep418Demo.java)):
+Now we run the code from above again:
 
 ```
-InetAddress[] addresses = InetAddress.getAllByName("www.happycoders.eu");
+InetAddress[] addresses = InetAddress.getAllByName("https://java-springboot.github.io");
 System.out.println("addresses = " + Arrays.toString(addresses));
 ```
 
 The output now reads:
 
 ```
-addresses = [/127.0.0.1]Code language: plaintext (plaintext)
+addresses = [/127.0.0.1]
 ```
 
 That is precisely the IP address we returned in our resolver.
@@ -531,7 +531,7 @@ Since unreachable code is obviously not intended, we get the following compiler 
 java --enable-preview --source 18 SwitchTest.java
 SwitchTest.java:9: error: this case label is dominated by a preceding case label
       case "foobar"                   -> System.out.println("baz");
-           ^Code language: plaintext (plaintext)
+           ^
 ```
 
 #### Bugfix in the Completeness Analysis with Sealed Types

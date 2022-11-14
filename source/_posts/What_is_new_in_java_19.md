@@ -279,7 +279,7 @@ Since the FFM API is still in the preview state, a few additional parameters mus
 
 ```java
 $ javac --enable-preview -source 19 FFMTest.java
-$ java --enable-preview FFMTestCode language:  Plaintext  ( plaintext )
+$ java --enable-preview FFMTest
 ```
 
 Anyone who has worked with JNI before - and remembers how much Java and C boilerplate code it took to write and keep in sync - will see that the overhead of calling the native function has been reduced by orders of magnitude.
@@ -368,7 +368,7 @@ If you want to try the example yourself: Preview features must be explicitly act
 
 ```java
 $ javac --enable-preview -source 19 --add-modules jdk.incubator.concurrent StructuredConcurrencyTest.java
-$ java --enable-preview --add-modules jdk.incubator.concurrent StructuredConcurrencyTestCode language:  Plaintext  ( plaintext )
+$ java --enable-preview --add-modules jdk.incubator.concurrent StructuredConcurrencyTest
 ```
 
 Please note that Incubator features are still subject to major changes.
