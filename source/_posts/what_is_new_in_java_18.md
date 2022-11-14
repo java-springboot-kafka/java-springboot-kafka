@@ -256,7 +256,7 @@ This command calls the `main()` method of the `sun.net.httpserver.simpleserver.M
 
 With this method, you can also start a server via Java code:
 
-```
+```java
 HttpServer server =
     SimpleFileServer.createFileServer(
         new InetSocketAddress(8080), Path.of("\tmp"), OutputLevel.INFO);
@@ -288,7 +288,7 @@ Here is an example with `<pre>`:
 
 And one with `<pre>` and `{@code … }`:
 
-```
+```jva
 /**
  * How to write a text file with Java 7:
  *
@@ -304,7 +304,7 @@ The difference between the two variants is that in the first variant, we can for
 
 [JDK Enhancement Proposal 413](https://openjdk.org/jeps/413) enhances the JavaDoc syntax with the `@snippet` tag, specifically designed to display source code. With the `@snippet` tag, we can write the comment as follows:
 
-```
+```java
 /**
  * How to write a text file with Java 7:
  *
@@ -344,7 +344,7 @@ The following example highlights all words starting with "write" within the bloc
 
 With `@link`, we can link a part of the text, e.g., `BufferedWriter`, to its JavaDoc:
 
-```
+```java
 /**
  * {@snippet :
  * // @link substring="BufferedWriter" target="java.io.BufferedWriter" :
@@ -361,7 +361,7 @@ Attention: the colon at the end of the line with the `@link` tag is essential in
 
 According to JEP, it should also be possible to refer to marked code in another file:
 
-```
+```java
 /**
  * How to write a text file with Java 7:
  *
@@ -371,7 +371,7 @@ According to JEP, it should also be possible to refer to marked code in another 
 
 In the `FileWriter.java` file, we would mark the code as follows:
 
-```
+```java
 // @start region="writeFile"
 try (BufferedWriter writer = Files.newBufferedWriter(path)) {
   writer.write(text);
@@ -387,7 +387,7 @@ These were the most important `@snippet` tags, in my opinion. You can find a com
 
 To find out the IP address(es) for a hostname in Java, we can use `InetAddress.getByName(…)` or `InetAddress.getAllByName(…)`. Here is an example:
 
-```
+```java
 InetAddress[] addresses = InetAddress.getAllByName("www.happycoders.eu");
 System.out.println("addresses = " + Arrays.toString(addresses));
 ```
@@ -482,7 +482,7 @@ In the following sections, you will find preview and incubator features that we 
 
 "Pattern Matching for switch" was first introduced in [Java 17](https://java-springboot-kafka.github.io/2022/11/13/what_is_new_in_java_17/#Pattern-Matching-for-switch-Preview) and enables `switch` statements (and expressions) such as the following (for more, see the linked Java 17 article):
 
-```
+```java
 switch (obj) {
   case String s && s.length() > 5 -> System.out.println(s.toUpperCase());
   case String s                   -> System.out.println(s.toLowerCase());
@@ -499,7 +499,7 @@ switch (obj) {
 
 I described what dominance checking is in the Java 17 article linked above. In a nutshell: the following code leads to a compiler error:
 
-```
+```java
 Object obj = ...
 switch (obj) {
   case String s                   -> System.out.println(s.toLowerCase());
@@ -513,7 +513,7 @@ The reason is that the pattern in line 3 "dominates" the longer pattern from lin
 
 However, one case has not been considered so far – namely, the combination of a constant and a guarded pattern (a pattern with `&&`). So the following code is allowed in Java 17:
 
-```
+```java
 Object obj = ...
 switch (obj) {
   case String s && s.length() > 5 -> System.out.println(s.toUpperCase());
@@ -540,7 +540,7 @@ You will learn what completeness analysis is in the [article about sealed types]
 
 I explain the change in Java 18 using the following sealed example class hierarchy from the JEP:
 
-```
+```java
 sealed interface I<T> permits A, B {}
 final class A<X> implements I<String> {}
 final class B<Y> implements I<Y> {}
@@ -548,7 +548,7 @@ final class B<Y> implements I<Y> {}
 
 The following code is not compilable:
 
-```
+```java
 I<Integer> i = ...
 switch (i) {
   case A<Integer> a -> System.out.println("It's an A");  // not compilable
@@ -562,7 +562,7 @@ Both Java 17 and Java 18 recognize that `I<Integer>` cannot be converted to `A<I
 
 In fact, because of the sealed class hierarchy, `B<Integer>` is the only class that can implement `I<Integer>`. Thus, the switch statement is complete as follows:
 
-```
+```java
 I<Integer> i = ...
 switch (i) {
   case B<Integer> b -> System.out.println("It's a B");
@@ -669,7 +669,7 @@ If you have a lot to do with Java reflection, you will know that there is always
 
 1\. Per so-called "core reflection":
 
-```
+```java
 Field field = String.class.getDeclaredField("value");
 field.setAccessible(true);
 byte[] value = (byte[]) field.get(string);
@@ -677,7 +677,7 @@ byte[] value = (byte[]) field.get(string);
 
 2\. Via "method handles":
 
-```
+```java
 VarHandle handle =
     MethodHandles.privateLookupIn(String.class, MethodHandles.lookup())
         .findVarHandle(String.class, "value", byte[].class);
